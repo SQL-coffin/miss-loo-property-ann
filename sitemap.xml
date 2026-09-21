@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://YOUR-DOMAIN.example/</loc>
-  </url>
-  <url><loc>https://YOUR-DOMAIN.example/properties/jalan-putra-5-taman-tan-sri-yaacob/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/properties/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/buy-property/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/sell-property/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/rent-property/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/areas/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/areas/johor-bahru/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/areas/mount-austin/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/areas/tebrau/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/areas/kulai/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/properties/jalan-putra-5-taman-tan-sri-yaacob/</loc></url>
 </urlset>
