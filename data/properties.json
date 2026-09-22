@@ -1,0 +1,30 @@
+[
+  {
+    "title": "2-Storey Medium Cost End Lot",
+    "location": "Jalan Putra 5, Taman Tan Sri Yaacob",
+    "area": "Taman Tan Sri Yaacob",
+    "listingType": "sale",
+    "propertyType": "terrace",
+    "price": 518000,
+    "bedrooms": 2,
+    "bathrooms": 2,
+    "landSize": "14' × 55'",
+    "image": "jalan-putra-5-taman-tan-sri-yaacob/front.jpg",
+    "imageAlt": "2-storey end lot house for sale at Taman Tan Sri Yaacob",
+    "url": "jalan-putra-5-taman-tan-sri-yaacob/"
+  },
+  {
+    "title": "Fully Renovated Single Storey Terrace",
+    "location": "Taman Gembira, Tampoi",
+    "area": "Tampoi",
+    "listingType": "sale",
+    "propertyType": "terrace",
+    "price": 558000,
+    "bedrooms": 3,
+    "bathrooms": 3,
+    "landSize": "22' × 70'",
+    "image": "taman-gembira-tampoi-jalan-riang-2/front.jpg",
+    "imageAlt": "Front exterior of renovated single storey terrace house in Taman Gembira, Tampoi",
+    "url": "taman-gembira-tampoi-jalan-riang-2/"
+  }
+]
