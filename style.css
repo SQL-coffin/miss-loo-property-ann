@@ -49,11 +49,5 @@
 
 /* ==================== HOMEPAGE PROPERTY SEARCH ====================
    【通常不需要修改】
-   控制首页房源搜索入口的外观，并与 Properties 搜索框保持一致。
+   首页直接复用 Properties 页面的搜索 UI，不单独维护样式。
    ================================================================ */
-.homepage-search{margin-top:28px;max-width:620px}
-.homepage-search label{display:block;font-size:.78rem;font-weight:800;letter-spacing:.04em;margin-bottom:7px}
-.homepage-search-row{display:flex;gap:10px}
-.homepage-search input{flex:1;min-width:0;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);font:inherit}
-.homepage-search .button{border:0;cursor:pointer;min-height:47px;border-radius:12px}
-@media(max-width:560px){.homepage-search-row{flex-direction:column}.homepage-search .button{width:100%}}
