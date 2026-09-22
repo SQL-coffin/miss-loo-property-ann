@@ -17,6 +17,9 @@ const resetButton = document.getElementById("resetFilters");
 const sortBy = document.getElementById("sortBy");
 
 let properties = [];
+
+// 【首页 / Properties 共用】
+// Homepage 与 Properties 页面使用同一套搜索元件；没有元件的页面会直接跳过事件绑定。
 let currentFilteredProperties = [];
 
 function formatPrice(price) {
@@ -140,13 +143,14 @@ async function loadProperties() {
   }
 }
 
-searchInput.addEventListener("input", filterProperties);
-listingType.addEventListener("change", filterProperties);
-locationFilter.addEventListener("change", filterProperties);
-propertyType.addEventListener("change", filterProperties);
-minPrice.addEventListener("input", filterProperties);
-maxPrice.addEventListener("input", filterProperties);
-resetButton.addEventListener("click", resetFilters);
-sortBy.addEventListener("change", sortProperties);
-
-loadProperties();
+if (searchInput) {
+  searchInput.addEventListener("input", filterProperties);
+  listingType.addEventListener("change", filterProperties);
+  locationFilter.addEventListener("change", filterProperties);
+  propertyType.addEventListener("change", filterProperties);
+  minPrice.addEventListener("input", filterProperties);
+  maxPrice.addEventListener("input", filterProperties);
+  resetButton.addEventListener("click", resetFilters);
+  sortBy.addEventListener("change", sortProperties);
+  loadProperties();
+}
