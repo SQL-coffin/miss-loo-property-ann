@@ -14,8 +14,10 @@ const propertyGrid = document.getElementById("propertyGrid");
 const resultCount = document.getElementById("resultCount");
 const noResults = document.getElementById("noResults");
 const resetButton = document.getElementById("resetFilters");
+const sortBy = document.getElementById("sortBy");
 
 let properties = [];
+let currentFilteredProperties = [];
 
 function formatPrice(price) {
   return new Intl.NumberFormat("en-MY", {
@@ -76,7 +78,29 @@ function filterProperties() {
     );
   });
 
-  renderProperties(filtered);
+  currentFilteredProperties = filtered;
+  sortProperties();
+}
+
+function sortProperties() {
+  const sorted = [...currentFilteredProperties];
+
+  /* ==================== SORT OPTIONS ====================
+     【以后新增排序方式时需要修改】
+     在这里增加新的 sort value 和对应排序规则。
+     同时要在 properties/index.html 的 Sort by select 增加选项。
+     ====================================================== */
+  if (sortBy.value === "price-low") {
+    sorted.sort((a, b) => a.price - b.price);
+  } else if (sortBy.value === "price-high") {
+    sorted.sort((a, b) => b.price - a.price);
+  } else if (sortBy.value === "bedrooms") {
+    sorted.sort((a, b) => b.bedrooms - a.bedrooms);
+  } else {
+    sorted.sort((a, b) => (b.dateAdded || "").localeCompare(a.dateAdded || ""));
+  }
+
+  renderProperties(sorted);
 }
 
 function resetFilters() {
@@ -114,5 +138,6 @@ propertyType.addEventListener("change", filterProperties);
 minPrice.addEventListener("input", filterProperties);
 maxPrice.addEventListener("input", filterProperties);
 resetButton.addEventListener("click", resetFilters);
+sortBy.addEventListener("change", sortProperties);
 
 loadProperties();
