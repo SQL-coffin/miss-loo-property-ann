@@ -1,9 +1,12 @@
 /* ==================== PROPERTY SEARCH ====================
-   【以后新增房源时需要修改】
-   房源资料主要放在 data/properties.json。
-   这里负责读取资料、建立房源卡片和执行搜索筛选。
+   【以后新增房源或筛选功能时需要修改】
+   房源资料放在 data/properties.json。
+   Homepage 与 Properties 页面共用这套搜索逻辑。
+   两个页面各自在 HTML 的 .property-search 写明 JSON、图片和详情页路径，
+   因此这里不需要猜测当前网址结构。
    ============================================================ */
 
+const searchBox = document.querySelector(".property-search");
 const searchInput = document.getElementById("propertySearch");
 const listingType = document.getElementById("listingType");
 const locationFilter = document.getElementById("locationFilter");
@@ -17,10 +20,11 @@ const resetButton = document.getElementById("resetFilters");
 const sortBy = document.getElementById("sortBy");
 
 let properties = [];
-
-// 【首页 / Properties 共用】
-// Homepage 与 Properties 页面使用同一套搜索元件；没有元件的页面会直接跳过事件绑定。
 let currentFilteredProperties = [];
+
+const dataPath = searchBox?.dataset.propertiesPath || "";
+const imagePrefix = searchBox?.dataset.imagePrefix || "";
+const urlPrefix = searchBox?.dataset.urlPrefix || "";
 
 function formatPrice(price) {
   return new Intl.NumberFormat("en-MY", {
@@ -34,24 +38,32 @@ function formatListingType(type) {
   return type === "rent" ? "FOR RENT" : "FOR SALE";
 }
 
+function buildAssetPath(prefix, value) {
+  return `${prefix}${value}`;
+}
+
+function buildPropertyUrl(value) {
+  return `${urlPrefix}${value}`;
+}
+
 function renderProperties(items) {
   propertyGrid.innerHTML = items.map(property => `
     <article class="property-card">
       <div class="property-image">
-        <img src="${property.image}" alt="${property.imageAlt}">
+        <img src="${buildAssetPath(imagePrefix, property.image)}" alt="${property.imageAlt}">
       </div>
       <div class="property-body">
         <span class="tag">${formatListingType(property.listingType)} · ${property.area.toUpperCase()}</span>
         <h3>${property.title}</h3>
         <p>${property.location} · ${property.bedrooms} Bed · ${property.bathrooms} Bath · ${property.landSize}</p>
         <strong class="listing-price">${formatPrice(property.price)}</strong>
-        <a href="${property.url}">View property →</a>
+        <a href="${buildPropertyUrl(property.url)}">View property →</a>
       </div>
     </article>
   `).join("");
 
   resultCount.textContent = `${items.length} ${items.length === 1 ? "property" : "properties"} found`;
-  noResults.hidden = items.length !== 0;
+  noResults.hidden = items.length > 0;
 }
 
 function filterProperties() {
@@ -60,9 +72,9 @@ function filterProperties() {
   const area = locationFilter.value;
   const houseType = propertyType.value;
   const minimum = Number(minPrice.value) || 0;
-  const maximum = Number(maxPrice.value) || Infinity;
+  const maximum = maxPrice.value === "" ? Infinity : Number(maxPrice.value);
 
-  const filtered = properties.filter(property => {
+  currentFilteredProperties = properties.filter(property => {
     const searchableText = [
       property.title,
       property.location,
@@ -81,7 +93,6 @@ function filterProperties() {
     );
   });
 
-  currentFilteredProperties = filtered;
   sortProperties();
 }
 
@@ -90,8 +101,8 @@ function sortProperties() {
 
   /* ==================== SORT OPTIONS ====================
      【以后新增排序方式时需要修改】
-     在这里增加新的 sort value 和对应排序规则。
-     同时要在 properties/index.html 的 Sort by select 增加选项。
+     在这里增加新的 sort value 和排序规则。
+     同时在 Homepage / Properties 的 Sort by select 增加相同选项。
      ====================================================== */
   if (sortBy.value === "price-low") {
     sorted.sort((a, b) => a.price - b.price);
@@ -115,40 +126,41 @@ function resetFilters() {
   propertyType.value = "";
   minPrice.value = "";
   maxPrice.value = "";
+  sortBy.value = "newest";
   filterProperties();
 }
 
 async function loadProperties() {
   try {
-    // 【Homepage / Properties 路径】
-    // Homepage 与 Properties 页面所在目录不同，因此这里根据当前页面选择 JSON 路径。
-    const dataPath = window.location.pathname.includes("/properties/")
-      ? "../data/properties.json"
-      : "data/properties.json";
     const response = await fetch(dataPath);
 
     if (!response.ok) {
-      throw new Error("Unable to load property data.");
+      throw new Error(`Unable to load property data: HTTP ${response.status}`);
     }
 
-    properties = await response.json();
+    const data = await response.json();
 
-    // 【首页搜索入口】如果从 Homepage 带入 ?search=，自动填入 Properties 搜索框。
-    const searchParams = new URLSearchParams(window.location.search);
-    const initialSearch = searchParams.get("search");
-    if (initialSearch) {
-      searchInput.value = initialSearch;
+    if (!Array.isArray(data)) {
+      throw new Error("Property data must be a JSON array.");
     }
+
+    properties = data;
+
+    // 【正常状态】资料成功载入后立即显示全部房源。
+    // “No properties found” 只会在实际筛选结果为 0 时出现。
+    noResults.hidden = true;
     filterProperties();
   } catch (error) {
     propertyGrid.innerHTML = "";
     resultCount.textContent = "Property listings are temporarily unavailable.";
+    noResults.querySelector("h2").textContent = "Property listings unavailable";
+    noResults.querySelector("p").textContent = "Please try again later.";
     noResults.hidden = false;
     console.error(error);
   }
 }
 
-if (searchInput) {
+if (searchBox && searchInput && listingType && locationFilter && propertyType && minPrice && maxPrice && propertyGrid && resultCount && noResults && resetButton && sortBy) {
   searchInput.addEventListener("input", filterProperties);
   listingType.addEventListener("change", filterProperties);
   locationFilter.addEventListener("change", filterProperties);
