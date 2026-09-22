@@ -120,7 +120,12 @@ function resetFilters() {
 
 async function loadProperties() {
   try {
-    const response = await fetch("../data/properties.json");
+    // 【Homepage / Properties 路径】
+    // Homepage 与 Properties 页面所在目录不同，因此这里根据当前页面选择 JSON 路径。
+    const dataPath = window.location.pathname.includes("/properties/")
+      ? "../data/properties.json"
+      : "data/properties.json";
+    const response = await fetch(dataPath);
 
     if (!response.ok) {
       throw new Error("Unable to load property data.");
