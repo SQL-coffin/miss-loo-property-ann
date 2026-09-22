@@ -835,3 +835,684 @@ Update sitemap with new property page
 SEO 是帮助正确的房屋资料被找到，而不是增加不存在的房屋特色。
 
 
+
+
+---
+
+# 25. 房源搜索系统（JSON + JavaScript）
+
+目前网站的 Properties 页面已经加入房源搜索 / 筛选功能。
+
+整体结构是：
+
+```
+data/properties.json
+        ↓
+js/properties.js
+        ↓
+Properties 搜索 / 筛选
+        ↓
+自动生成 Property Cards
+        ↓
+各自的 Property 页面
+```
+
+这样以后房源数量增加时，不需要每次都手动复制整张 Property Card。
+
+## 25.1 data/properties.json
+
+房源的搜索资料主要放在：
+
+```
+data/properties.json
+```
+
+这个文件是 **JSON**，所以不要在里面加入 HTML comment 或 JavaScript comment。
+
+目前每一间房屋大概使用以下资料：
+
+```json
+{
+  "title": "Fully Renovated Single Storey Terrace",
+  "location": "Taman Gembira, Tampoi",
+  "area": "Tampoi",
+  "listingType": "sale",
+  "propertyType": "terrace",
+  "price": 558000,
+  "bedrooms": 3,
+  "bathrooms": 3,
+  "landSize": "22' × 70'",
+  "image": "taman-gembira-tampoi-jalan-riang-2/front.jpg",
+  "imageAlt": "Front exterior of renovated single storey terrace house in Taman Gembira, Tampoi",
+  "url": "taman-gembira-tampoi-jalan-riang-2/"
+}
+```
+
+### 各字段用途
+
+| 字段 | 用途 |
+|---|---|
+| `title` | 搜索结果显示的房屋名称 |
+| `location` | 房屋地点 |
+| `area` | Area 筛选使用 |
+| `listingType` | Sale / Rent 筛选使用 |
+| `propertyType` | Terrace / Semi-D / Bungalow 等筛选使用 |
+| `price` | 最低 / 最高价格筛选使用，必须是数字 |
+| `bedrooms` | 搜索结果显示 Bedrooms |
+| `bathrooms` | 搜索结果显示 Bathrooms |
+| `landSize` | 搜索结果显示 Land Size |
+| `image` | 搜索结果 Card 的图片路径 |
+| `imageAlt` | 图片的 alt text |
+| `url` | 点击房源后进入该 Property 页面 |
+
+### 新增房源时
+
+在 JSON 最后一个房源后面增加一个新的对象。
+
+注意 JSON 格式：
+
+```
+[
+  {
+    "title": "Property A"
+  },
+  {
+    "title": "Property B"
+  }
+]
+```
+
+最后一个对象后面**不要多加逗号**。
+
+---
+
+# 26. 新增房源时，搜索系统需要检查什么
+
+以后新增一间房屋，除了建立：
+
+```
+properties/新房屋/index.html
+```
+
+还要更新：
+
+```
+data/properties.json
+```
+
+然后确认：
+
+- [ ] `title` 正确
+- [ ] `location` 正确
+- [ ] `area` 正确
+- [ ] `listingType` 正确
+- [ ] `propertyType` 正确
+- [ ] `price` 是数字
+- [ ] `bedrooms` 正确
+- [ ] `bathrooms` 正确
+- [ ] `landSize` 正确
+- [ ] `image` 路径正确
+- [ ] `imageAlt` 与实际照片对应
+- [ ] `url` 指向正确 Property folder
+
+特别注意：
+
+```
+price
+```
+
+应该写：
+
+```
+558000
+```
+
+而不是：
+
+```
+"RM558,000"
+```
+
+因为 JavaScript 需要使用这个数字进行价格筛选。
+
+---
+
+# 27. Properties 搜索页面
+
+搜索页面：
+
+```
+properties/index.html
+```
+
+这里负责显示：
+
+- Search keyword
+- Listing Type
+- Area
+- Property Type
+- Minimum Price
+- Maximum Price
+- Reset
+- Result count
+- Property Cards
+
+页面中的筛选器有维护注解：
+
+```
+【以后新增筛选条件时需要修改】
+```
+
+如果以后增加新的筛选条件，需要检查：
+
+1. `properties/index.html`
+2. `js/properties.js`
+3. `data/properties.json` 是否需要增加对应字段
+
+例如以后想增加：
+
+```
+Tenure
+Facing
+Bumi Status
+Bedrooms
+Bathrooms
+```
+
+不能只修改 HTML。
+
+必须同时让 JavaScript 有对应的筛选逻辑。
+
+---
+
+# 28. js/properties.js
+
+JavaScript 文件：
+
+```
+js/properties.js
+```
+
+这个文件主要负责：
+
+1. 读取 `data/properties.json`
+2. 建立房源 Card
+3. Keyword Search
+4. Listing Type Filter
+5. Area Filter
+6. Property Type Filter
+7. Price Filter
+8. Reset
+9. Result Count
+10. 没有搜索结果时显示提示
+
+文件顶部已经有维护说明：
+
+```
+/* ==================== PROPERTY SEARCH ====================
+   【以后新增房源时需要修改】
+   房源资料主要放在 data/properties.json。
+   这里负责读取资料、建立房源卡片和执行搜索筛选。
+   ============================================================ */
+```
+
+因此：
+
+**一般新增房源时，不需要修改 `js/properties.js`。**
+
+只要新的房源使用现有字段，就加入：
+
+```
+data/properties.json
+```
+
+即可。
+
+---
+
+# 29. 什么时候需要修改 js/properties.js
+
+只有以下情况才通常需要修改：
+
+### 情况 A — 新增筛选类别
+
+例如增加：
+
+```
+Bedrooms
+Facing
+Tenure
+Bumi Status
+```
+
+需要修改 JavaScript 的筛选逻辑。
+
+### 情况 B — 修改 Property Card 的显示内容
+
+例如想在 Card 上增加：
+
+```
+Freehold
+South Facing
+Non-Bumi
+```
+
+需要修改 JavaScript 生成 Card 的 HTML。
+
+同时需要确认 JSON 有对应资料。
+
+### 情况 C — 修改搜索规则
+
+例如现在 Keyword Search 会搜索：
+
+```
+title
+location
+area
+propertyType
+listingType
+```
+
+以后如果想让 Keyword Search 也搜索：
+
+```
+facing
+tenure
+renovation
+```
+
+需要修改 `js/properties.js`。
+
+---
+
+# 30. 新增 Area 时要注意
+
+目前 Area Filter 的选项是写在：
+
+```
+properties/index.html
+```
+
+例如：
+
+```
+Tampoi
+Taman Tan Sri Yaacob
+```
+
+如果以后新增：
+
+```
+Mount Austin
+Tebrau
+Kulai
+```
+
+需要把新的 Area 加进 HTML 的 select。
+
+同时，新房源的 JSON：
+
+```
+"area": "Mount Austin"
+```
+
+必须与筛选器的文字保持一致。
+
+例如：
+
+```
+<select>
+  <option value="Mount Austin">Mount Austin</option>
+</select>
+```
+
+JSON：
+
+```
+"area": "Mount Austin"
+```
+
+两边不同写法可能导致筛选无法匹配。
+
+---
+
+# 31. JSON 与 Property HTML 的关系
+
+需要理解：
+
+**JSON 不是取代 Property HTML 页面。**
+
+两者用途不同。
+
+```
+data/properties.json
+```
+
+主要负责：
+
+- Search
+- Filter
+- Property Card
+- Listing overview
+
+而：
+
+```
+properties/房屋名称/index.html
+```
+
+负责：
+
+- 完整房屋介绍
+- SEO
+- 完整照片
+- Renovation details
+- Location
+- Facebook listing
+- WhatsApp contact
+- Structured Data
+
+所以每新增房屋，**两个地方都要存在资料**：
+
+```
+data/properties.json
++
+properties/新房屋/index.html
+```
+
+---
+
+# 32. 首页 Featured Properties 与 JSON
+
+目前首页：
+
+```
+index.html
+```
+
+的 Featured Properties 仍然是手动维护的。
+
+也就是说：
+
+**新增房源到 JSON 后，不代表它会自动出现在首页。**
+
+如果希望首页展示该房源，需要另外检查：
+
+```
+index.html
+```
+
+并按照首页的：
+
+```
+【每个新屋子都需要修改】
+```
+
+注解更新 Featured Property。
+
+以后如果房源数量很多，可以再把首页 Featured Properties 也改成由 JSON 自动读取。
+
+---
+
+# 33. 搜索系统的维护原则
+
+以后新增功能时，尽量遵守这个原则：
+
+```
+资料
+↓
+data/properties.json
+
+显示与筛选逻辑
+↓
+js/properties.js
+
+页面结构 / 筛选器
+↓
+properties/index.html
+
+视觉设计
+↓
+style.css
+```
+
+不要把同一份资料到处重复写。
+
+例如价格：
+
+如果是搜索系统的数据：
+
+```
+"price": 558000
+```
+
+应该以 JSON 为主要来源。
+
+Property HTML 页面仍然要保持正确，因为它是独立的 SEO 页面。
+
+---
+
+# 34. 新增程序时的注解规则
+
+以后如果新增 JavaScript、JSON、搜索功能、筛选功能或其他程序：
+
+**也要尽量加入维护注解。**
+
+但不要为了注解而把每一行代码都写满 comment。
+
+只在以下地方写：
+
+- 以后可能需要修改的地方
+- 新增房源时需要修改的地方
+- 新增筛选条件时需要修改的地方
+- 需要同时修改其他文件的地方
+- 容易忘记的维护步骤
+
+例如：
+
+```js
+/* ==================== PROPERTY SEARCH ====================
+   【以后新增房源时需要修改】
+   房源资料主要放在 data/properties.json。
+   这里负责读取资料、建立房源卡片和执行搜索筛选。
+   ============================================================ */
+```
+
+固定、不需要维护的代码，不需要添加大量注释。
+
+---
+
+# 35. 新房源完整更新流程（包括搜索系统）
+
+以后新增一间房屋，可以使用这个版本：
+
+```
+① 建立 properties/新房屋/ folder
+        ↓
+② 复制现有 Property index.html
+        ↓
+③ 修改所有「【每个新屋子都需要修改】」区域
+        ↓
+④ 上传房屋照片
+        ↓
+⑤ 检查图片 src / alt
+        ↓
+⑥ 加入 data/properties.json
+        ↓
+⑦ 检查 JSON 的 price / area / propertyType 等字段
+        ↓
+⑧ 检查 Properties 搜索页面
+        ↓
+⑨ 如果新增 Area / Filter，修改 properties/index.html
+        ↓
+⑩ 如果新增筛选逻辑，修改 js/properties.js
+        ↓
+⑪ 需要的话更新首页 Featured Properties
+        ↓
+⑫ 更新 sitemap.xml
+        ↓
+⑬ 检查 Facebook / WhatsApp
+        ↓
+⑭ 最后测试 Search / Filter / Property Page
+        ↓
+⑮ Commit 到 GitHub
+```
+
+---
+
+# 36. 搜索功能测试 Checklist
+
+每次修改搜索系统后，可以简单测试：
+
+### Keyword
+
+- [ ] 输入房屋名称可以找到
+- [ ] 输入地区可以找到
+- [ ] 输入 Area 可以找到
+
+### Listing Type
+
+- [ ] All 可以显示全部
+- [ ] For Sale 可以只显示 Sale
+- [ ] For Rent 可以只显示 Rent
+
+### Area
+
+- [ ] Area 筛选可以正常工作
+- [ ] 新 Area 已加入 dropdown
+- [ ] JSON 的 `area` 与 dropdown value 一致
+
+### Property Type
+
+- [ ] Terrace 可以筛选
+- [ ] 其他新增 Property Type 可以筛选
+
+### Price
+
+- [ ] Minimum Price 正常
+- [ ] Maximum Price 正常
+- [ ] Minimum + Maximum 一起使用正常
+
+### Reset
+
+- [ ] Reset 后恢复全部房源
+- [ ] Result count 正确
+- [ ] 没有结果时显示 No Results
+
+### Links
+
+- [ ] Property Card 可以打开正确房屋页面
+- [ ] 图片正常显示
+- [ ] Property page 本身正常打开
+
+---
+
+# 37. 搜索系统常见错误
+
+### 错误 1：JSON 写错格式
+
+例如：
+
+```
+{
+  "title": "House",
+  "price": 558000,
+}
+```
+
+最后的逗号可能导致 JSON 无法正常读取。
+
+---
+
+### 错误 2：price 写成文字
+
+错误：
+
+```
+"price": "RM558,000"
+```
+
+正确：
+
+```
+"price": 558000
+```
+
+---
+
+### 错误 3：Area 名称不一致
+
+JSON：
+
+```
+"area": "Tampoi"
+```
+
+HTML：
+
+```
+<option value="Tampoi">Tampoi</option>
+```
+
+这样才可以正确匹配。
+
+---
+
+### 错误 4：图片路径错误
+
+JSON：
+
+```
+"image": "taman-gembira-tampoi-jalan-riang-2/front.jpg"
+```
+
+必须确认实际文件存在于：
+
+```
+properties/taman-gembira-tampoi-jalan-riang-2/front.jpg
+```
+
+---
+
+### 错误 5：url 指错
+
+例如 JSON：
+
+```
+"url": "taman-gembira-tampoi-jalan-riang-2/"
+```
+
+必须确认：
+
+```
+properties/taman-gembira-tampoi-jalan-riang-2/index.html
+```
+
+真的存在。
+
+---
+
+# 38. 网站目前的维护结构总结
+
+目前网站可以理解成四层：
+
+```
+第一层：网页
+index.html
+properties/index.html
+properties/各个房屋/index.html
+
+第二层：房源资料
+data/properties.json
+
+第三层：程序
+js/properties.js
+
+第四层：共用设计
+style.css
+```
+
+以后网站继续扩大时，尽量保持这个结构。
+
+这样新增房源、搜索、筛选和 SEO 页面之间会比较容易维护。
+
