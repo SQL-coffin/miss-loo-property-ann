@@ -14,3 +14,20 @@
 .social-card{width:min(1120px,calc(100% - 40px));margin:0 auto 28px;padding:30px;background:var(--paper);border:1px solid var(--line);border-radius:22px;display:flex;align-items:center;justify-content:space-between;gap:30px}.social-card h2{font-size:clamp(1.8rem,3vw,2.8rem);line-height:1.05;margin:0 0 10px}.social-card p{color:var(--muted)}@media(max-width:700px){.social-card{flex-direction:column;align-items:flex-start}}.social-listing-link{padding-top:0}.social-listing-link .contact-box{margin-top:0}
 .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.hero-actions .button{min-width:170px}
 @media(max-width:560px){.hero-actions .button{width:100%}}
+
+/* ==================== PROPERTY SEARCH UI ====================
+   【通常不需要修改】
+   这里控制 Properties 搜索框、筛选器和结果提示的外观。
+   ============================================================ */
+.property-search{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:24px;margin-bottom:22px;box-shadow:0 12px 40px rgba(26,32,29,.05)}
+.property-search label{display:block;font-size:.78rem;font-weight:800;letter-spacing:.04em;margin-bottom:7px}
+.search-main input,.search-filters input,.search-filters select{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);font:inherit}
+.search-main{margin-bottom:18px}
+.search-filters{display:grid;grid-template-columns:1.1fr 1.1fr 1.1fr .8fr .8fr auto;gap:12px;align-items:end}
+.search-reset{min-height:47px;cursor:pointer;white-space:nowrap}
+.search-summary{margin:0 0 18px;color:var(--muted);font-size:.9rem;font-weight:700}
+.no-results{padding:50px 20px;text-align:center;background:var(--paper);border:1px dashed var(--line);border-radius:20px}
+.no-results h2{margin:0 0 8px}
+.no-results p{margin:0;color:var(--muted)}
+@media(max-width:980px){.search-filters{grid-template-columns:1fr 1fr 1fr}.search-reset{width:100%}}
+@media(max-width:560px){.search-filters{grid-template-columns:1fr}.property-search{padding:18px}.search-reset{width:100%}}
