@@ -132,7 +132,13 @@ function resetFilters() {
 
 async function loadProperties() {
   try {
-    const response = await fetch(dataPath);
+    // 【防止路径问题】GitHub Pages 访问首页时可能没有尾部 /，先把当前页面规范成目录 URL。
+    // 这样 data/properties.json 在首页和 Properties 页面都能稳定解析。
+    const pageDirectory = window.location.href.split("#")[0].endsWith("/")
+      ? window.location.href.split("#")[0]
+      : window.location.href.split("#")[0].replace(/[^/]*$/, "");
+    const dataUrl = new URL(dataPath, pageDirectory).href;
+    const response = await fetch(dataUrl);
 
     if (!response.ok) {
       throw new Error(`Unable to load property data: HTTP ${response.status}`);
