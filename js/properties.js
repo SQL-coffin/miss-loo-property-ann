@@ -124,6 +124,13 @@ async function loadProperties() {
     }
 
     properties = await response.json();
+
+    // 【首页搜索入口】如果从 Homepage 带入 ?search=，自动填入 Properties 搜索框。
+    const searchParams = new URLSearchParams(window.location.search);
+    const initialSearch = searchParams.get("search");
+    if (initialSearch) {
+      searchInput.value = initialSearch;
+    }
     currentFilteredProperties = properties;
     sortProperties();
   } catch (error) {
