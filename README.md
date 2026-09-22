@@ -834,36 +834,4 @@ Update sitemap with new property page
 
 SEO 是帮助正确的房屋资料被找到，而不是增加不存在的房屋特色。
 
----
 
-## Quick Reference
-
-以后如果只是：
-
-**换价格**
-→ Property `index.html`
-
-**换照片**
-→ 上传图片 + Property `index.html`
-
-**换 Facebook post**
-→ Property `index.html`
-
-**新增房屋**
-→ 新 folder + `index.html` + Properties page + Sitemap
-
-**改变整个网站外观**
-→ `style.css`
-
-**改变网站维护方法**
-→ `README.md`
-
-**新增重要网页**
-→ 页面 + `sitemap.xml`
-
-**改变搜索引擎爬取规则**
-→ `robots.txt`
-
----
-
-这份 README 应该作为网站的长期维护手册使用。
