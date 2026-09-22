@@ -60,84 +60,6 @@
           <h1>Find the right home.<br><em>Sell with confidence.</em></h1>
           <p class="hero-copy">Residential property buying, selling and rental assistance with a focus on subsale homes in Johor Bahru, Kulai and surrounding areas.</p>
 
-          <!-- ==================== HOMEPAGE PROPERTY SEARCH ====================
-               【以后新增筛选条件时需要修改】
-               首页搜索与 Properties 页面共用同一套 JSON + JavaScript 搜索系统。
-               如果增加新的筛选类别，需要同时修改：
-               1. 这里的 HTML select / input
-               2. js/properties.js 的筛选逻辑
-               ================================================================ -->
-          <section class="property-search homepage-property-search">
-            <div class="search-main">
-              <label for="propertySearch">Search properties</label>
-              <input type="search" id="propertySearch" placeholder="Search location, property name..." autocomplete="off">
-            </div>
-
-            <div class="search-filters">
-              <div>
-                <label for="listingType">Listing</label>
-                <select id="listingType">
-                  <option value="">All</option>
-                  <option value="sale">For Sale</option>
-                  <option value="rent">For Rent</option>
-                </select>
-              </div>
-
-              <div>
-                <label for="locationFilter">Area</label>
-                <select id="locationFilter">
-                  <option value="">All Areas</option>
-                  <option value="Tampoi">Tampoi</option>
-                  <option value="Taman Tan Sri Yaacob">Taman Tan Sri Yaacob</option>
-                </select>
-              </div>
-
-              <div>
-                <label for="propertyType">Property Type</label>
-                <select id="propertyType">
-                  <option value="">All Types</option>
-                  <option value="terrace">Terrace</option>
-                  <option value="semi-d">Semi-D</option>
-                  <option value="bungalow">Bungalow</option>
-                  <option value="apartment">Apartment</option>
-                  <option value="condominium">Condominium</option>
-                </select>
-              </div>
-
-              <div>
-                <label for="minPrice">Min Price</label>
-                <input type="number" id="minPrice" min="0" step="10000" placeholder="RM">
-              </div>
-
-              <div>
-                <label for="maxPrice">Max Price</label>
-                <input type="number" id="maxPrice" min="0" step="10000" placeholder="RM">
-              </div>
-
-              <button class="button secondary search-reset" type="button" id="resetFilters">Reset</button>
-            </div>
-
-            <div class="search-summary">
-              <span id="resultCount">Loading properties...</span>
-              <div class="search-sort">
-                <label for="sortBy">Sort by</label>
-                <select id="sortBy">
-                  <option value="newest">Newest</option>
-                  <option value="price-low">Price: Low to High</option>
-                  <option value="price-high">Price: High to Low</option>
-                  <option value="bedrooms">Bedrooms: High to Low</option>
-                  <option value="bedrooms-low">Bedrooms: Low to High</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="property-grid homepage-search-results" id="propertyGrid"></div>
-
-            <div class="no-results" id="noResults" hidden>
-              <h2>No properties found</h2>
-              <p>Try changing your search or filters.</p>
-            </div>
-          </section>
 
           <!-- ==================== HERO ACTION BUTTONS ====================
                【如果更换 WhatsApp / Facebook / Properties 链接才需要修改】
@@ -163,7 +85,96 @@
       </div>
     </section>
 
-    <!-- ==================== FEATURED PROPERTIES ====================
+    <!-- ==================== FEATURED PROPERTIES
+    <!-- ==================== HOMEPAGE PROPERTY SEARCH ====================
+         【通常不需要修改】
+         首页搜索独立占用完整容器宽度，避免放在 Hero 两栏布局内造成拥挤。
+         搜索元件与 Properties 页面共用同一套 JSON + JavaScript 系统。
+         ================================================================ -->
+    <section class="section homepage-search-section">
+      <div class="container">
+        <!-- ==================== HOMEPAGE PROPERTY SEARCH ====================
+             【以后新增筛选条件时需要修改】
+             首页搜索与 Properties 页面共用同一套 JSON + JavaScript 搜索系统。
+             如果增加新的筛选类别，需要同时修改：
+             1. 这里的 HTML select / input
+             2. js/properties.js 的筛选逻辑
+             ================================================================ -->
+        <section class="property-search homepage-property-search">
+          <div class="search-main">
+            <label for="propertySearch">Search properties</label>
+            <input type="search" id="propertySearch" placeholder="Search location, property name..." autocomplete="off">
+          </div>
+
+          <div class="search-filters">
+            <div>
+              <label for="listingType">Listing</label>
+              <select id="listingType">
+                <option value="">All</option>
+                <option value="sale">For Sale</option>
+                <option value="rent">For Rent</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="locationFilter">Area</label>
+              <select id="locationFilter">
+                <option value="">All Areas</option>
+                <option value="Tampoi">Tampoi</option>
+                <option value="Taman Tan Sri Yaacob">Taman Tan Sri Yaacob</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="propertyType">Property Type</label>
+              <select id="propertyType">
+                <option value="">All Types</option>
+                <option value="terrace">Terrace</option>
+                <option value="semi-d">Semi-D</option>
+                <option value="bungalow">Bungalow</option>
+                <option value="apartment">Apartment</option>
+                <option value="condominium">Condominium</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="minPrice">Min Price</label>
+              <input type="number" id="minPrice" min="0" step="10000" placeholder="RM">
+            </div>
+
+            <div>
+              <label for="maxPrice">Max Price</label>
+              <input type="number" id="maxPrice" min="0" step="10000" placeholder="RM">
+            </div>
+
+            <button class="button secondary search-reset" type="button" id="resetFilters">Reset</button>
+          </div>
+
+          <div class="search-summary">
+            <span id="resultCount">Loading properties...</span>
+            <div class="search-sort">
+              <label for="sortBy">Sort by</label>
+              <select id="sortBy">
+                <option value="newest">Newest</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="bedrooms">Bedrooms: High to Low</option>
+                <option value="bedrooms-low">Bedrooms: Low to High</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="property-grid homepage-search-results" id="propertyGrid"></div>
+
+          <div class="no-results" id="noResults" hidden>
+            <h2>No properties found</h2>
+            <p>Try changing your search or filters.</p>
+          </div>
+        </section>
+      </div>
+    </section>
+
+ ====================
          【每个新屋子都需要修改】
          这里显示首页的精选房源。
 
