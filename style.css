@@ -49,5 +49,13 @@
 
 /* ==================== HOMEPAGE PROPERTY SEARCH ====================
    【通常不需要修改】
-   首页直接复用 Properties 页面的搜索 UI，不单独维护样式。
+   首页搜索独立占用完整容器宽度，不放在 Hero 两栏布局内。
+   搜索元件本身继续复用 Properties 页面的 UI 样式。
    ================================================================ */
+.homepage-search-section .property-search{width:100%;margin-bottom:0;}
+@media(max-width:840px){
+  .homepage-search-section .search-filters{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:560px){
+  .homepage-search-section .search-filters{grid-template-columns:1fr;}
+}
