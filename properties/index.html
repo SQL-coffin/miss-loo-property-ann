@@ -11,21 +11,95 @@
 <a class="brand" href="../index.html"><img src="../logo.jpg" alt="Miss Loo JB Property logo"><span>MISS LOO JB PROPERTY</span></a>
 <nav><a href="../properties/">Properties</a><a href="../buy-property/">Buy</a><a href="../sell-property/">Sell</a><a href="../rent-property/">Rent</a><a href="../areas/">Areas</a><a class="nav-cta" href="https://wa.me/60167889571" target="_blank" rel="noopener">WhatsApp</a></nav>
 </div></header>
+
 <main>
-<section class="listing-hero"><div class="container"><a class="back-link" href="../index.html">← Home</a><p class="eyebrow">PROPERTY LISTINGS</p><h1>Properties for Sale & Rent</h1><p class="listing-location">Johor Bahru · Kulai · Surrounding Johor</p><p class="hero-copy">Browse selected residential subsale and rental properties. For complete photo galleries and updates, individual listings may link directly to Facebook.</p></div></section>
-<section class="section"><div class="container"><div class="property-grid">
-<article class="property-card"><div class="property-image"><img src="jalan-putra-5-taman-tan-sri-yaacob/front.jpg" alt="2-storey end lot house for sale at Taman Tan Sri Yaacob"></div><div class="property-body"><span class="tag">FOR SALE · SUBSALE</span><h3>2-Storey Medium Cost End Lot</h3><p>Jalan Putra 5, Taman Tan Sri Yaacob · 2 Bed · 2 Bath · 14' × 55'</p><strong class="listing-price">RM518,000</strong><a href="jalan-putra-5-taman-tan-sri-yaacob/">View property →</a></div></article>
-<article class="property-card">
-<!-- ==================== PROPERTY IMAGE ====================
-     【每个新屋子都需要修改】
-     使用该房屋文件夹内的 front.jpg 作为列表缩略图。
-     ============================================================ -->
-<div class="property-image"><img src="taman-gembira-tampoi-jalan-riang-2/front.jpg" alt="Front exterior of renovated single storey terrace house in Taman Gembira, Tampoi"></div>
-<div class="property-body"><span class="tag">FOR SALE · TAMPOI</span><h3>Fully Renovated Single Storey Terrace</h3><p>Taman Gembira, Tampoi · 3 Bed · 3 Bath · 22' × 70'</p><strong class="listing-price">RM558,000</strong><a href="taman-gembira-tampoi-jalan-riang-2/">View property →</a></div>
-</article>
-<article class="property-card placeholder"><div class="property-image">NEW LISTING</div><div class="property-body"><span class="tag">COMING SOON</span><h3>More properties will be added</h3><p>New residential listings will appear here as inventory grows.</p><a href="../sell-property/">List a property →</a></div></article>
-</div></div></section>
+<section class="listing-hero"><div class="container">
+<a class="back-link" href="../index.html">← Home</a>
+<p class="eyebrow">PROPERTY LISTINGS</p>
+<h1>Properties for Sale & Rent</h1>
+<p class="listing-location">Johor Bahru · Kulai · Surrounding Johor</p>
+<p class="hero-copy">Search selected residential subsale and rental properties by keyword, listing type, area, property type and price.</p>
+</div></section>
+
+<section class="section">
+<div class="container">
+
+<!-- ==================== PROPERTY SEARCH ====================
+     【以后新增筛选条件时需要修改】
+     搜索资料来自 data/properties.json。
+     如果增加新的筛选类别，需要同时修改：
+     1. 这里的 HTML select / input
+     2. js/properties.js 的筛选逻辑
+     ========================================================= -->
+<div class="property-search">
+  <div class="search-main">
+    <label for="propertySearch">Search properties</label>
+    <input type="search" id="propertySearch" placeholder="Search location, property name..." autocomplete="off">
+  </div>
+
+  <div class="search-filters">
+    <div>
+      <label for="listingType">Listing</label>
+      <select id="listingType">
+        <option value="">All</option>
+        <option value="sale">For Sale</option>
+        <option value="rent">For Rent</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="locationFilter">Area</label>
+      <select id="locationFilter">
+        <option value="">All Areas</option>
+        <option value="Tampoi">Tampoi</option>
+        <option value="Taman Tan Sri Yaacob">Taman Tan Sri Yaacob</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="propertyType">Property Type</label>
+      <select id="propertyType">
+        <option value="">All Types</option>
+        <option value="terrace">Terrace</option>
+        <option value="semi-d">Semi-D</option>
+        <option value="bungalow">Bungalow</option>
+        <option value="apartment">Apartment</option>
+        <option value="condominium">Condominium</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="minPrice">Min Price</label>
+      <input type="number" id="minPrice" min="0" step="10000" placeholder="RM">
+    </div>
+
+    <div>
+      <label for="maxPrice">Max Price</label>
+      <input type="number" id="maxPrice" min="0" step="10000" placeholder="RM">
+    </div>
+
+    <button class="button secondary search-reset" type="button" id="resetFilters">Reset</button>
+  </div>
+</div>
+
+<div class="search-summary">
+  <span id="resultCount">Loading properties...</span>
+</div>
+
+<div class="property-grid" id="propertyGrid"></div>
+
+<div class="no-results" id="noResults" hidden>
+  <h2>No properties found</h2>
+  <p>Try changing your search or filters.</p>
+</div>
+
+</div>
+</section>
+
 <section class="section soft"><div class="container contact-box"><div><p class="eyebrow">CAN'T FIND WHAT YOU NEED?</p><h2>Tell Miss Loo what you are looking for.</h2><p>Share your preferred area, property type, budget and whether you want to buy or rent.</p></div><a class="button primary" href="https://wa.me/60167889571" target="_blank" rel="noopener">WhatsApp Miss Loo</a></div></section>
 </main>
+
 <footer class="site-footer"><div class="container footer-inner"><span>© Miss Loo JB Property</span><span>Johor Bahru · Kulai · Johor</span></div></footer>
+
+<script src="../js/properties.js"></script>
 </body></html>
