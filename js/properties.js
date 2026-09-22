@@ -131,8 +131,7 @@ async function loadProperties() {
     if (initialSearch) {
       searchInput.value = initialSearch;
     }
-    currentFilteredProperties = properties;
-    sortProperties();
+    filterProperties();
   } catch (error) {
     propertyGrid.innerHTML = "";
     resultCount.textContent = "Property listings are temporarily unavailable.";
