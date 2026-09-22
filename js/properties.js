@@ -96,6 +96,8 @@ function sortProperties() {
     sorted.sort((a, b) => b.price - a.price);
   } else if (sortBy.value === "bedrooms") {
     sorted.sort((a, b) => b.bedrooms - a.bedrooms);
+  } else if (sortBy.value === "bedrooms-low") {
+    sorted.sort((a, b) => a.bedrooms - b.bedrooms);
   } else {
     sorted.sort((a, b) => (b.dateAdded || "").localeCompare(a.dateAdded || ""));
   }
@@ -122,7 +124,8 @@ async function loadProperties() {
     }
 
     properties = await response.json();
-    renderProperties(properties);
+    currentFilteredProperties = properties;
+    sortProperties();
   } catch (error) {
     propertyGrid.innerHTML = "";
     resultCount.textContent = "Property listings are temporarily unavailable.";
