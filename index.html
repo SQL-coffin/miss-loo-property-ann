@@ -60,17 +60,83 @@
           <p class="hero-copy">Residential property buying, selling and rental assistance with a focus on subsale homes in Johor Bahru, Kulai and surrounding areas.</p>
 
           <!-- ==================== HOMEPAGE PROPERTY SEARCH ====================
-               【通常不需要修改】
-               这是首页进入 Properties 搜索页面的入口。
-               搜索结果使用 Properties 页面现有的 JSON + JavaScript 系统。
+               【以后新增筛选条件时需要修改】
+               首页搜索与 Properties 页面共用同一套 JSON + JavaScript 搜索系统。
+               如果增加新的筛选类别，需要同时修改：
+               1. 这里的 HTML select / input
+               2. js/properties.js 的筛选逻辑
                ================================================================ -->
-          <form class="homepage-search" action="properties/index.html" method="get">
-            <label for="homepagePropertySearch">Search properties</label>
-            <div class="homepage-search-row">
-              <input type="search" id="homepagePropertySearch" name="search" placeholder="Search area, property name..." autocomplete="off">
-              <button class="button primary" type="submit">Search</button>
+          <div class="property-search homepage-property-search">
+            <div class="search-main">
+              <label for="propertySearch">Search properties</label>
+              <input type="search" id="propertySearch" placeholder="Search location, property name..." autocomplete="off">
             </div>
-          </form>
+
+            <div class="search-filters">
+              <div>
+                <label for="listingType">Listing</label>
+                <select id="listingType">
+                  <option value="">All</option>
+                  <option value="sale">For Sale</option>
+                  <option value="rent">For Rent</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="locationFilter">Area</label>
+                <select id="locationFilter">
+                  <option value="">All Areas</option>
+                  <option value="Tampoi">Tampoi</option>
+                  <option value="Taman Tan Sri Yaacob">Taman Tan Sri Yaacob</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="propertyType">Property Type</label>
+                <select id="propertyType">
+                  <option value="">All Types</option>
+                  <option value="terrace">Terrace</option>
+                  <option value="semi-d">Semi-D</option>
+                  <option value="bungalow">Bungalow</option>
+                  <option value="apartment">Apartment</option>
+                  <option value="condominium">Condominium</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="minPrice">Min Price</label>
+                <input type="number" id="minPrice" min="0" step="10000" placeholder="RM">
+              </div>
+
+              <div>
+                <label for="maxPrice">Max Price</label>
+                <input type="number" id="maxPrice" min="0" step="10000" placeholder="RM">
+              </div>
+
+              <button class="button secondary search-reset" type="button" id="resetFilters">Reset</button>
+            </div>
+
+            <div class="search-summary">
+              <span id="resultCount">Loading properties...</span>
+              <div class="search-sort">
+                <label for="sortBy">Sort by</label>
+                <select id="sortBy">
+                  <option value="newest">Newest</option>
+                  <option value="price-low">Price: Low to High</option>
+                  <option value="price-high">Price: High to Low</option>
+                  <option value="bedrooms">Bedrooms: High to Low</option>
+                  <option value="bedrooms-low">Bedrooms: Low to High</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="property-grid homepage-search-results" id="propertyGrid"></div>
+
+            <div class="no-results" id="noResults" hidden>
+              <h2>No properties found</h2>
+              <p>Try changing your search or filters.</p>
+            </div>
+          </div>
 
           <!-- ==================== HERO ACTION BUTTONS ====================
                【如果更换 WhatsApp / Facebook / Properties 链接才需要修改】
