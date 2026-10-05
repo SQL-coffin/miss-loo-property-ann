@@ -1,13 +1,14 @@
 <!doctype html>
 <html lang="en">
 <head>
-<script src="js/properties.js?v=20260922-2" defer></script>
   <!-- ==================== SEO / PAGE INFORMATION ====================
        【通常不需要修改】
        如果以后网站名称、主要服务地区或 SEO 方向改变，
        才需要修改 title / description / Open Graph。
        ================================================================ -->
   <meta charset="UTF-8" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Miss Loo JB Property | Johor Bahru Subsale & Rental</title>
   <meta name="description" content="Miss Loo JB Property provides residential property buying, selling and rental services in Johor Bahru, Kulai and surrounding areas." />
@@ -94,21 +95,23 @@
       <div class="container">
         <!-- ==================== HOMEPAGE PROPERTY SEARCH ====================
              【以后新增筛选条件时需要修改】
-             首页搜索与 Properties 页面共用同一套 JSON + JavaScript 搜索系统。
+             搜索资料来自 data/properties.json，程序在 js/ 的分层架构里（见 ARCHITECTURE.md）。
+             Area 和 Property Type 的选项由 JSON 自动产生，这里只保留第一个 "All" 选项。
              如果增加新的筛选类别，需要同时修改：
-             1. 这里的 HTML select / input
-             2. js/properties.js 的筛选逻辑
+             1. 这里的 HTML select / input（加上 data-filter="名称"）
+             2. js/service/propertyService.js 的 DEFAULT_QUERY + matchesQuery()
+             3. js/ui/propertyListPage.js 的 FILTERS
              ================================================================ -->
-        <section class="property-search homepage-property-search" data-properties-path="data/properties.json" data-image-prefix="properties/" data-url-prefix="properties/">
+        <section class="property-search homepage-property-search">
           <div class="search-main">
             <label for="propertySearch">Search properties</label>
-            <input type="search" id="propertySearch" placeholder="Search location, property name..." autocomplete="off">
+            <input type="search" id="propertySearch" data-filter="keyword" placeholder="Search location, property name..." autocomplete="off">
           </div>
 
           <div class="search-filters">
             <div>
               <label for="listingType">Listing</label>
-              <select id="listingType">
+              <select id="listingType" data-filter="listingType">
                 <option value="">All</option>
                 <option value="sale">For Sale</option>
                 <option value="rent">For Rent</option>
@@ -117,57 +120,48 @@
 
             <div>
               <label for="locationFilter">Area</label>
-              <select id="locationFilter">
+              <select id="locationFilter" data-filter="area">
                 <option value="">All Areas</option>
-                <option value="Tampoi">Tampoi</option>
-                <option value="Taman Tan Sri Yaacob">Taman Tan Sri Yaacob</option>
-                <option value="Kulai Besar">Kulai Besar</option>
-                <option value="Taman Universiti">Taman Universiti</option>
               </select>
             </div>
 
             <div>
               <label for="propertyType">Property Type</label>
-              <select id="propertyType">
+              <select id="propertyType" data-filter="propertyType">
                 <option value="">All Types</option>
-                <option value="terrace">Terrace</option>
-                <option value="semi-d">Semi-D</option>
-                <option value="bungalow">Bungalow</option>
-                <option value="apartment">Apartment</option>
-                <option value="condominium">Condominium</option>
               </select>
             </div>
 
             <div>
               <label for="minPrice">Min Price</label>
-              <input type="number" id="minPrice" min="0" step="10000" placeholder="RM">
+              <input type="number" id="minPrice" data-filter="minPrice" min="0" step="10000" placeholder="RM">
             </div>
 
             <div>
               <label for="maxPrice">Max Price</label>
-              <input type="number" id="maxPrice" min="0" step="10000" placeholder="RM">
+              <input type="number" id="maxPrice" data-filter="maxPrice" min="0" step="10000" placeholder="RM">
             </div>
 
-            <button class="button secondary search-reset" type="button" id="resetFilters">Reset</button>
+            <button class="button secondary search-reset" type="button" id="resetFilters" data-property-reset>Reset</button>
           </div>
 
           <div class="search-summary">
-            <span id="resultCount">Loading properties...</span>
+            <span id="resultCount" data-property-count>Loading properties...</span>
             <div class="search-sort">
               <label for="sortBy">Sort by</label>
-              <select id="sortBy">
+              <select id="sortBy" data-filter="sort">
                 <option value="newest">Newest</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-                <option value="bedrooms">Bedrooms: High to Low</option>
-                <option value="bedrooms-low">Bedrooms: Low to High</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="bedrooms-desc">Bedrooms: High to Low</option>
+                <option value="bedrooms-asc">Bedrooms: Low to High</option>
               </select>
             </div>
           </div>
 
-          <div class="property-grid homepage-search-results" id="propertyGrid"></div>
+          <div class="property-grid homepage-search-results" id="propertyGrid" data-property-results></div>
 
-          <div class="no-results" id="noResults" hidden>
+          <div class="no-results" id="noResults" data-property-empty hidden>
             <h2>No properties found</h2>
             <p>Try changing your search or filters.</p>
           </div>
@@ -176,20 +170,12 @@
     </section>
 
     <!-- ==================== FEATURED PROPERTIES ====================
-         【每个新屋子都需要修改】
-         这里显示首页的精选房源。
-
-         新增房源时需要修改：
-         1. 图片路径
-         2. alt
-         3. FOR SALE / FOR RENT
-         4. 地区
-         5. 房屋名称
-         6. 房型 / 房间数量 / 土地面积
-         7. 价格
-         8. View property 的链接
-
-         图片通常使用该房屋文件夹内的 front.jpg。
+         【新增房源时不需要修改这里】
+         房源卡片由 js/ui/featuredProperties.js 从 data/properties.json 自动产生。
+         - 想指定首页显示哪几间：在 JSON 里给它加 "featured": true
+         - 一间都没标记时，自动显示最新（dateAdded）的几间
+         - 显示数量：修改下面的 data-limit
+         下面两张 placeholder 卡片会固定显示在房源后面。
          ============================================================ -->
     <section class="section" id="properties">
       <div class="container">
@@ -200,66 +186,15 @@
           </div>
           <p class="muted">Listings can be added here as your inventory grows.</p>
         </div>
-        <div class="property-grid">
-          <!-- ==================== PROPERTY CARD ====================
-               【每个新屋子都需要修改】
-               复制这个 property-card 来新增首页房源。
-               ===================================================== -->
-          <article class="property-card">
-            <!-- ==================== FEATURED PROPERTY IMAGE ====================
-                 【每个新屋子都需要修改】
-                 使用该房屋文件夹内的 front.jpg 作为首页缩略图。
-
-                 如果换照片：
-                 1. 把新图片放进该房屋文件夹
-                 2. 修改 src
-                 3. 修改 alt
-                 ================================================================ -->
-            <div class="property-image"><img src="properties/jalan-putra-5-taman-tan-sri-yaacob/front.jpg" alt="2-storey end lot house for sale at Taman Tan Sri Yaacob" /></div>
+        <div class="property-grid" data-featured-properties data-limit="4">
+          <!-- 读取失败时的后备内容（读取成功后会被房源卡片取代） -->
+          <article class="property-card placeholder" data-featured-fallback>
+            <div class="property-image">PROPERTY LISTINGS</div>
             <div class="property-body">
-              <span class="tag">FOR SALE · SUBSALE</span>
-              <h3>2-Storey Medium Cost End Lot</h3>
-              <p>Jalan Putra 5, Taman Tan Sri Yaacob · 2 Bed · 2 Bath · 14' × 55'</p>
-              <strong class="listing-price">RM518,000</strong>
-              <a href="properties/jalan-putra-5-taman-tan-sri-yaacob/">View property →</a>
-            </div>
-          </article>
-          <article class="property-card">
-            <!-- ==================== FEATURED PROPERTY IMAGE ====================
-     【每个新屋子都需要修改】
-     使用该房屋文件夹内的 front.jpg 作为首页缩略图。
-     ================================================================ -->
-            <!-- ==================== FEATURED PROPERTY IMAGE ====================
-                 【每个新屋子都需要修改】
-                 使用该房屋文件夹内的 front.jpg 作为首页缩略图。
-                 ================================================================ -->
-            <div class="property-image"><img src="properties/taman-gembira-tampoi-jalan-riang-2/front.jpg" alt="Front exterior of renovated single storey terrace house in Taman Gembira, Tampoi" /></div>
-            <div class="property-body">
-              <span class="tag">FOR SALE · TAMPOI</span>
-              <h3>Fully Renovated Single Storey Terrace</h3>
-              <p>Taman Gembira, Tampoi · 3 Bed · 3 Bath · 22' × 70'</p>
-              <strong class="listing-price">RM558,000</strong>
-              <a href="properties/taman-gembira-tampoi-jalan-riang-2/">View property →</a>
-            </div>
-          </article>
-          <article class="property-card">
-            <div class="property-image"><img src="properties/kulai-besar-single-storey-end-lot/front.jpg" alt="Front exterior of single storey end lot house for sale in Kulai Besar"></div>
-            <div class="property-body">
-              <span class="tag">FOR SALE · KULAI BESAR</span>
-              <h3>Single Storey End Lot House</h3>
-              <p>Kulai Besar, Kulai · 3 Bed · 2 Bath · 24' × 70'</p>
-              <strong class="listing-price">RM438,000</strong>
-              <a href="properties/kulai-besar-single-storey-end-lot/">View property →</a>
-            </div>
-          </article>
-          <article class="property-card">
-            <div class="property-image"><img src="properties/taman-universiti-jalan-kemuliaan-12/front.jpg" alt="Fully renovated single storey corner lot terrace house at Taman Universiti, Skudai"></div>
-            <div class="property-body">
-              <span class="tag">FOR SALE · TAMAN UNIVERSITI</span>
-              <h3>For Sale Taman Universiti [#SingleStorey]</h3>
-              <p>Jalan Kemuliaan 12, Taman Universiti, Skudai · 4 Bed · 3 Bath · 3,530 sqft</p>
-              <strong class="listing-price">RM728,000</strong>
-              <a href="properties/taman-universiti-jalan-kemuliaan-12/">View property →</a>
+              <span class="tag">FOR SALE &amp; RENT</span>
+              <h3>Browse current listings</h3>
+              <p>See all residential properties currently available.</p>
+              <a href="properties/">View all properties →</a>
             </div>
           </article>
           <article class="property-card placeholder">
@@ -366,5 +301,8 @@
       <span>Johor Bahru · Kulai · Johor</span>
     </div>
   </footer>
+
+  <script type="module" src="js/ui/propertyListPage.js?v=20261005"></script>
+  <script type="module" src="js/ui/featuredProperties.js?v=20261005"></script>
 </body>
 </html>

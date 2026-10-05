@@ -1,7 +1,10 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Properties for Sale & Rent in Johor Bahru | Miss Loo JB Property</title>
 <meta name="description" content="Browse residential properties for sale and rent in Johor Bahru, Kulai and surrounding Johor areas with Miss Loo JB Property.">
 <link rel="stylesheet" href="../style.css?v=20260922-2"><link rel="icon" href="../logo.jpg" type="image/jpeg">
@@ -26,21 +29,23 @@
 
 <!-- ==================== PROPERTY SEARCH ====================
      【以后新增筛选条件时需要修改】
-     搜索资料来自 data/properties.json。
+     搜索资料来自 data/properties.json，程序在 js/ 的分层架构里（见 ARCHITECTURE.md）。
+     Area 和 Property Type 的选项由 JSON 自动产生，这里只保留第一个 "All" 选项。
      如果增加新的筛选类别，需要同时修改：
-     1. 这里的 HTML select / input
-     2. js/properties.js 的筛选逻辑
+     1. 这里的 HTML select / input（加上 data-filter="名称"）
+     2. js/service/propertyService.js 的 DEFAULT_QUERY + matchesQuery()
+     3. js/ui/propertyListPage.js 的 FILTERS
      ========================================================= -->
-<div class="property-search" data-properties-path="../data/properties.json" data-image-prefix="" data-url-prefix="">
+<div class="property-search">
   <div class="search-main">
     <label for="propertySearch">Search properties</label>
-    <input type="search" id="propertySearch" placeholder="Search location, property name..." autocomplete="off">
+    <input type="search" id="propertySearch" data-filter="keyword" placeholder="Search location, property name..." autocomplete="off">
   </div>
 
   <div class="search-filters">
     <div>
       <label for="listingType">Listing</label>
-      <select id="listingType">
+      <select id="listingType" data-filter="listingType">
         <option value="">All</option>
         <option value="sale">For Sale</option>
         <option value="rent">For Rent</option>
@@ -49,58 +54,49 @@
 
     <div>
       <label for="locationFilter">Area</label>
-      <select id="locationFilter">
+      <select id="locationFilter" data-filter="area">
         <option value="">All Areas</option>
-        <option value="Tampoi">Tampoi</option>
-        <option value="Taman Tan Sri Yaacob">Taman Tan Sri Yaacob</option>
-        <option value="Kulai Besar">Kulai Besar</option>
-        <option value="Taman Universiti">Taman Universiti</option>
       </select>
     </div>
 
     <div>
       <label for="propertyType">Property Type</label>
-      <select id="propertyType">
+      <select id="propertyType" data-filter="propertyType">
         <option value="">All Types</option>
-        <option value="terrace">Terrace</option>
-        <option value="semi-d">Semi-D</option>
-        <option value="bungalow">Bungalow</option>
-        <option value="apartment">Apartment</option>
-        <option value="condominium">Condominium</option>
       </select>
     </div>
 
     <div>
       <label for="minPrice">Min Price</label>
-      <input type="number" id="minPrice" min="0" step="10000" placeholder="RM">
+      <input type="number" id="minPrice" data-filter="minPrice" min="0" step="10000" placeholder="RM">
     </div>
 
     <div>
       <label for="maxPrice">Max Price</label>
-      <input type="number" id="maxPrice" min="0" step="10000" placeholder="RM">
+      <input type="number" id="maxPrice" data-filter="maxPrice" min="0" step="10000" placeholder="RM">
     </div>
 
-    <button class="button secondary search-reset" type="button" id="resetFilters">Reset</button>
+    <button class="button secondary search-reset" type="button" id="resetFilters" data-property-reset>Reset</button>
   </div>
 </div>
 
 <div class="search-summary">
-  <span id="resultCount">Loading properties...</span>
+  <span id="resultCount" data-property-count>Loading properties...</span>
   <div class="search-sort">
     <label for="sortBy">Sort by</label>
-    <select id="sortBy">
+    <select id="sortBy" data-filter="sort">
       <option value="newest">Newest</option>
-      <option value="price-low">Price: Low to High</option>
-      <option value="price-high">Price: High to Low</option>
-      <option value="bedrooms">Bedrooms: High to Low</option>
-      <option value="bedrooms-low">Bedrooms: Low to High</option>
+      <option value="price-asc">Price: Low to High</option>
+      <option value="price-desc">Price: High to Low</option>
+      <option value="bedrooms-desc">Bedrooms: High to Low</option>
+      <option value="bedrooms-asc">Bedrooms: Low to High</option>
     </select>
   </div>
 </div>
 
-<div class="property-grid" id="propertyGrid"></div>
+<div class="property-grid" id="propertyGrid" data-property-results></div>
 
-<div class="no-results" id="noResults" hidden>
+<div class="no-results" id="noResults" data-property-empty hidden>
   <h2>No properties found</h2>
   <p>Try changing your search or filters.</p>
 </div>
@@ -113,5 +109,5 @@
 
 <footer class="site-footer"><div class="container footer-inner"><span>© Miss Loo JB Property</span><span>Johor Bahru · Kulai · Johor</span></div></footer>
 
-<script src="../js/properties.js?v=20260922-2" defer></script>
+<script type="module" src="../js/ui/propertyListPage.js?v=20261005"></script>
 </body></html>

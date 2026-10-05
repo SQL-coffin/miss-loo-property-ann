@@ -7,6 +7,72 @@
 
 ---
 
+# 0. 用后台新增 / 修改房源（推荐）
+
+**新增房源现在不需要碰任何代码。** 打开后台、填表、上传照片、按保存即可：
+
+```
+https://sql-coffin.github.io/miss-loo-property-ann/admin/
+```
+
+保存后大约 1–2 分钟，以下内容会全部自动更新：
+
+- 房源详情页 `properties/<网址名称>/index.html`
+- Properties 搜索页、首页 Latest properties
+- Area / Property Type 下拉菜单
+- `sitemap.xml`
+
+## 0.1 第一次使用：建立登录令牌（只需做一次）
+
+后台用 GitHub「个人访问令牌」登录。只有能修改这个仓库的 GitHub 账号才能保存，
+其他人就算打开 /admin/ 也改不了任何东西。
+
+1. 运营人员如果不是仓库拥有者：仓库拥有者到 **Settings → Collaborators** 邀请对方的 GitHub 账号（Write 权限）
+2. 用运营人员的 GitHub 账号打开 **Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token**
+3. 设定：
+   - Token name：`Miss Loo 房源后台`
+   - Expiration：选 1 年（到期后重新产生一个）
+   - Repository access：**Only select repositories** → 选 `miss-loo-property-ann`
+   - Permissions → Repository permissions → **Contents：Read and write**（其他都不用开）
+4. 按 Generate，复制产生的令牌（`github_pat_` 开头）
+5. 打开 /admin/ → 按 **使用访问令牌登录** → 贴上令牌
+
+> 令牌等于钥匙：只在自己的电脑 / 手机上登录，不要传给别人或贴在聊天里。
+> 如果怀疑外泄，到同一个页面按 Revoke 作废，再产生新的。
+> 不要按「使用 GitHub 登录」，那个按钮需要另外架设服务，目前不能用。
+
+## 0.2 新增房源
+
+1. 后台左边选 **房源** → 右上角 **新建**
+2. 表单最上面有「别名」栏（就是网址名称），会根据简短地点自动填好，可以修改：只用小写英文、数字和 `-`，例如 `taman-gembira-tampoi-jalan-riang-2`。**建立后不能修改**（改了旧链接会失效）
+3. 填表。打 `*` 的必填，其他可以留空
+4. **照片**：按「添加照片」上传。第一张是封面。手机原图可以直接上传，系统会自动压缩成 WebP
+5. 右上角 **保存**
+
+## 0.3 修改 / 下架房源
+
+- 修改：在列表点该房源 → 修改 → 保存
+- 下架：打开该房源 → 右上角 ⋮ → 删除。详情页、搜索页、首页、sitemap 都会自动移除
+
+## 0.4 保存后没有更新？
+
+1. 等 2 分钟后，用无痕视窗打开网站（避免浏览器快取）
+2. 到 GitHub 仓库的 **Actions** 页面，看 **Build property pages** 有没有红色 ✗
+   - 点进去看 Generate pages 的输出，会用中文写出哪一间、哪个栏位有问题（例如找不到照片、价格不是数字）
+   - 修正后再保存一次即可
+3. 如果 Action 出现 `Permission denied` / `403`：仓库 **Settings → Actions → General → Workflow permissions** 选 **Read and write permissions**
+
+## 0.5 维护者须知
+
+- 房源资料存在 `properties/<网址名称>/listing.json`，照片在同一个文件夹
+- `properties/*/index.html`、`data/properties.json`、`sitemap.xml` 的房源部分都是**自动生成**的，不要手动修改，下次会被覆盖
+- 想改所有详情页的版面：改 `scripts/property-page-template.mjs`
+- 想在后台加栏位：改 `admin/config.yml`，再在模板里决定显示位置
+- 在自己电脑重新生成：`node scripts/build-properties.mjs`；测试：`node --test tests/property.test.mjs tests/build.test.mjs`
+- 下面第 2–16 节的手动流程是旧做法，保留作参考。**新增房源请用后台**；没有 `listing.json` 的房源不会出现在搜索页和首页
+
+---
+
 ## 1. 网站文件结构
 
 主要文件：
@@ -19,10 +85,18 @@ robots.txt
 sitemap.xml
 logo.jpg
 
+admin/                  房源后台（/admin/）
+  index.html
+  config.yml            后台表单设定
+
+scripts/                自动生成房源页面的程序
+.github/workflows/      GitHub Action（保存后自动生成）
+
 properties/
   index.html
   每一间房屋/
-    index.html
+    listing.json        房源资料（后台编辑）
+    index.html          自动生成，不要手动改
     房屋照片...
 
 buy-property/
@@ -467,60 +541,32 @@ Taman Gembira · Tampoi
 
 # 14. 新增房屋后更新 properties/index.html
 
-新增 property page 后，要记得让访客可以从：
+**不需要再手动复制 property card。**
+
+Properties 页面的房源卡片由 JavaScript 从：
 
 ```
-Properties
+data/properties.json
 ```
 
-页面找到它。
+自动产生。新增房屋时，只要把它加进 JSON（见第 26 节），
+它就会自动出现在 Properties 页面，Area / Property Type 下拉菜单也会自动更新。
 
-进入：
-
-```
-properties/index.html
-```
-
-复制一个现有 property card，然后修改：
-
-- 图片
-- 房屋名称
-- 地区
-- 房屋类型
-- 价格
-- 链接
-
-链接必须指向新的 folder。
-
-例如：
+JSON 的 `url` 必须指向新的 folder，例如：
 
 ```
-<a href="taman-impian-emas-double-storey/">
+"url": "taman-impian-emas-double-storey/"
 ```
 
 ---
 
 # 15. 新增房屋后更新首页
 
-如果首页展示 Featured Properties / Latest Properties：
+首页的 Latest properties（Featured）同样由 `data/properties.json` 自动产生，**不需要修改 index.html**。
 
-进入：
-
-```
-index.html
-```
-
-把新的房屋加入对应区域。
-
-检查：
-
-- 图片
-- 标题
-- 地区
-- 价格
-- 链接
-
-不要留下旧房屋的资料。
+- 默认显示 `dateAdded` 最新的 4 间
+- 想指定显示哪几间：在 JSON 里给它们加 `"featured": true`
+- 想改显示数量：修改 `index.html` 里 `data-featured-properties` 的 `data-limit="4"`
 
 ---
 
@@ -806,9 +852,9 @@ Update sitemap with new property page
         ↓
 ⑤ 检查照片路径
         ↓
-⑥ 更新 Properties 页面
+⑥ 把房源加进 data/properties.json（Properties 页面和首页会自动更新）
         ↓
-⑦ 需要的话更新首页
+⑦ 需要的话在 JSON 加 "featured": true 指定首页房源
         ↓
 ⑧ 更新 sitemap.xml
         ↓
@@ -848,7 +894,7 @@ SEO 是帮助正确的房屋资料被找到，而不是增加不存在的房屋�
 ```
 data/properties.json
         ↓
-js/properties.js
+js/ 分层程序（domain → db → service → api → ui，详见 ARCHITECTURE.md）
         ↓
 Properties 搜索 / 筛选
         ↓
@@ -993,9 +1039,20 @@ properties/index.html
 - Property Type
 - Minimum Price
 - Maximum Price
+- Sort by（Newest / Price / Bedrooms）
 - Reset
 - Result count
 - Property Cards
+
+筛选条件会同步到网址，例如：
+
+```
+properties/?area=Tampoi&listingType=sale
+```
+
+这个网址可以直接分享，或者在 Area 页面里链接到该地区的房源。
+
+首页的搜索区和这里共用同一套程序。
 
 页面中的筛选器有维护注解：
 
@@ -1005,9 +1062,10 @@ properties/index.html
 
 如果以后增加新的筛选条件，需要检查：
 
-1. `properties/index.html`
-2. `js/properties.js`
-3. `data/properties.json` 是否需要增加对应字段
+1. `properties/index.html` 和 `index.html`（输入框加上 `data-filter="名称"`）
+2. `js/service/propertyService.js` 的 `DEFAULT_QUERY` + `matchesQuery()`
+3. `js/ui/propertyListPage.js` 的 `FILTERS`
+4. `data/properties.json` 是否需要增加对应字段
 
 例如以后想增加：
 
@@ -1025,154 +1083,63 @@ Bathrooms
 
 ---
 
-# 28. js/properties.js
+# 28. js/ 分层程序
 
-JavaScript 文件：
-
-```
-js/properties.js
-```
-
-这个文件主要负责：
-
-1. 读取 `data/properties.json`
-2. 建立房源 Card
-3. Keyword Search
-4. Listing Type Filter
-5. Area Filter
-6. Property Type Filter
-7. Price Filter
-8. Reset
-9. Result Count
-10. 没有搜索结果时显示提示
-
-文件顶部已经有维护说明：
+原本的 `js/properties.js` 已经拆成几层，每个文件只负责一件事
+（完整说明见 `ARCHITECTURE.md`）：
 
 ```
-/* ==================== PROPERTY SEARCH ====================
-   【以后新增房源时需要修改】
-   房源资料主要放在 data/properties.json。
-   这里负责读取资料、建立房源卡片和执行搜索筛选。
-   ============================================================ */
+js/domain/property.js          规则：房源字段、合法值、价格显示
+js/db/propertyRepository.js    读取 data/properties.json
+js/service/propertyService.js  搜索、筛选、排序、首页精选
+js/api/propertyApi.js          网页调用的入口
+js/ui/propertyCard.js          房源卡片 HTML（首页和 Properties 页共用）
+js/ui/propertyListPage.js      搜索 / 筛选画面
+js/ui/featuredProperties.js    首页 Latest properties
 ```
 
-因此：
+网页用 `<script type="module">` 载入（一定要有 `type="module"`）。
 
-**一般新增房源时，不需要修改 `js/properties.js`。**
+**一般新增房源时，不需要修改任何 js 文件。** 只要加进 `data/properties.json` 即可。
 
-只要新的房源使用现有字段，就加入：
-
-```
-data/properties.json
-```
-
-即可。
+JSON 写错（例如 price 写成文字、listingType 拼错）时，
+只有那一间房源会被跳过，其他房源照常显示；
+按 F12 打开浏览器 Console 可以看到中文错误说明。
 
 ---
 
-# 29. 什么时候需要修改 js/properties.js
+# 29. 什么时候需要修改 js 文件
 
-只有以下情况才通常需要修改：
+| 想做的事 | 改哪里 |
+| --- | --- |
+| 新增筛选类别（例如 Tenure、Facing） | `js/service/propertyService.js` + `js/ui/propertyListPage.js` + HTML 输入框 |
+| 修改 Property Card 显示内容 | `js/ui/propertyCard.js` |
+| 让 Keyword Search 搜索更多字段 | `js/service/propertyService.js` 的 `matchesKeyword()` |
+| 新增排序方式 | `js/service/propertyService.js` 的 `sortProperties()` + 两个页面的 Sort by 下拉菜单 |
+| 新增房屋类型（例如 condo 以外的） | `js/domain/property.js` 的 `PROPERTY_TYPES` |
 
-### 情况 A — 新增筛选类别
-
-例如增加：
-
-```
-Bedrooms
-Facing
-Tenure
-Bumi Status
-```
-
-需要修改 JavaScript 的筛选逻辑。
-
-### 情况 B — 修改 Property Card 的显示内容
-
-例如想在 Card 上增加：
+修改程序后，如果电脑有 Node.js，可以运行自动测试：
 
 ```
-Freehold
-South Facing
-Non-Bumi
+node --test tests/property.test.mjs
 ```
-
-需要修改 JavaScript 生成 Card 的 HTML。
-
-同时需要确认 JSON 有对应资料。
-
-### 情况 C — 修改搜索规则
-
-例如现在 Keyword Search 会搜索：
-
-```
-title
-location
-area
-propertyType
-listingType
-```
-
-以后如果想让 Keyword Search 也搜索：
-
-```
-facing
-tenure
-renovation
-```
-
-需要修改 `js/properties.js`。
 
 ---
 
 # 30. 新增 Area 时要注意
 
-目前 Area Filter 的选项是写在：
+**Area 下拉菜单是从 JSON 自动产生的，不需要修改 HTML。**
 
-```
-properties/index.html
-```
-
-例如：
-
-```
-Tampoi
-Taman Tan Sri Yaacob
-```
-
-如果以后新增：
-
-```
-Mount Austin
-Tebrau
-Kulai
-```
-
-需要把新的 Area 加进 HTML 的 select。
-
-同时，新房源的 JSON：
+新房源的 JSON 写：
 
 ```
 "area": "Mount Austin"
 ```
 
-必须与筛选器的文字保持一致。
+Properties 页面和首页的 Area 下拉菜单就会自动出现 `Mount Austin`。
 
-例如：
-
-```
-<select>
-  <option value="Mount Austin">Mount Austin</option>
-</select>
-```
-
-JSON：
-
-```
-"area": "Mount Austin"
-```
-
-两边不同写法可能导致筛选无法匹配。
+注意同一个地区在不同房源里要写成完全一样的文字，
+例如不要一间写 `Mount Austin`、另一间写 `Mt Austin`，否则会变成两个选项。
 
 ---
 
@@ -1224,33 +1191,13 @@ properties/新房屋/index.html
 
 # 32. 首页 Featured Properties 与 JSON
 
-目前首页：
+首页 `index.html` 的 Latest properties 由 `js/ui/featuredProperties.js` 从 JSON 自动读取：
 
-```
-index.html
-```
+- 默认显示 `dateAdded` 最新的几间（数量由 `data-limit` 决定）
+- 想固定显示某几间：在 JSON 里加 `"featured": true`
+- 两张 placeholder 卡片（More properties / Thinking of selling?）会固定显示在后面
 
-的 Featured Properties 仍然是手动维护的。
-
-也就是说：
-
-**新增房源到 JSON 后，不代表它会自动出现在首页。**
-
-如果希望首页展示该房源，需要另外检查：
-
-```
-index.html
-```
-
-并按照首页的：
-
-```
-【每个新屋子都需要修改】
-```
-
-注解更新 Featured Property。
-
-以后如果房源数量很多，可以再把首页 Featured Properties 也改成由 JSON 自动读取。
+新增房源到 JSON 后，不需要再手动修改首页。
 
 ---
 
@@ -1265,7 +1212,7 @@ data/properties.json
 
 显示与筛选逻辑
 ↓
-js/properties.js
+js/ 分层程序（见 ARCHITECTURE.md）
 
 页面结构 / 筛选器
 ↓
@@ -1343,11 +1290,11 @@ Property HTML 页面仍然要保持正确，因为它是独立的 SEO 页面。
         ↓
 ⑧ 检查 Properties 搜索页面
         ↓
-⑨ 如果新增 Area / Filter，修改 properties/index.html
+⑨ 新 Area 会自动出现在下拉菜单，不用改 HTML
         ↓
-⑩ 如果新增筛选逻辑，修改 js/properties.js
+⑩ 如果新增筛选类别，修改 js/service + js/ui（见第 29 节）
         ↓
-⑪ 需要的话更新首页 Featured Properties
+⑪ 需要的话在 JSON 加 "featured": true 指定首页房源
         ↓
 ⑫ 更新 sitemap.xml
         ↓
@@ -1379,8 +1326,18 @@ Property HTML 页面仍然要保持正确，因为它是独立的 SEO 页面。
 ### Area
 
 - [ ] Area 筛选可以正常工作
-- [ ] 新 Area 已加入 dropdown
-- [ ] JSON 的 `area` 与 dropdown value 一致
+- [ ] 新 Area 自动出现在 dropdown
+- [ ] 同一地区在 JSON 里写法一致（没有出现重复选项）
+
+### Sort / 网址
+
+- [ ] Newest / Price / Bedrooms 排序正常
+- [ ] 筛选后网址带上条件，重新打开网址结果一样
+
+### 首页
+
+- [ ] Latest properties 显示正确的房源
+- [ ] 首页搜索正常
 
 ### Property Type
 
@@ -1442,19 +1399,14 @@ Property HTML 页面仍然要保持正确，因为它是独立的 SEO 页面。
 
 ### 错误 3：Area 名称不一致
 
-JSON：
+同一个地区要写成完全一样的文字：
 
 ```
 "area": "Tampoi"
 ```
 
-HTML：
-
-```
-<option value="Tampoi">Tampoi</option>
-```
-
-这样才可以正确匹配。
+如果另一间写成 `"area": "tampoi"` 或 `"area": "Tampoi "`，
+下拉菜单会出现两个不同的选项。
 
 ---
 
@@ -1506,7 +1458,7 @@ properties/各个房屋/index.html
 data/properties.json
 
 第三层：程序
-js/properties.js
+js/domain、js/db、js/service、js/api、js/ui（见 ARCHITECTURE.md）
 
 第四层：共用设计
 style.css

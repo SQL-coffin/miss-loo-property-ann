@@ -1,0 +1,95 @@
+{
+  "title": "Single Storey End Lot House",
+  "listingType": "sale",
+  "propertyType": "terrace",
+  "area": "Kulai Besar",
+  "location": "Kulai Besar, Kulai",
+  "address": "Kulai Besar, Kulai, Johor",
+  "city": "Kulai Besar",
+  "price": 438000,
+  "propertyTypeLabel": "Single Storey End Lot",
+  "landSize": "24' × 70'",
+  "bedrooms": 3,
+  "bathrooms": 2,
+  "tenure": "Freehold",
+  "bumiStatus": "Non-Bumi",
+  "lotType": "End Lot",
+  "facing": "Northwest",
+  "extraDetails": [
+    {
+      "label": "Bank value",
+      "value": "RM460,000 – RM480,000"
+    },
+    {
+      "label": "Approval",
+      "value": "MBJB Approval Plan"
+    }
+  ],
+  "photos": [
+    {
+      "image": "front.jpg",
+      "alt": "Front exterior of single storey end lot house for sale in Kulai Besar",
+      "caption": "Front exterior"
+    },
+    {
+      "image": "car-porch.jpg",
+      "alt": "Covered car porch of single storey end lot house in Kulai Besar",
+      "caption": "Car porch"
+    },
+    {
+      "image": "living.jpg",
+      "alt": "Renovated living area inside single storey end lot house in Kulai Besar",
+      "caption": "Living area"
+    },
+    {
+      "image": "kitchen.jpg",
+      "alt": "Kitchen area inside single storey end lot house in Kulai Besar",
+      "caption": "Kitchen"
+    }
+  ],
+  "detailsHeading": "Extended end lot with practical space.",
+  "description": "This single storey end lot in Kulai Besar offers a 24' × 70' land size, 3 bedrooms and 2 bathrooms. The house is fully extended and comes with a MBJB approval plan.",
+  "featuresLabel": "RENOVATION",
+  "featuresHeading": "Renovated and fully extended.",
+  "features": [
+    {
+      "title": "Fully extended",
+      "text": "The house has been fully extended."
+    },
+    {
+      "title": "Full house mosaic",
+      "text": "Mosaic tiling throughout the house."
+    },
+    {
+      "title": "Plaster ceiling",
+      "text": "Plaster ceiling finish."
+    },
+    {
+      "title": "Safety door",
+      "text": "Safety door at the main entrance."
+    },
+    {
+      "title": "New painting",
+      "text": "Freshly painted interior and exterior."
+    }
+  ],
+  "locationHeading": "Kulai Besar",
+  "locationPoints": [
+    {
+      "title": "Walk to shops",
+      "text": "Shops are within walking distance."
+    },
+    {
+      "title": "Nearby amenities",
+      "text": "Nearby Kopitiam, bank and everyday conveniences."
+    }
+  ],
+  "facebookUrl": "https://www.facebook.com/share/p/1UnzWMxVwo/",
+  "whatsappMessage": "Hi Miss Loo, I'm interested in the Kulai Besar single storey end lot at RM438,000.",
+  "seo": {
+    "title": "Single Storey End Lot House for Sale in Kulai Besar | RM438,000",
+    "description": "Single storey end lot house for sale in Kulai Besar. 24' x 70', 3 bedrooms, 2 bathrooms, freehold, non-Bumi, northwest facing and fully extended. Asking RM438,000."
+  },
+  "dateAdded": "2026-09-23",
+  "featured": false
+}

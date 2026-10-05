@@ -1,0 +1,66 @@
+# ==================== 自动生成房源页面 ====================
+# 在 /admin/ 后台保存房源（或手动修改 properties/*/listing.json）并推送到 main 后：
+#   1. 运行 scripts/build-properties.mjs 生成详情页、data/properties.json、sitemap.xml
+#   2. 运行测试
+#   3. 有变动就自动提交回 main，GitHub Pages 随后更新网站
+# 也可以在 GitHub 的 Actions 页面手动按 "Run workflow" 重新生成。
+# ===========================================================
+name: Build property pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "properties/**"
+      - "scripts/**"
+      - "js/domain/**"
+      - ".github/workflows/build-properties.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: build-properties
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Generate pages
+        run: node scripts/build-properties.mjs
+
+      - name: Test
+        run: node --test tests/property.test.mjs tests/build.test.mjs
+
+      - name: Commit generated files
+        id: commit
+        run: |
+          git add properties data/properties.json sitemap.xml
+          if git diff --cached --quiet; then
+            echo "Nothing to commit"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "自动生成房源页面"
+          git pull --rebase origin main
+          git push origin HEAD:main
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      # 保险：确保 GitHub Pages 用最新的文件重新部署
+      - name: Request Pages build
+        if: steps.commit.outputs.changed == 'true'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds"
