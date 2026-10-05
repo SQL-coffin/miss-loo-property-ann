@@ -1,115 +1,302 @@
 {
-  "title": "For Sale Taman Universiti [#SingleStorey]",
-  "listingType": "sale",
-  "propertyType": "terrace",
-  "area": "Taman Universiti",
-  "location": "Jalan Kemuliaan 12, Taman Universiti, Skudai",
-  "address": "Jalan Kemuliaan 12, Taman Universiti, Skudai, Johor",
-  "city": "Skudai",
-  "price": 728000,
-  "landSize": "3,530 sqft",
-  "propertyTypeLabel": "Single Storey Terrace (Corner Lot)",
-  "bedrooms": 4,
-  "bathrooms": 3,
-  "tenure": "Freehold",
-  "bumiStatus": "Non-Bumi",
-  "facing": "East",
-  "lotType": "Corner Lot",
-  "extraDetails": [
-    {
-      "label": "Land facing",
-      "value": "Southwest"
+  "en": {
+    "title": "For Sale Taman Universiti [#SingleStorey]",
+    "listingType": "sale",
+    "propertyType": "terrace",
+    "area": "Taman Universiti",
+    "location": "Jalan Kemuliaan 12, Taman Universiti, Skudai",
+    "address": "Jalan Kemuliaan 12, Taman Universiti, Skudai, Johor",
+    "city": "Skudai",
+    "price": 728000,
+    "landSize": "3,530 sqft",
+    "propertyTypeLabel": "Single Storey Terrace (Corner Lot)",
+    "bedrooms": 4,
+    "bathrooms": 3,
+    "tenure": "Freehold",
+    "bumiStatus": "Non-Bumi",
+    "facing": "East",
+    "lotType": "Corner Lot",
+    "extraDetails": [
+      {
+        "label": "Land facing",
+        "value": "Southwest"
+      },
+      {
+        "label": "Bank valuation",
+        "value": "RM730,000"
+      }
+    ],
+    "photos": [
+      {
+        "image": "front.jpg",
+        "alt": "Fully tiled car porch and front area of single storey corner lot house at Taman Universiti",
+        "caption": "Car porch"
+      },
+      {
+        "image": "living.jpg",
+        "alt": "Renovated living area inside single storey corner lot house at Taman Universiti",
+        "caption": "Living area"
+      },
+      {
+        "image": "kitchen.jpg",
+        "alt": "Renovated kitchen area inside house at Taman Universiti",
+        "caption": "Kitchen area"
+      },
+      {
+        "image": "bathroom.jpg",
+        "alt": "Renovated bathroom inside single storey house at Taman Universiti",
+        "caption": "Bathroom"
+      }
+    ],
+    "detailsHeading": "Spacious renovated corner lot.",
+    "description": "This single storey terrace house (corner lot) at Jalan Kemuliaan 12, Taman Universiti offers a large 3,530 sqft land area, 4 bedrooms and 3 bathrooms. The property is fully renovated / under renovation and finished with modern mosaic flooring and extended living, kitchen, bedroom and bathroom areas.",
+    "featuresLabel": "RENOVATION & FEATURES",
+    "featuresHeading": "Modern renovation and extended space.",
+    "features": [
+      {
+        "title": "Fully tiled car porch",
+        "text": "Car porch finished with full tiling."
+      },
+      {
+        "title": "Awning",
+        "text": "Covered exterior area for practical daily use."
+      },
+      {
+        "title": "Security main door",
+        "text": "Security door at the main entrance."
+      },
+      {
+        "title": "Living hall extended",
+        "text": "Living hall has been extended for more usable space."
+      },
+      {
+        "title": "Plaster ceiling",
+        "text": "Renovated ceiling finish."
+      },
+      {
+        "title": "Fully mosaic flooring",
+        "text": "Brand new 2' × 4' mosaic flooring finish."
+      },
+      {
+        "title": "Kitchen fully extended",
+        "text": "Kitchen area has been fully extended."
+      },
+      {
+        "title": "Built-in kitchen cabinet",
+        "text": "Built-in kitchen cabinetry included."
+      },
+      {
+        "title": "Extended bedroom & bathroom",
+        "text": "Bedroom and bathroom areas have been extended."
+      },
+      {
+        "title": "Stainless steel door",
+        "text": "Stainless steel door included."
+      }
+    ],
+    "locationHeading": "Taman Universiti, Skudai",
+    "locationPoints": [
+      {
+        "title": "Jalan Kemuliaan 12",
+        "text": "Located within Taman Universiti, Skudai."
+      },
+      {
+        "title": "Large corner lot",
+        "text": "3,530 sqft land area provides additional outdoor space."
+      }
+    ],
+    "facebookUrl": "https://www.facebook.com/share/p/14YT6Ew5dLj/",
+    "whatsappMessage": "Hi Miss Loo, I'm interested in the Taman Universiti single storey corner lot at RM728,000.",
+    "seo": {
+      "title": "Single Storey Corner Lot House for Sale in Taman Universiti, Skudai | RM728,000",
+      "description": "Fully renovated single storey corner lot terrace house for sale at Jalan Kemuliaan 12, Taman Universiti, Skudai. 3,530 sqft, 4 bedrooms, 3 bathrooms, freehold, non-Bumi. Asking RM728,000."
     },
-    {
-      "label": "Bank valuation",
-      "value": "RM730,000"
-    }
-  ],
-  "photos": [
-    {
-      "image": "front.jpg",
-      "alt": "Fully tiled car porch and front area of single storey corner lot house at Taman Universiti",
-      "caption": "Car porch"
-    },
-    {
-      "image": "living.jpg",
-      "alt": "Renovated living area inside single storey corner lot house at Taman Universiti",
-      "caption": "Living area"
-    },
-    {
-      "image": "kitchen.jpg",
-      "alt": "Renovated kitchen area inside house at Taman Universiti",
-      "caption": "Kitchen area"
-    },
-    {
-      "image": "bathroom.jpg",
-      "alt": "Renovated bathroom inside single storey house at Taman Universiti",
-      "caption": "Bathroom"
-    }
-  ],
-  "detailsHeading": "Spacious renovated corner lot.",
-  "description": "This single storey terrace house (corner lot) at Jalan Kemuliaan 12, Taman Universiti offers a large 3,530 sqft land area, 4 bedrooms and 3 bathrooms. The property is fully renovated / under renovation and finished with modern mosaic flooring and extended living, kitchen, bedroom and bathroom areas.",
-  "featuresLabel": "RENOVATION & FEATURES",
-  "featuresHeading": "Modern renovation and extended space.",
-  "features": [
-    {
-      "title": "Fully tiled car porch",
-      "text": "Car porch finished with full tiling."
-    },
-    {
-      "title": "Awning",
-      "text": "Covered exterior area for practical daily use."
-    },
-    {
-      "title": "Security main door",
-      "text": "Security door at the main entrance."
-    },
-    {
-      "title": "Living hall extended",
-      "text": "Living hall has been extended for more usable space."
-    },
-    {
-      "title": "Plaster ceiling",
-      "text": "Renovated ceiling finish."
-    },
-    {
-      "title": "Fully mosaic flooring",
-      "text": "Brand new 2' × 4' mosaic flooring finish."
-    },
-    {
-      "title": "Kitchen fully extended",
-      "text": "Kitchen area has been fully extended."
-    },
-    {
-      "title": "Built-in kitchen cabinet",
-      "text": "Built-in kitchen cabinetry included."
-    },
-    {
-      "title": "Extended bedroom & bathroom",
-      "text": "Bedroom and bathroom areas have been extended."
-    },
-    {
-      "title": "Stainless steel door",
-      "text": "Stainless steel door included."
-    }
-  ],
-  "locationHeading": "Taman Universiti, Skudai",
-  "locationPoints": [
-    {
-      "title": "Jalan Kemuliaan 12",
-      "text": "Located within Taman Universiti, Skudai."
-    },
-    {
-      "title": "Large corner lot",
-      "text": "3,530 sqft land area provides additional outdoor space."
-    }
-  ],
-  "facebookUrl": "https://www.facebook.com/share/p/14YT6Ew5dLj/",
-  "whatsappMessage": "Hi Miss Loo, I'm interested in the Taman Universiti single storey corner lot at RM728,000.",
-  "seo": {
-    "title": "Single Storey Corner Lot House for Sale in Taman Universiti, Skudai | RM728,000",
-    "description": "Fully renovated single storey corner lot terrace house for sale at Jalan Kemuliaan 12, Taman Universiti, Skudai. 3,530 sqft, 4 bedrooms, 3 bathrooms, freehold, non-Bumi. Asking RM728,000."
+    "dateAdded": "2026-09-23",
+    "featured": false
   },
-  "dateAdded": "2026-09-23",
-  "featured": false
+  "zh": {
+    "title": "出售 Taman Universiti 单层排屋",
+    "propertyTypeLabel": "单层排屋（角头间）",
+    "detailsHeading": "宽敞的翻新角头间。",
+    "description": "这间位于 Jalan Kemuliaan 12, Taman Universiti 的单层角头间排屋，土地面积 3,530 sqft，4 房 3 厕。房子已翻新（或正在翻新），铺设新款瓷砖，客厅、厨房、房间和厕所都已加建。",
+    "extraDetails": [
+      {
+        "label": "土地朝向",
+        "value": "西南"
+      },
+      {
+        "label": "银行估价",
+        "value": "RM730,000"
+      }
+    ],
+    "featuresLabel": "翻新与特点",
+    "featuresHeading": "新式翻新，空间加大。",
+    "features": [
+      {
+        "title": "车廊全铺瓷砖",
+        "text": "车廊全部铺设瓷砖。"
+      },
+      {
+        "title": "遮阳棚",
+        "text": "屋外加盖遮阳棚，日常使用方便。"
+      },
+      {
+        "title": "大门安全门",
+        "text": "大门装有安全门。"
+      },
+      {
+        "title": "客厅加建",
+        "text": "客厅已加建，可用空间更大。"
+      },
+      {
+        "title": "石膏天花板",
+        "text": "天花板已翻新。"
+      },
+      {
+        "title": "全屋瓷砖",
+        "text": "全新 2' × 4' 瓷砖地板。"
+      },
+      {
+        "title": "厨房全加建",
+        "text": "厨房已全部加建。"
+      },
+      {
+        "title": "厨房橱柜",
+        "text": "附带厨房橱柜。"
+      },
+      {
+        "title": "房间与厕所加建",
+        "text": "房间和厕所都已加建。"
+      },
+      {
+        "title": "不锈钢门",
+        "text": "附带不锈钢门。"
+      }
+    ],
+    "locationHeading": "士姑来 Taman Universiti",
+    "locationPoints": [
+      {
+        "title": "Jalan Kemuliaan 12",
+        "text": "位于士姑来 Taman Universiti。"
+      },
+      {
+        "title": "大角头地",
+        "text": "3,530 sqft 土地，屋外空间更多。"
+      }
+    ],
+    "photos": [
+      {
+        "image": "front.jpg",
+        "caption": "车廊",
+        "alt": "Taman Universiti 单层角头间全铺瓷砖车廊和屋前"
+      },
+      {
+        "image": "living.jpg",
+        "caption": "客厅",
+        "alt": "翻新后的客厅"
+      },
+      {
+        "image": "kitchen.jpg",
+        "caption": "厨房",
+        "alt": "翻新后的厨房"
+      },
+      {
+        "image": "bathroom.jpg",
+        "caption": "厕所",
+        "alt": "翻新后的厕所"
+      }
+    ]
+  },
+  "ms": {
+    "title": "Dijual Taman Universiti Rumah Setingkat",
+    "propertyTypeLabel": "Teres setingkat (Lot Tepi)",
+    "detailsHeading": "Lot tepi yang luas dan telah diubah suai.",
+    "description": "Rumah teres setingkat lot tepi di Jalan Kemuliaan 12, Taman Universiti ini mempunyai keluasan tanah 3,530 sqft yang besar, 4 bilik tidur dan 3 bilik air. Rumah telah / sedang diubah suai dengan lantai mozek moden serta ruang tamu, dapur, bilik tidur dan bilik air yang diperluas.",
+    "extraDetails": [
+      {
+        "label": "Arah tanah",
+        "value": "Barat Daya"
+      },
+      {
+        "label": "Penilaian bank",
+        "value": "RM730,000"
+      }
+    ],
+    "featuresLabel": "UBAH SUAI & CIRI-CIRI",
+    "featuresHeading": "Ubah suai moden dan ruang yang diperluas.",
+    "features": [
+      {
+        "title": "Garaj berjubin penuh",
+        "text": "Garaj siap dengan jubin sepenuhnya."
+      },
+      {
+        "title": "Awning",
+        "text": "Kawasan luar berbumbung untuk kegunaan harian."
+      },
+      {
+        "title": "Pintu utama keselamatan",
+        "text": "Pintu keselamatan di pintu masuk utama."
+      },
+      {
+        "title": "Ruang tamu diperluas",
+        "text": "Ruang tamu telah diperluas untuk lebih banyak ruang."
+      },
+      {
+        "title": "Siling plaster",
+        "text": "Kemasan siling yang diubah suai."
+      },
+      {
+        "title": "Lantai mozek penuh",
+        "text": "Kemasan lantai mozek baharu 2' × 4'."
+      },
+      {
+        "title": "Dapur diperluas sepenuhnya",
+        "text": "Kawasan dapur telah diperluas sepenuhnya."
+      },
+      {
+        "title": "Kabinet dapur terbina dalam",
+        "text": "Termasuk kabinet dapur terbina dalam."
+      },
+      {
+        "title": "Bilik tidur & bilik air diperluas",
+        "text": "Bilik tidur dan bilik air telah diperluas."
+      },
+      {
+        "title": "Pintu keluli tahan karat",
+        "text": "Termasuk pintu keluli tahan karat."
+      }
+    ],
+    "locationPoints": [
+      {
+        "title": "Jalan Kemuliaan 12",
+        "text": "Terletak di Taman Universiti, Skudai."
+      },
+      {
+        "title": "Lot tepi yang besar",
+        "text": "Tanah 3,530 sqft memberikan ruang luar tambahan."
+      }
+    ],
+    "photos": [
+      {
+        "image": "front.jpg",
+        "caption": "Garaj",
+        "alt": "Garaj berjubin penuh dan bahagian hadapan rumah setingkat lot tepi di Taman Universiti"
+      },
+      {
+        "image": "living.jpg",
+        "caption": "Ruang tamu",
+        "alt": "Ruang tamu yang telah diubah suai"
+      },
+      {
+        "image": "kitchen.jpg",
+        "caption": "Kawasan dapur",
+        "alt": "Kawasan dapur yang telah diubah suai"
+      },
+      {
+        "image": "bathroom.jpg",
+        "caption": "Bilik air",
+        "alt": "Bilik air yang telah diubah suai"
+      }
+    ]
+  }
 }

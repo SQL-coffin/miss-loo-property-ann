@@ -1,97 +1,246 @@
 {
-  "title": "Fully Renovated Single Storey Terrace",
-  "listingType": "sale",
-  "propertyType": "terrace",
-  "area": "Tampoi",
-  "areaLabel": "Tampoi / Taman Gembira",
-  "location": "Taman Gembira, Tampoi",
-  "address": "46, Jalan Riang 2, Taman Gembira, Tampoi, Johor",
-  "city": "Johor Bahru",
-  "price": 558000,
-  "propertyTypeLabel": "Single Storey Terrace",
-  "landSize": "22' × 70'",
-  "bedrooms": 3,
-  "bathrooms": 3,
-  "tenure": "Freehold",
-  "bumiStatus": "Non-Bumi",
-  "lotType": "Intermediate",
-  "facing": "South",
-  "photos": [
-    {
-      "image": "front.jpg",
-      "alt": "Front exterior of renovated single storey terrace house in Taman Gembira, Tampoi",
-      "caption": "Front exterior"
+  "en": {
+    "title": "Fully Renovated Single Storey Terrace",
+    "listingType": "sale",
+    "propertyType": "terrace",
+    "area": "Tampoi",
+    "areaLabel": "Tampoi / Taman Gembira",
+    "location": "Taman Gembira, Tampoi",
+    "address": "46, Jalan Riang 2, Taman Gembira, Tampoi, Johor",
+    "city": "Johor Bahru",
+    "price": 558000,
+    "propertyTypeLabel": "Single Storey Terrace",
+    "landSize": "22' × 70'",
+    "bedrooms": 3,
+    "bathrooms": 3,
+    "tenure": "Freehold",
+    "bumiStatus": "Non-Bumi",
+    "lotType": "Intermediate",
+    "facing": "South",
+    "photos": [
+      {
+        "image": "front.jpg",
+        "alt": "Front exterior of renovated single storey terrace house in Taman Gembira, Tampoi",
+        "caption": "Front exterior"
+      },
+      {
+        "image": "car-porch.jpg",
+        "alt": "Fully tiled car porch of house in Taman Gembira, Tampoi",
+        "caption": "Car porch"
+      },
+      {
+        "image": "living.jpg",
+        "alt": "Living area inside renovated house in Taman Gembira, Tampoi",
+        "caption": "Living area"
+      }
+    ],
+    "detailsHeading": "Move-in ready single storey home.",
+    "description": "This fully renovated single storey terrace house in Taman Gembira, Tampoi offers a 22' × 70' land area, 3 bedrooms and 3 bathrooms. The home has been renovated for buyers who prefer a ready-to-move-in property.",
+    "featuresLabel": "RENOVATION",
+    "featuresHeading": "Fully renovated features",
+    "features": [
+      {
+        "title": "Security main door",
+        "text": "Upgraded main entrance security door."
+      },
+      {
+        "title": "Fully tiled car porch",
+        "text": "Car porch finished with full tiling."
+      },
+      {
+        "title": "Awning",
+        "text": "Covered exterior area for practical daily use."
+      },
+      {
+        "title": "Plaster ceiling",
+        "text": "Renovated ceiling finish."
+      },
+      {
+        "title": "SPC flooring",
+        "text": "SPC flooring installed in the home."
+      },
+      {
+        "title": "Fully extended kitchen",
+        "text": "Kitchen area has been fully extended."
+      },
+      {
+        "title": "Built-in kitchen cabinet",
+        "text": "Built-in cabinetry included."
+      },
+      {
+        "title": "Renovated bathrooms",
+        "text": "Bathrooms renovated with full mosaic finishing."
+      }
+    ],
+    "locationHeading": "Taman Gembira, Tampoi",
+    "locationPoints": [
+      {
+        "title": "Convenient access",
+        "text": "Located around Tampoi / Taman Gembira and nearby areas."
+      },
+      {
+        "title": "Johor Bahru access",
+        "text": "Convenient access towards JB city and major highways."
+      },
+      {
+        "title": "Guard & gate",
+        "text": "No guard and gate."
+      }
+    ],
+    "facebookUrl": "https://www.facebook.com/share/p/1WxcXCR5f6/",
+    "whatsappMessage": "Hi Miss Loo, I'm interested in the Taman Gembira property at RM558,000.",
+    "seo": {
+      "title": "Single Storey Terrace House for Sale in Taman Gembira, Tampoi | RM558,000",
+      "description": "Fully renovated single storey terrace house for sale at 46, Jalan Riang 2, Taman Gembira, Tampoi, Johor. 22' x 70', 3 bedrooms, 3 bathrooms, freehold, non-Bumi. Asking RM558,000."
     },
-    {
-      "image": "car-porch.jpg",
-      "alt": "Fully tiled car porch of house in Taman Gembira, Tampoi",
-      "caption": "Car porch"
-    },
-    {
-      "image": "living.jpg",
-      "alt": "Living area inside renovated house in Taman Gembira, Tampoi",
-      "caption": "Living area"
-    }
-  ],
-  "detailsHeading": "Move-in ready single storey home.",
-  "description": "This fully renovated single storey terrace house in Taman Gembira, Tampoi offers a 22' × 70' land area, 3 bedrooms and 3 bathrooms. The home has been renovated for buyers who prefer a ready-to-move-in property.",
-  "featuresLabel": "RENOVATION",
-  "featuresHeading": "Fully renovated features",
-  "features": [
-    {
-      "title": "Security main door",
-      "text": "Upgraded main entrance security door."
-    },
-    {
-      "title": "Fully tiled car porch",
-      "text": "Car porch finished with full tiling."
-    },
-    {
-      "title": "Awning",
-      "text": "Covered exterior area for practical daily use."
-    },
-    {
-      "title": "Plaster ceiling",
-      "text": "Renovated ceiling finish."
-    },
-    {
-      "title": "SPC flooring",
-      "text": "SPC flooring installed in the home."
-    },
-    {
-      "title": "Fully extended kitchen",
-      "text": "Kitchen area has been fully extended."
-    },
-    {
-      "title": "Built-in kitchen cabinet",
-      "text": "Built-in cabinetry included."
-    },
-    {
-      "title": "Renovated bathrooms",
-      "text": "Bathrooms renovated with full mosaic finishing."
-    }
-  ],
-  "locationHeading": "Taman Gembira, Tampoi",
-  "locationPoints": [
-    {
-      "title": "Convenient access",
-      "text": "Located around Tampoi / Taman Gembira and nearby areas."
-    },
-    {
-      "title": "Johor Bahru access",
-      "text": "Convenient access towards JB city and major highways."
-    },
-    {
-      "title": "Guard & gate",
-      "text": "No guard and gate."
-    }
-  ],
-  "facebookUrl": "https://www.facebook.com/share/p/1WxcXCR5f6/",
-  "whatsappMessage": "Hi Miss Loo, I'm interested in the Taman Gembira property at RM558,000.",
-  "seo": {
-    "title": "Single Storey Terrace House for Sale in Taman Gembira, Tampoi | RM558,000",
-    "description": "Fully renovated single storey terrace house for sale at 46, Jalan Riang 2, Taman Gembira, Tampoi, Johor. 22' x 70', 3 bedrooms, 3 bathrooms, freehold, non-Bumi. Asking RM558,000."
+    "dateAdded": "2026-09-22",
+    "featured": false
   },
-  "dateAdded": "2026-09-22",
-  "featured": false
+  "zh": {
+    "title": "全屋翻新单层排屋",
+    "propertyTypeLabel": "单层排屋",
+    "detailsHeading": "拎包入住的单层排屋。",
+    "description": "这间位于 Tampoi Taman Gembira 的全屋翻新单层排屋，土地面积 22' × 70'，3 房 3 厕。房子已翻新完毕，适合想要即买即住的买家。",
+    "featuresLabel": "翻新",
+    "featuresHeading": "全屋翻新亮点",
+    "features": [
+      {
+        "title": "大门安全门",
+        "text": "大门已升级为安全门。"
+      },
+      {
+        "title": "车廊全铺瓷砖",
+        "text": "车廊全部铺设瓷砖。"
+      },
+      {
+        "title": "遮阳棚",
+        "text": "屋外加盖遮阳棚，日常使用方便。"
+      },
+      {
+        "title": "石膏天花板",
+        "text": "天花板已翻新。"
+      },
+      {
+        "title": "SPC 地板",
+        "text": "屋内铺设 SPC 地板。"
+      },
+      {
+        "title": "厨房全加建",
+        "text": "厨房已全部加建。"
+      },
+      {
+        "title": "厨房橱柜",
+        "text": "附带厨房橱柜。"
+      },
+      {
+        "title": "厕所翻新",
+        "text": "厕所全铺瓷砖翻新。"
+      }
+    ],
+    "locationHeading": "Tampoi Taman Gembira",
+    "locationPoints": [
+      {
+        "title": "交通方便",
+        "text": "位于 Tampoi / Taman Gembira 一带。"
+      },
+      {
+        "title": "往新山市区方便",
+        "text": "前往新山市区和主要大道都很方便。"
+      },
+      {
+        "title": "门卫",
+        "text": "没有门卫和闸门。"
+      }
+    ],
+    "photos": [
+      {
+        "image": "front.jpg",
+        "caption": "屋外正面",
+        "alt": "Tampoi Taman Gembira 翻新单层排屋外观"
+      },
+      {
+        "image": "car-porch.jpg",
+        "caption": "车廊",
+        "alt": "全铺瓷砖的车廊"
+      },
+      {
+        "image": "living.jpg",
+        "caption": "客厅",
+        "alt": "翻新后的客厅"
+      }
+    ]
+  },
+  "ms": {
+    "title": "Rumah Teres Setingkat Diubah Suai Sepenuhnya",
+    "propertyTypeLabel": "Teres setingkat",
+    "detailsHeading": "Rumah setingkat sedia untuk diduduki.",
+    "description": "Rumah teres setingkat yang telah diubah suai sepenuhnya di Taman Gembira, Tampoi ini mempunyai keluasan tanah 22' × 70', 3 bilik tidur dan 3 bilik air. Rumah ini sesuai untuk pembeli yang mahu terus masuk tinggal.",
+    "featuresLabel": "UBAH SUAI",
+    "featuresHeading": "Ciri-ciri ubah suai",
+    "features": [
+      {
+        "title": "Pintu utama keselamatan",
+        "text": "Pintu masuk utama dinaik taraf kepada pintu keselamatan."
+      },
+      {
+        "title": "Garaj berjubin penuh",
+        "text": "Garaj siap dengan jubin sepenuhnya."
+      },
+      {
+        "title": "Awning",
+        "text": "Kawasan luar berbumbung untuk kegunaan harian."
+      },
+      {
+        "title": "Siling plaster",
+        "text": "Kemasan siling yang diubah suai."
+      },
+      {
+        "title": "Lantai SPC",
+        "text": "Lantai SPC dipasang di dalam rumah."
+      },
+      {
+        "title": "Dapur diperluas sepenuhnya",
+        "text": "Kawasan dapur telah diperluas sepenuhnya."
+      },
+      {
+        "title": "Kabinet dapur terbina dalam",
+        "text": "Termasuk kabinet terbina dalam."
+      },
+      {
+        "title": "Bilik air diubah suai",
+        "text": "Bilik air diubah suai dengan kemasan mozek penuh."
+      }
+    ],
+    "locationPoints": [
+      {
+        "title": "Akses mudah",
+        "text": "Terletak di sekitar Tampoi / Taman Gembira."
+      },
+      {
+        "title": "Akses ke Johor Bahru",
+        "text": "Akses mudah ke bandar JB dan lebuh raya utama."
+      },
+      {
+        "title": "Pengawal & pagar",
+        "text": "Tiada pengawal dan pagar."
+      }
+    ],
+    "photos": [
+      {
+        "image": "front.jpg",
+        "caption": "Bahagian hadapan",
+        "alt": "Bahagian hadapan rumah teres setingkat yang diubah suai di Taman Gembira, Tampoi"
+      },
+      {
+        "image": "car-porch.jpg",
+        "caption": "Garaj",
+        "alt": "Garaj berjubin penuh"
+      },
+      {
+        "image": "living.jpg",
+        "caption": "Ruang tamu",
+        "alt": "Ruang tamu di dalam rumah yang diubah suai"
+      }
+    ]
+  }
 }

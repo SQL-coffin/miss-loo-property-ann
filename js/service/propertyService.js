@@ -45,6 +45,8 @@ function matchesKeyword(p, keyword) {
     p.propertyType,
     PROPERTY_TYPES[p.propertyType],
     LISTING_TYPES[p.listingType],
+    // 中文 / 马来文的标题和地点也能搜到
+    ...Object.values(p.i18n || {}).flatMap((tr) => [tr.title, tr.location]),
   ].join(" ").toLowerCase();
 
   // 每个词都要出现，例如 "tampoi terrace"

@@ -46,6 +46,7 @@ export function createProperty(raw) {
     url: raw.url,
     dateAdded: raw.dateAdded || "",
     featured: raw.featured === true,
+    i18n: cleanTranslations(raw.i18n),
   });
   return { property, errors: [] };
 }
@@ -87,6 +88,17 @@ export function propertyTypeLabel(property) {
 }
 
 /* ---------- 内部 ---------- */
+
+// 只保留 { zh: { title: "..." }, ms: {...} } 这种格式里的文字
+function cleanTranslations(value) {
+  if (!value || typeof value !== "object") return {};
+  const out = {};
+  for (const [lang, fields] of Object.entries(value)) {
+    if (!fields || typeof fields !== "object") continue;
+    out[lang] = Object.fromEntries(Object.entries(fields).filter(([, v]) => typeof v === "string"));
+  }
+  return out;
+}
 
 function isNonEmptyString(v) {
   return typeof v === "string" && v.trim() !== "";

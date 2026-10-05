@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>新山房屋出售与出租 | Miss Loo JB Property</title>
+<meta name="description" content="浏览 Miss Loo JB Property 在新山、古来及柔佛周边地区出售和出租的住宅房源。">
+<link rel="stylesheet" href="../../style.css?v=20260922-2"><link rel="icon" href="../../logo.jpg" type="image/jpeg">
+<!-- i18n:head -->
+<link rel="alternate" hreflang="en" href="https://sql-coffin.github.io/miss-loo-property-ann/properties/">
+<link rel="alternate" hreflang="zh-Hans" href="https://sql-coffin.github.io/miss-loo-property-ann/zh/properties/">
+<link rel="alternate" hreflang="ms" href="https://sql-coffin.github.io/miss-loo-property-ann/ms/properties/">
+<link rel="alternate" hreflang="x-default" href="https://sql-coffin.github.io/miss-loo-property-ann/properties/">
+<script type="module" src="../../js/ui/languagePicker.js"></script>
+<!-- /i18n:head -->
+</head>
+<body>
+<header class="site-header"><div class="container nav">
+<a class="brand" href="../index.html"><img src="../../logo.jpg" alt="Miss Loo JB Property 标志"><span>MISS LOO JB PROPERTY</span></a>
+<nav><a href="../properties/">房源</a><a href="../buy-property/">买房</a><a href="../sell-property/">卖房</a><a href="../rent-property/">租房</a><a href="../areas/">地区</a><a class="nav-cta" href="https://wa.me/60167889571" target="_blank" rel="noopener">WhatsApp</a></nav>
+<!-- i18n:switch --><div class="lang-switch"><a href="../../properties/" hreflang="en" lang="en" title="English" data-lang-link="en">EN</a><a href="../../zh/properties/" hreflang="zh-Hans" lang="zh-Hans" title="中文" data-lang-link="zh" aria-current="true">中文</a><a href="../../ms/properties/" hreflang="ms" lang="ms" title="Bahasa Melayu" data-lang-link="ms">BM</a></div><!-- /i18n:switch -->
+</div></header>
+
+<main>
+<section class="listing-hero"><div class="container">
+<a class="back-link" href="../index.html">← 首页</a>
+<p class="eyebrow">房源列表</p>
+<h1>出售与出租房源</h1>
+<p class="listing-location">新山 · 古来 · 柔佛周边地区</p>
+<p class="hero-copy">可按关键词、类别、地区、房屋类型和价格搜索精选的二手屋和出租房源。</p>
+</div></section>
+
+<section class="section">
+<div class="container">
+
+<!-- ==================== PROPERTY SEARCH ====================
+     【以后新增筛选条件时需要修改】
+     搜索资料来自 data/properties.json，程序在 js/ 的分层架构里（见 ARCHITECTURE.md）。
+     Area 和 Property Type 的选项由 JSON 自动产生，这里只保留第一个 "All" 选项。
+     如果增加新的筛选类别，需要同时修改：
+     1. 这里的 HTML select / input（加上 data-filter="名称"）
+     2. js/service/propertyService.js 的 DEFAULT_QUERY + matchesQuery()
+     3. js/ui/propertyListPage.js 的 FILTERS
+     ========================================================= -->
+<div class="property-search">
+  <div class="search-main">
+    <label for="propertySearch">搜索房源</label>
+    <input type="search" id="propertySearch" data-filter="keyword" placeholder="搜索地点、房源名称……" autocomplete="off">
+  </div>
+
+  <div class="search-filters">
+    <div>
+      <label for="listingType">类别</label>
+      <select id="listingType" data-filter="listingType">
+        <option value="">全部</option>
+        <option value="sale">出售</option>
+        <option value="rent">出租</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="locationFilter">地区</label>
+      <select id="locationFilter" data-filter="area">
+        <option value="">所有地区</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="propertyType">房屋类型</label>
+      <select id="propertyType" data-filter="propertyType">
+        <option value="">所有类型</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="minPrice">最低价格</label>
+      <input type="number" id="minPrice" data-filter="minPrice" min="0" step="10000" placeholder="RM">
+    </div>
+
+    <div>
+      <label for="maxPrice">最高价格</label>
+      <input type="number" id="maxPrice" data-filter="maxPrice" min="0" step="10000" placeholder="RM">
+    </div>
+
+    <button class="button secondary search-reset" type="button" id="resetFilters" data-property-reset>重置</button>
+  </div>
+</div>
+
+<div class="search-summary">
+  <span id="resultCount" data-property-count>正在加载房源……</span>
+  <div class="search-sort">
+    <label for="sortBy">排序</label>
+    <select id="sortBy" data-filter="sort">
+      <option value="newest">最新</option>
+      <option value="price-asc">价格：从低到高</option>
+      <option value="price-desc">价格：从高到低</option>
+      <option value="bedrooms-desc">房间数：从多到少</option>
+      <option value="bedrooms-asc">房间数：从少到多</option>
+    </select>
+  </div>
+</div>
+
+<div class="property-grid" id="propertyGrid" data-property-results></div>
+
+<div class="no-results" id="noResults" data-property-empty hidden>
+  <h2>找不到房源</h2>
+  <p>请尝试更改搜索条件或筛选项。</p>
+</div>
+
+</div>
+</section>
+
+<section class="section soft"><div class="container contact-box"><div><p class="eyebrow">找不到合适的房子？</p><h2>告诉 Miss Loo 您在找什么样的房子。</h2><p>告诉我们您想要的地区、房屋类型、预算，以及想买还是想租。</p></div><a class="button primary" href="https://wa.me/60167889571" target="_blank" rel="noopener">WhatsApp 联系 Miss Loo</a></div></section>
+</main>
+
+<footer class="site-footer"><div class="container footer-inner"><span>© Miss Loo JB Property</span><span>新山 · 古来 · 柔佛</span></div></footer>
+
+<script type="module" src="../../js/ui/propertyListPage.js?v=20261005"></script>
+</body></html>

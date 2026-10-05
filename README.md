@@ -49,6 +49,15 @@ https://sql-coffin.github.io/miss-loo-property-ann/admin/
 4. **照片**：按「添加照片」上传。第一张是封面。手机原图可以直接上传，系统会自动压缩成 WebP
 5. 右上角 **保存**
 
+### 中文 / 马来文翻译
+
+编辑房源时，表单分成左右两栏：左边是**英文**（主要内容），右边可以切换**中文 / 马来语**。
+
+- 价格、房间数、照片等只要在左边填一次，三种语言共用
+- 右边只出现需要翻译的文字栏位（标题、介绍、装修特点、照片说明等）
+- 右边**可以留空**：没翻译的栏位，中文 / 马来文页面会显示英文
+- 保存后会同时生成三个网页：英文 `properties/<网址名称>/`、中文 `zh/properties/<网址名称>/`、马来文 `ms/properties/<网址名称>/`
+
 ## 0.3 修改 / 下架房源
 
 - 修改：在列表点该房源 → 修改 → 保存
@@ -62,10 +71,25 @@ https://sql-coffin.github.io/miss-loo-property-ann/admin/
    - 修正后再保存一次即可
 3. 如果 Action 出现 `Permission denied` / `403`：仓库 **Settings → Actions → General → Workflow permissions** 选 **Read and write permissions**
 
-## 0.5 维护者须知
+## 0.5 网站的三种语言
+
+| 语言 | 网址 |
+|---|---|
+| 英文 | `https://sql-coffin.github.io/miss-loo-property-ann/` |
+| 中文 | `https://sql-coffin.github.io/miss-loo-property-ann/zh/` |
+| 马来文 | `https://sql-coffin.github.io/miss-loo-property-ann/ms/` |
+
+- 访客第一次进网站会弹出窗口选语言，之后浏览器会记住，下次直接进入该语言
+- 每页右上角有 EN / 中文 / BM 可以随时切换
+- **英文网页是原稿**。`zh/`、`ms/` 是自动翻译生成的，不要直接修改
+- 改了英文网页的文字后：把新句子的翻译加进 `i18n/zh.json`、`i18n/ms.json`（左边英文原句，右边翻译），推送后自动重新生成。没加翻译的句子会暂时显示英文，Action 日志会列出缺哪几句
+- 房源卡片、搜索结果、语言选择窗口这些程序文字的翻译在 `js/i18n.js`
+- 房源详情页固定文字（例如 Arrange a viewing、Freehold）的翻译在 `scripts/property-page-template.mjs` 的 `TEXT` 和 `VALUES`
+
+## 0.6 维护者须知
 
 - 房源资料存在 `properties/<网址名称>/listing.json`，照片在同一个文件夹
-- `properties/*/index.html`、`data/properties.json`、`sitemap.xml` 的房源部分都是**自动生成**的，不要手动修改，下次会被覆盖
+- `properties/*/index.html`、`zh/`、`ms/`、`data/properties.json`、`sitemap.xml` 都是**自动生成**的，不要手动修改，下次会被覆盖
 - 想改所有详情页的版面：改 `scripts/property-page-template.mjs`
 - 想在后台加栏位：改 `admin/config.yml`，再在模板里决定显示位置
 - 在自己电脑重新生成：`node scripts/build-properties.mjs`；测试：`node --test tests/property.test.mjs tests/build.test.mjs`
@@ -84,6 +108,9 @@ README.md
 robots.txt
 sitemap.xml
 logo.jpg
+
+zh/  ms/                 中文 / 马来文版（自动生成，不要手动改）
+i18n/                   固定页面的翻译对照表（zh.json、ms.json）
 
 admin/                  房源后台（/admin/）
   index.html

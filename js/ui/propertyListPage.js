@@ -16,7 +16,7 @@
    ============================================================ */
 
 import { getProperties, getFilterOptions } from "../api/propertyApi.js";
-import { PROPERTY_TYPES } from "../domain/property.js";
+import { t } from "../i18n.js";
 import { renderPropertyCard } from "./propertyCard.js";
 
 // 筛选器名称 → 怎么把输入框的值转成查询条件
@@ -52,8 +52,8 @@ async function init() {
   } catch (err) {
     console.error(err);
     resultsEl.innerHTML = "";
-    if (countEl) countEl.textContent = "Property listings are temporarily unavailable.";
-    showEmpty("Property listings unavailable", "Please refresh the page or contact Miss Loo on WhatsApp.");
+    if (countEl) countEl.textContent = t("count.unavailable");
+    showEmpty(t("error.title"), t("error.text"));
   }
 }
 
@@ -61,7 +61,7 @@ async function init() {
 async function fillDropdowns() {
   const { areas, propertyTypes } = await getFilterOptions();
   fillSelect(inputs.area, areas.map((a) => [a, a]));
-  fillSelect(inputs.propertyType, propertyTypes.map((t) => [t, PROPERTY_TYPES[t]]));
+  fillSelect(inputs.propertyType, propertyTypes.map((type) => [type, t(`type.${type}`)]));
 }
 
 function fillSelect(select, options) {
@@ -93,12 +93,13 @@ async function refresh() {
 
   resultsEl.innerHTML = items.map(renderPropertyCard).join("");
   if (total) hideEmpty();
-  else showEmpty("No properties found", "Try a wider price range or a different area.");
+  else showEmpty(t("empty.title"), t("empty.text"));
 
   if (countEl) {
+    const properties = t(totalAll === 1 ? "count.one" : "count.many");
     countEl.textContent = total === totalAll
-      ? `${totalAll} ${plural(totalAll)} found`
-      : `${total} of ${totalAll} ${plural(totalAll)} found`;
+      ? t("count.all", { n: totalAll, properties })
+      : t("count.some", { n: total, total: totalAll, properties });
   }
   writeQueryToUrl(query);
 }
@@ -156,10 +157,6 @@ function hideEmpty() {
 function toPrice(v) {
   const n = Number(String(v).replace(/[^\d.]/g, ""));
   return v !== "" && Number.isFinite(n) && n > 0 ? n : null;
-}
-
-function plural(n) {
-  return n === 1 ? "property" : "properties";
 }
 
 function debounce(fn, ms) {

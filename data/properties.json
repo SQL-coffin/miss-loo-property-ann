@@ -12,7 +12,17 @@
     "image": "jalan-putra-5-taman-tan-sri-yaacob/front.jpg",
     "imageAlt": "Front exterior of 2-storey end lot house at Taman Tan Sri Yaacob",
     "url": "jalan-putra-5-taman-tan-sri-yaacob/",
-    "dateAdded": "2026-09-20"
+    "dateAdded": "2026-09-20",
+    "i18n": {
+      "zh": {
+        "title": "双层中价尾间排屋",
+        "imageAlt": "Taman Tan Sri Yaacob 双层尾间排屋外观"
+      },
+      "ms": {
+        "title": "Rumah Teres 2 Tingkat Kos Sederhana Lot Hujung",
+        "imageAlt": "Bahagian hadapan rumah teres 2 tingkat lot hujung di Taman Tan Sri Yaacob"
+      }
+    }
   },
   {
     "title": "Fully Renovated Single Storey Terrace",
@@ -27,7 +37,17 @@
     "image": "taman-gembira-tampoi-jalan-riang-2/front.jpg",
     "imageAlt": "Front exterior of renovated single storey terrace house in Taman Gembira, Tampoi",
     "url": "taman-gembira-tampoi-jalan-riang-2/",
-    "dateAdded": "2026-09-22"
+    "dateAdded": "2026-09-22",
+    "i18n": {
+      "zh": {
+        "title": "全屋翻新单层排屋",
+        "imageAlt": "Tampoi Taman Gembira 翻新单层排屋外观"
+      },
+      "ms": {
+        "title": "Rumah Teres Setingkat Diubah Suai Sepenuhnya",
+        "imageAlt": "Bahagian hadapan rumah teres setingkat yang diubah suai di Taman Gembira, Tampoi"
+      }
+    }
   },
   {
     "title": "Single Storey End Lot House",
@@ -42,7 +62,17 @@
     "image": "kulai-besar-single-storey-end-lot/front.jpg",
     "imageAlt": "Front exterior of single storey end lot house for sale in Kulai Besar",
     "url": "kulai-besar-single-storey-end-lot/",
-    "dateAdded": "2026-09-23"
+    "dateAdded": "2026-09-23",
+    "i18n": {
+      "zh": {
+        "title": "单层尾间排屋",
+        "imageAlt": "古来 Kulai Besar 出售的单层尾间排屋外观"
+      },
+      "ms": {
+        "title": "Rumah Teres Setingkat Lot Hujung",
+        "imageAlt": "Bahagian hadapan rumah teres setingkat lot hujung untuk dijual di Kulai Besar"
+      }
+    }
   },
   {
     "title": "For Sale Taman Universiti [#SingleStorey]",
@@ -57,6 +87,16 @@
     "image": "taman-universiti-jalan-kemuliaan-12/front.jpg",
     "imageAlt": "Fully tiled car porch and front area of single storey corner lot house at Taman Universiti",
     "url": "taman-universiti-jalan-kemuliaan-12/",
-    "dateAdded": "2026-09-23"
+    "dateAdded": "2026-09-23",
+    "i18n": {
+      "zh": {
+        "title": "出售 Taman Universiti 单层排屋",
+        "imageAlt": "Taman Universiti 单层角头间全铺瓷砖车廊和屋前"
+      },
+      "ms": {
+        "title": "Dijual Taman Universiti Rumah Setingkat",
+        "imageAlt": "Garaj berjubin penuh dan bahagian hadapan rumah setingkat lot tepi di Taman Universiti"
+      }
+    }
   }
 ]

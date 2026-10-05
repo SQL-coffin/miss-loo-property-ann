@@ -15,7 +15,11 @@ js/
 data/properties.json            房源卡片资料（由 scripts/build-properties.mjs 自动生成）
 properties/<房源>/listing.json  每间房源的完整资料（在 /admin/ 后台编辑）
 scripts/build-properties.mjs    生成详情页、data/properties.json、sitemap.xml
-scripts/property-page-template.mjs  详情页模板
+scripts/property-page-template.mjs  详情页模板（三语）
+scripts/i18n-pages.mjs          生成 zh/、ms/ 的翻译网页
+i18n/zh.json、i18n/ms.json      固定页面的翻译对照表
+js/i18n.js                      程序文字的翻译、语言工具
+js/ui/languagePicker.js         语言选择窗口 + 记住选择
 admin/                          房源后台（Sveltia CMS），设定在 admin/config.yml
 .github/workflows/build-properties.yml  推送后自动运行生成脚本
 tests/                          自动测试
@@ -83,6 +87,23 @@ properties/<房源>/index.html、data/properties.json、sitemap.xml
 ```
 
 权限完全由 GitHub 控制：后台只是编辑器，保存必须用对仓库有写入权限的令牌。
+
+## 3.2 多语言（英文 / 中文 / 马来文）
+
+```
+英文原稿网页（index.html、buy-property/ …） + i18n/zh.json、i18n/ms.json
+   ↓ scripts/i18n-pages.mjs：逐句翻译、修正图片 / CSS 路径、加 hreflang 和语言切换
+zh/…、ms/…
+
+properties/<房源>/listing.json  { "en": {...}, "zh": {...}, "ms": {...} }
+   ↓ scripts/property-page-template.mjs（每种语言一次，没翻译的栏位用英文）
+properties/<房源>/、zh/properties/<房源>/、ms/properties/<房源>/
+```
+
+- 语言由 `<html lang>` 决定；`js/i18n.js` 放程序文字的翻译，并提供 `t()`、`localized()`、`langRoot()`
+- `js/ui/languagePicker.js`：第一次访问弹出语言选择，选择存在 localStorage（`missloo-lang`），之后自动跳到该语言；搜索引擎没有这个记录，所以不会被跳转
+- 房源照片只存一份（英文文件夹），其他语言的页面直接引用
+- `data/properties.json` 的卡片带 `i18n.zh.title` 等翻译，卡片链接到同语言的详情页
 
 ## 4. 本地测试（可选，需要电脑装 Node.js 18+）
 

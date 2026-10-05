@@ -1,17 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/</loc></url>
-  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/properties/</loc></url>
-  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/buy-property/</loc></url>
-  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/sell-property/</loc></url>
-  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/rent-property/</loc></url>
   <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/areas/</loc></url>
   <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/areas/johor-bahru/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/areas/kulai/</loc></url>
   <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/areas/mount-austin/</loc></url>
   <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/areas/tebrau/</loc></url>
-  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/areas/kulai/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/buy-property/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/properties/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/rent-property/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/sell-property/</loc></url>
   <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/properties/jalan-putra-5-taman-tan-sri-yaacob/</loc></url>
   <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/properties/kulai-besar-single-storey-end-lot/</loc></url>
   <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/properties/taman-gembira-tampoi-jalan-riang-2/</loc></url>
   <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/properties/taman-universiti-jalan-kemuliaan-12/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/zh/areas/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/zh/areas/johor-bahru/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/zh/areas/kulai/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/zh/areas/mount-austin/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/zh/areas/tebrau/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/zh/buy-property/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/zh/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/zh/properties/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/zh/rent-property/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/zh/sell-property/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/zh/properties/jalan-putra-5-taman-tan-sri-yaacob/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/zh/properties/kulai-besar-single-storey-end-lot/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/zh/properties/taman-gembira-tampoi-jalan-riang-2/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/zh/properties/taman-universiti-jalan-kemuliaan-12/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/ms/areas/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/ms/areas/johor-bahru/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/ms/areas/kulai/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/ms/areas/mount-austin/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/ms/areas/tebrau/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/ms/buy-property/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/ms/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/ms/properties/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/ms/rent-property/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/ms/sell-property/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/ms/properties/jalan-putra-5-taman-tan-sri-yaacob/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/ms/properties/kulai-besar-single-storey-end-lot/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/ms/properties/taman-gembira-tampoi-jalan-riang-2/</loc></url>
+  <url><loc>https://sql-coffin.github.io/miss-loo-property-ann/ms/properties/taman-universiti-jalan-kemuliaan-12/</loc></url>
 </urlset>
