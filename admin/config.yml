@@ -1,0 +1,186 @@
+# ==================== 房源后台设定（Sveltia CMS） ====================
+# 这个文件决定 /admin/ 后台的表单有哪些栏位。
+# 每间房源存成 properties/<网址名称>/listing.json，照片放在同一个文件夹。
+# 保存后 GitHub Action 会自动生成详情页、搜索资料和 sitemap（scripts/build-properties.mjs）。
+#
+# 【以后新增栏位时需要修改】
+# 1. 这里加栏位
+# 2. scripts/property-page-template.mjs 决定新栏位显示在页面哪里
+# =====================================================================
+
+backend:
+  name: github
+  repo: SQL-coffin/miss-loo-property-ann
+  branch: main
+  commit_messages:
+    create: "新增房源：{{slug}}"
+    update: "更新房源：{{slug}}"
+    delete: "删除房源：{{slug}}"
+    uploadMedia: "上传照片：{{path}}"
+    deleteMedia: "删除照片：{{path}}"
+
+site_url: https://sql-coffin.github.io/miss-loo-property-ann/
+display_url: https://sql-coffin.github.io/miss-loo-property-ann/
+publish_mode: simple
+
+# 网址名称只用小写英文、数字和 -
+slug:
+  encoding: ascii
+  clean_accents: true
+  sanitize_replacement: "-"
+
+# 全局图片文件夹（只有在"资源库"直接上传时才用到；房源照片存在各自的房源文件夹）
+media_folder: images/uploads
+public_folder: /images/uploads
+media_libraries:
+  default:
+    config:
+      max_file_size: 25000000
+      slugify_filename: true
+      # 上传时自动压缩：转成 WebP、最长边 1920px（手机原图通常 5–10MB，压缩后约 300KB）
+      transformations:
+        raster_image:
+          format: webp
+          quality: 82
+          width: 1920
+          height: 1920
+
+collections:
+  - name: properties
+    label: 房源
+    label_singular: 房源
+    description: 新增或修改房源。保存后约 1–2 分钟网站会自动更新。
+    folder: properties
+    path: "{{slug}}/listing"
+    # 照片和 listing.json 放在同一个文件夹：properties/<网址名称>/front.webp
+    media_folder: ""
+    public_folder: ""
+    format: json
+    extension: json
+    create: true
+    delete: true
+    identifier_field: title
+    slug:
+      template: "{{fields.location}}"
+      editable: [create]
+    summary: "{{title}} · {{area}} · RM{{price}}"
+    sortable_fields: [dateAdded, price, title]
+    preview_path: "properties/{{slug}}/"
+    editor:
+      preview: false
+    fields:
+      # ---------- 基本资料（搜索页和首页卡片也会用到） ----------
+      - { name: title, label: 标题, hint: "例如：Fully Renovated Single Storey Terrace" }
+      - name: listingType
+        label: 出售 / 出租
+        widget: select
+        default: sale
+        options: [{ label: For Sale 出售, value: sale }, { label: For Rent 出租, value: rent }]
+      - name: propertyType
+        label: 房屋类型（筛选用）
+        widget: select
+        default: terrace
+        options:
+          - { label: Terrace, value: terrace }
+          - { label: Semi-D, value: semi-d }
+          - { label: Bungalow, value: bungalow }
+          - { label: Cluster, value: cluster }
+          - { label: Townhouse, value: townhouse }
+          - { label: Condominium, value: condo }
+          - { label: Apartment, value: apartment }
+          - { label: Shophouse, value: shophouse }
+          - { label: Land, value: land }
+      - { name: propertyTypeLabel, label: 房屋类型（页面显示）, required: false, hint: "例如：Single Storey Terrace、2-storey medium cost" }
+      - { name: area, label: 地区（筛选用）, hint: "同一个地区每次都要写成一模一样，例如 Tampoi、Kulai Besar" }
+      - { name: location, label: 简短地点（卡片显示）, hint: "例如：Taman Gembira, Tampoi" }
+      - { name: address, label: 完整地址, hint: "例如：46, Jalan Riang 2, Taman Gembira, Tampoi, Johor" }
+      - { name: city, label: 城市, default: Johor Bahru, hint: "Johor Bahru / Kulai / Skudai 等" }
+      - { name: price, label: 价格（RM）, widget: number, value_type: int, min: 1, hint: "只填数字，例如 558000。出租填每月租金。" }
+      - { name: bedrooms, label: 房间数, widget: number, value_type: int, min: 0, required: false }
+      - { name: bathrooms, label: 厕所数, widget: number, value_type: int, min: 0, required: false }
+      - { name: landSize, label: 土地面积, required: false, hint: "例如：22' × 70' 或 3,530 sqft" }
+      - { name: builtUp, label: 建筑面积, required: false, hint: "例如：1,800 sqft（可不填）" }
+      - name: tenure
+        label: 地契
+        widget: select
+        required: false
+        options: [Freehold, Leasehold]
+      - name: bumiStatus
+        label: Bumi status
+        widget: select
+        required: false
+        options: [Non-Bumi, Bumi Lot, Malay Reserve]
+      - name: lotType
+        label: 位置
+        widget: select
+        required: false
+        options: [Intermediate, End Lot, Corner Lot]
+      - name: facing
+        label: 朝向
+        widget: select
+        required: false
+        options: [North, Northeast, East, Southeast, South, Southwest, West, Northwest]
+      - name: extraDetails
+        label: 其他资料（可不填）
+        label_singular: 资料
+        widget: list
+        required: false
+        collapsed: true
+        summary: "{{label}}：{{value}}"
+        hint: "例如：Bank value → RM460,000 – RM480,000"
+        fields:
+          - { name: label, label: 项目 }
+          - { name: value, label: 内容 }
+
+      # ---------- 照片 ----------
+      - name: photos
+        label: 照片
+        label_singular: 照片
+        widget: list
+        min: 1
+        summary: "{{caption}}"
+        hint: "第一张会当作封面（搜索页、首页卡片、分享到 WhatsApp / Facebook 时显示）。可以拖拽调整顺序。"
+        fields:
+          - { name: image, label: 照片, widget: image }
+          - { name: caption, label: 照片说明, required: false, hint: "例如：Front exterior、Living area" }
+          - { name: alt, label: 照片描述（给 Google 和视障访客）, required: false, hint: "不填会用标题。例如：Front exterior of terrace house in Taman Gembira" }
+
+      # ---------- 详情页内容 ----------
+      - { name: detailsHeading, label: 详情标题, required: false, hint: "例如：Move-in ready single storey home." }
+      - { name: description, label: 房屋介绍, widget: text, required: false, hint: "空一行就是新的段落" }
+      - { name: featuresLabel, label: 特点区小标题, required: false, default: RENOVATION, hint: "例如：RENOVATION、RENOVATION & EXTENSION" }
+      - { name: featuresHeading, label: 特点区标题, required: false, hint: "例如：Fully renovated features" }
+      - name: features
+        label: 装修 / 特点
+        label_singular: 特点
+        widget: list
+        required: false
+        summary: "{{title}}"
+        fields:
+          - { name: title, label: 特点, hint: "例如：Fully tiled car porch" }
+          - { name: text, label: 说明, required: false }
+      - { name: locationHeading, label: 位置区标题, required: false, hint: "不填会用简短地点" }
+      - name: locationPoints
+        label: 位置 / 周边
+        label_singular: 周边
+        widget: list
+        required: false
+        summary: "{{title}}"
+        fields:
+          - { name: title, label: 项目, hint: "例如：Walk to shops" }
+          - { name: text, label: 说明, required: false }
+      - { name: facebookUrl, label: Facebook 帖子链接, required: false, pattern: ["^https://", "必须以 https:// 开头"] }
+
+      # ---------- 其他 ----------
+      - { name: dateAdded, label: 上架日期, widget: datetime, time_format: false, format: YYYY-MM-DD, default: "{{now}}", hint: "首页和搜索页按这个日期由新到旧排列" }
+      - { name: featured, label: 固定显示在首页, widget: boolean, default: false, hint: "都不勾选时，首页自动显示最新的 4 间" }
+      - name: seo
+        label: 进阶设定（可不填）
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - { name: title, label: 网页标题（Google 搜索结果显示）, required: false, hint: "不填会自动产生" }
+          - { name: description, label: 网页描述（Google 搜索结果显示）, widget: text, required: false, hint: "不填会自动产生" }
+      - { name: areaLabel, label: 页面顶部地区文字, required: false, hint: "不填会用「地区」。例如：Tampoi / Taman Gembira" }
+      - { name: whatsappMessage, label: WhatsApp 预设讯息, required: false, hint: "不填会自动产生：Hi Miss Loo, I'm interested in ..." }

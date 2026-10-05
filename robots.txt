@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /admin/
 
 Sitemap: https://sql-coffin.github.io/miss-loo-property-ann/sitemap.xml

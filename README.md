@@ -7,6 +7,72 @@
 
 ---
 
+# 0. 用后台新增 / 修改房源（推荐）
+
+**新增房源现在不需要碰任何代码。** 打开后台、填表、上传照片、按保存即可：
+
+```
+https://sql-coffin.github.io/miss-loo-property-ann/admin/
+```
+
+保存后大约 1–2 分钟，以下内容会全部自动更新：
+
+- 房源详情页 `properties/<网址名称>/index.html`
+- Properties 搜索页、首页 Latest properties
+- Area / Property Type 下拉菜单
+- `sitemap.xml`
+
+## 0.1 第一次使用：建立登录令牌（只需做一次）
+
+后台用 GitHub「个人访问令牌」登录。只有能修改这个仓库的 GitHub 账号才能保存，
+其他人就算打开 /admin/ 也改不了任何东西。
+
+1. 运营人员如果不是仓库拥有者：仓库拥有者到 **Settings → Collaborators** 邀请对方的 GitHub 账号（Write 权限）
+2. 用运营人员的 GitHub 账号打开 **Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token**
+3. 设定：
+   - Token name：`Miss Loo 房源后台`
+   - Expiration：选 1 年（到期后重新产生一个）
+   - Repository access：**Only select repositories** → 选 `miss-loo-property-ann`
+   - Permissions → Repository permissions → **Contents：Read and write**（其他都不用开）
+4. 按 Generate，复制产生的令牌（`github_pat_` 开头）
+5. 打开 /admin/ → 按 **使用访问令牌登录** → 贴上令牌
+
+> 令牌等于钥匙：只在自己的电脑 / 手机上登录，不要传给别人或贴在聊天里。
+> 如果怀疑外泄，到同一个页面按 Revoke 作废，再产生新的。
+> 不要按「使用 GitHub 登录」，那个按钮需要另外架设服务，目前不能用。
+
+## 0.2 新增房源
+
+1. 后台左边选 **房源** → 右上角 **新建**
+2. 表单最上面有「别名」栏（就是网址名称），会根据简短地点自动填好，可以修改：只用小写英文、数字和 `-`，例如 `taman-gembira-tampoi-jalan-riang-2`。**建立后不能修改**（改了旧链接会失效）
+3. 填表。打 `*` 的必填，其他可以留空
+4. **照片**：按「添加照片」上传。第一张是封面。手机原图可以直接上传，系统会自动压缩成 WebP
+5. 右上角 **保存**
+
+## 0.3 修改 / 下架房源
+
+- 修改：在列表点该房源 → 修改 → 保存
+- 下架：打开该房源 → 右上角 ⋮ → 删除。详情页、搜索页、首页、sitemap 都会自动移除
+
+## 0.4 保存后没有更新？
+
+1. 等 2 分钟后，用无痕视窗打开网站（避免浏览器快取）
+2. 到 GitHub 仓库的 **Actions** 页面，看 **Build property pages** 有没有红色 ✗
+   - 点进去看 Generate pages 的输出，会用中文写出哪一间、哪个栏位有问题（例如找不到照片、价格不是数字）
+   - 修正后再保存一次即可
+3. 如果 Action 出现 `Permission denied` / `403`：仓库 **Settings → Actions → General → Workflow permissions** 选 **Read and write permissions**
+
+## 0.5 维护者须知
+
+- 房源资料存在 `properties/<网址名称>/listing.json`，照片在同一个文件夹
+- `properties/*/index.html`、`data/properties.json`、`sitemap.xml` 的房源部分都是**自动生成**的，不要手动修改，下次会被覆盖
+- 想改所有详情页的版面：改 `scripts/property-page-template.mjs`
+- 想在后台加栏位：改 `admin/config.yml`，再在模板里决定显示位置
+- 在自己电脑重新生成：`node scripts/build-properties.mjs`；测试：`node --test tests/property.test.mjs tests/build.test.mjs`
+- 下面第 2–16 节的手动流程是旧做法，保留作参考。**新增房源请用后台**；没有 `listing.json` 的房源不会出现在搜索页和首页
+
+---
+
 ## 1. 网站文件结构
 
 主要文件：
@@ -19,10 +85,18 @@ robots.txt
 sitemap.xml
 logo.jpg
 
+admin/                  房源后台（/admin/）
+  index.html
+  config.yml            后台表单设定
+
+scripts/                自动生成房源页面的程序
+.github/workflows/      GitHub Action（保存后自动生成）
+
 properties/
   index.html
   每一间房屋/
-    index.html
+    listing.json        房源资料（后台编辑）
+    index.html          自动生成，不要手动改
     房屋照片...
 
 buy-property/

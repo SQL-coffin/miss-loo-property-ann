@@ -12,8 +12,13 @@ js/
   ui/propertyCard.js            画面：房源卡片 HTML（首页和 Properties 页共用）
   ui/propertyListPage.js        画面：Properties 搜索页
   ui/featuredProperties.js      画面：首页精选房源
-data/properties.json            房源资料（格式和以前一样）
-tests/property.test.mjs         自动测试
+data/properties.json            房源卡片资料（由 scripts/build-properties.mjs 自动生成）
+properties/<房源>/listing.json  每间房源的完整资料（在 /admin/ 后台编辑）
+scripts/build-properties.mjs    生成详情页、data/properties.json、sitemap.xml
+scripts/property-page-template.mjs  详情页模板
+admin/                          房源后台（Sveltia CMS），设定在 admin/config.yml
+.github/workflows/build-properties.yml  推送后自动运行生成脚本
+tests/                          自动测试
 ```
 
 调用方向只有一个，下层不知道上层的存在：
@@ -29,8 +34,10 @@ tests/property.test.mjs         自动测试
 
 | 想做的事 | 改哪里 |
 | --- | --- |
-| 新增一间房源 | 只改 `data/properties.json`（加上房屋自己的 `properties/xxx/index.html`） |
-| 让房源出现在首页 | 默认显示最新的几间；要指定就在 JSON 里加 `"featured": true` |
+| 新增一间房源 | 在 `/admin/` 后台新建（会写入 `properties/xxx/listing.json`，详情页自动生成） |
+| 让房源出现在首页 | 默认显示最新的几间；要指定就在后台勾选「固定显示在首页」 |
+| 改所有详情页的版面 | `scripts/property-page-template.mjs` |
+| 后台加栏位 | `admin/config.yml` + 模板 |
 | 新增 Area | **不用改程序**，JSON 写新的 `area`，下拉菜单会自动出现 |
 | 新增房屋类型（例如 `condo` 以外的） | `js/domain/property.js` 的 `PROPERTY_TYPES` |
 | 新增筛选条件（例如 Bedrooms） | `service` 的 `DEFAULT_QUERY` + `matchesQuery()`，`ui/propertyListPage.js` 的 `FILTERS`，再在 HTML 加输入框 |
@@ -63,10 +70,24 @@ tests/property.test.mjs         自动测试
 
 ---
 
+## 3.1 房源后台的资料流
+
+```
+/admin/ 后台（运营人员）
+   ↓ 保存：GitHub API 提交到 main
+properties/<房源>/listing.json + 照片
+   ↓ GitHub Action：scripts/build-properties.mjs
+properties/<房源>/index.html、data/properties.json、sitemap.xml
+   ↓ GitHub Pages
+网站更新
+```
+
+权限完全由 GitHub 控制：后台只是编辑器，保存必须用对仓库有写入权限的令牌。
+
 ## 4. 本地测试（可选，需要电脑装 Node.js 18+）
 
 ```
-node --test tests/property.test.mjs
+node --test tests/property.test.mjs tests/build.test.mjs
 ```
 
 测试会检查：资料校验、各种筛选、排序、精选、JSON 坏资料被跳过、路径转换。
