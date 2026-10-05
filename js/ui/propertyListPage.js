@@ -7,6 +7,7 @@
      data-property-results   卡片放这里
      data-property-count     结果数量
      data-property-reset     Reset 按钮
+     data-property-empty     （可选）没有结果时显示的提示框
 
    筛选条件会同步到网址，例如 properties/?area=Tampoi&listingType=sale
    所以 Area 页面可以直接连到"该地区的房源"。
@@ -26,13 +27,14 @@ const FILTERS = {
   propertyType: (v) => v,
   minPrice: toPrice,
   maxPrice: toPrice,
-  sort: (v) => v || "default",
+  sort: (v) => v || "newest",
 };
 
 const root = document;
 const resultsEl = root.querySelector("[data-property-results]");
 const countEl = root.querySelector("[data-property-count]");
 const resetEl = root.querySelector("[data-property-reset]");
+const emptyEl = root.querySelector("[data-property-empty]");
 const inputs = Object.fromEntries(
   Object.keys(FILTERS)
     .map((name) => [name, root.querySelector(`[data-filter="${name}"]`)])
@@ -49,7 +51,9 @@ async function init() {
     await refresh();
   } catch (err) {
     console.error(err);
-    resultsEl.innerHTML = `<p class="property-empty">Listings could not be loaded. Please refresh the page or contact Miss Loo on WhatsApp.</p>`;
+    resultsEl.innerHTML = "";
+    if (countEl) countEl.textContent = "Property listings are temporarily unavailable.";
+    showEmpty("Property listings unavailable", "Please refresh the page or contact Miss Loo on WhatsApp.");
   }
 }
 
@@ -87,14 +91,14 @@ async function refresh() {
   const query = currentQuery();
   const { items, total, totalAll } = await getProperties(query);
 
-  resultsEl.innerHTML = total
-    ? items.map(renderPropertyCard).join("")
-    : `<p class="property-empty">No properties match these filters. Try a wider price range or a different area.</p>`;
+  resultsEl.innerHTML = items.map(renderPropertyCard).join("");
+  if (total) hideEmpty();
+  else showEmpty("No properties found", "Try a wider price range or a different area.");
 
   if (countEl) {
     countEl.textContent = total === totalAll
-      ? `${totalAll} ${plural(totalAll)}`
-      : `${total} of ${totalAll} ${plural(totalAll)}`;
+      ? `${totalAll} ${plural(totalAll)} found`
+      : `${total} of ${totalAll} ${plural(totalAll)} found`;
   }
   writeQueryToUrl(query);
 }
@@ -120,11 +124,31 @@ function readQueryFromUrl() {
 function writeQueryToUrl(query) {
   const params = new URLSearchParams();
   for (const [k, v] of Object.entries(query)) {
-    if (k === "sort" && v === "default") continue;
+    if (k === "sort" && v === "newest") continue;
     params.set(k, v);
   }
   const qs = params.toString();
-  history.replaceState(null, "", qs ? `?${qs}` : location.pathname);
+  // 保留 #hash，首页的 #about / #contact 等锚点不受影响
+  if (location.search === (qs ? `?${qs}` : "")) return;
+  history.replaceState(null, "", (qs ? `?${qs}` : location.pathname) + location.hash);
+}
+
+/* ---------- 没有结果 / 读取失败的提示 ---------- */
+
+function showEmpty(title, text) {
+  if (!emptyEl) {
+    resultsEl.innerHTML = `<p class="no-results">${title}. ${text}</p>`;
+    return;
+  }
+  const h = emptyEl.querySelector("h2");
+  const p = emptyEl.querySelector("p");
+  if (h) h.textContent = title;
+  if (p) p.textContent = text;
+  emptyEl.hidden = false;
+}
+
+function hideEmpty() {
+  if (emptyEl) emptyEl.hidden = true;
 }
 
 /* ---------- 小工具 ---------- */

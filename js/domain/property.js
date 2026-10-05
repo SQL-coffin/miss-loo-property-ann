@@ -44,6 +44,7 @@ export function createProperty(raw) {
     image: raw.image || "",
     imageAlt: raw.imageAlt || raw.title,
     url: raw.url,
+    dateAdded: raw.dateAdded || "",
     featured: raw.featured === true,
   });
   return { property, errors: [] };

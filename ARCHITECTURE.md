@@ -30,7 +30,7 @@ tests/property.test.mjs         自动测试
 | 想做的事 | 改哪里 |
 | --- | --- |
 | 新增一间房源 | 只改 `data/properties.json`（加上房屋自己的 `properties/xxx/index.html`） |
-| 让房源出现在首页 | JSON 里加 `"featured": true` |
+| 让房源出现在首页 | 默认显示最新的几间；要指定就在 JSON 里加 `"featured": true` |
 | 新增 Area | **不用改程序**，JSON 写新的 `area`，下拉菜单会自动出现 |
 | 新增房屋类型（例如 `condo` 以外的） | `js/domain/property.js` 的 `PROPERTY_TYPES` |
 | 新增筛选条件（例如 Bedrooms） | `service` 的 `DEFAULT_QUERY` + `matchesQuery()`，`ui/propertyListPage.js` 的 `FILTERS`，再在 HTML 加输入框 |
@@ -45,113 +45,21 @@ tests/property.test.mjs         自动测试
 - **JSON 写错不会让整页坏掉**：price 写成 `"RM558,000"`、listingType 拼错等，该房源会被跳过，并在浏览器 Console（F12）显示中文错误说明，其他房源照常显示。
 - **筛选结果可以分享**：网址会带上条件，例如
   `properties/?area=Tampoi&listingType=sale`。Area 页面（如 `areas/kulai/`）可以直接连到该地区的房源。
-- **多了价格排序**（Price low → high / high → low）。
+- **排序**：Newest（默认，按 `dateAdded`）、Price、Bedrooms。
 
 `data/properties.json` 的格式**完全不变**，旧资料可以直接用。新增的字段只有可选的 `"featured": true`。
 
 ---
 
-## 3. 迁移步骤
+## 3. 迁移状态
 
-### Step 1 — 上传新文件
+迁移已经完成：
 
-把这个包里的 `js/domain/`、`js/db/`、`js/service/`、`js/api/`、`js/ui/`、`tests/`、`ARCHITECTURE.md` 上传到仓库。
-`data/properties.example.json` 只是格式范例，可以不上传。**不要覆盖你现有的 `data/properties.json`。**
-
-### Step 2 — 修改 `properties/index.html`
-
-把原本的筛选器和结果区换成下面这段（保留你原来的外层 section / class，让 `style.css` 继续生效）。
-重点是 `data-filter`、`data-property-*` 这些属性，程序靠它们找到元素。
-
-```html
-<!-- ==================== PROPERTY SEARCH ====================
-     【以后新增筛选条件时需要修改】
-     Area 和 Property Type 的选项由 data/properties.json 自动产生，
-     这里只需要保留第一个 "All" 选项。
-     ============================================================ -->
-<div class="property-filters">
-  <input type="search" data-filter="keyword" placeholder="Search area, taman or property type">
-
-  <select data-filter="listingType">
-    <option value="">For Sale &amp; Rent</option>
-    <option value="sale">For Sale</option>
-    <option value="rent">For Rent</option>
-  </select>
-
-  <select data-filter="area">
-    <option value="">All Areas</option>
-  </select>
-
-  <select data-filter="propertyType">
-    <option value="">All Types</option>
-  </select>
-
-  <input type="number" data-filter="minPrice" placeholder="Min price (RM)" min="0" step="10000">
-  <input type="number" data-filter="maxPrice" placeholder="Max price (RM)" min="0" step="10000">
-
-  <select data-filter="sort">
-    <option value="default">Latest</option>
-    <option value="price-asc">Price: low to high</option>
-    <option value="price-desc">Price: high to low</option>
-  </select>
-
-  <button type="button" data-property-reset>Reset</button>
-</div>
-
-<p data-property-count></p>
-<div class="property-grid" data-property-results></div>
-```
-
-把页面底部原本的：
-
-```html
-<script src="../js/properties.js"></script>
-```
-
-换成：
-
-```html
-<script type="module" src="../js/ui/propertyListPage.js"></script>
-```
-
-> 注意要有 `type="module"`，否则会报错。
-
-### Step 3 — 修改首页 `index.html`
-
-把 Featured Properties 区域里手动写的卡片换成：
-
-```html
-<div class="property-grid" data-featured-properties data-limit="3">
-  <!-- 读取失败时的后备内容 -->
-  <a href="properties/">View all properties</a>
-</div>
-```
-
-页面底部加：
-
-```html
-<script type="module" src="js/ui/featuredProperties.js"></script>
-```
-
-然后在 JSON 里给想上首页的房源加 `"featured": true`。
-
-### Step 4 — 对齐卡片样式
-
-新卡片使用这些 class：
-
-```
-property-card, property-card-link, property-card-image, property-card-body,
-property-card-badge, property-card-title, property-card-location,
-property-card-facts, property-card-price, property-empty
-```
-
-如果你 `style.css` 里旧卡片用的是别的 class 名称，有两个选择：
-1. 打开 `js/ui/propertyCard.js`，把 class 名称改成旧的（推荐，最省事）；
-2. 或在 `style.css` 加上对应新 class 的样式。
-
-### Step 5 — 测试后删除旧文件
-
-在网页上按照 README 第 36 节的 Checklist 测试一次。确认没问题后，删除旧的 `js/properties.js`。
+- `properties/index.html` 和首页 `index.html` 的搜索区，改用 `js/ui/propertyListPage.js`（筛选器用 `data-filter` 属性对应）
+- 首页 Latest properties 改用 `js/ui/featuredProperties.js`（`data-featured-properties data-limit="4"`），没有标记 `featured` 时显示最新的 4 间
+- 卡片沿用 `style.css` 原有的 class（`property-image` / `property-body` / `tag` / `listing-price`）
+- 保留了原有的排序：Newest（按 `dateAdded`，默认）、Price、Bedrooms
+- 旧的 `js/properties.js` 已删除
 
 ---
 

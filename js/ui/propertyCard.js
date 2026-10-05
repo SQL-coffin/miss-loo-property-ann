@@ -4,27 +4,29 @@
    【想改卡片显示内容 / 配合 style.css 的 class 名称时，改这里】
    ============================================================ */
 
-import { formatPrice, listingLabel, propertyTypeLabel } from "../domain/property.js";
+import { formatPrice, listingLabel } from "../domain/property.js";
 
 export function renderPropertyCard(p) {
-  const facts = [
+  // 沿用 style.css 原有的卡片 class：property-image / property-body / tag / listing-price
+  const details = [
+    p.location || p.area,
     p.bedrooms != null ? `${p.bedrooms} Bed` : "",
     p.bathrooms != null ? `${p.bathrooms} Bath` : "",
-    p.landSize ? escapeHtml(p.landSize) : "",
-  ].filter(Boolean);
+    p.landSize,
+  ].filter(Boolean).map(escapeHtml);
 
   return `
     <article class="property-card">
-      <a class="property-card-link" href="${escapeAttr(p.url)}">
-        ${p.image ? `<img class="property-card-image" src="${escapeAttr(p.image)}" alt="${escapeAttr(p.imageAlt)}" loading="lazy">` : ""}
-        <div class="property-card-body">
-          <span class="property-card-badge">${listingLabel(p)} · ${propertyTypeLabel(p)}</span>
-          <h3 class="property-card-title">${escapeHtml(p.title)}</h3>
-          <p class="property-card-location">${escapeHtml(p.location || p.area)}</p>
-          ${facts.length ? `<p class="property-card-facts">${facts.join(" · ")}</p>` : ""}
-          <p class="property-card-price">${formatPrice(p)}</p>
-        </div>
-      </a>
+      <div class="property-image">
+        ${p.image ? `<img src="${escapeAttr(p.image)}" alt="${escapeAttr(p.imageAlt)}" loading="lazy">` : "PROPERTY PHOTO"}
+      </div>
+      <div class="property-body">
+        <span class="tag">${escapeHtml(listingLabel(p).toUpperCase())} · ${escapeHtml(p.area.toUpperCase())}</span>
+        <h3>${escapeHtml(p.title)}</h3>
+        <p>${details.join(" · ")}</p>
+        <strong class="listing-price">${formatPrice(p)}</strong>
+        <a href="${escapeAttr(p.url)}">View property →</a>
+      </div>
     </article>`;
 }
 

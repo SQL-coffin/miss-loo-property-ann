@@ -1,4 +1,4 @@
-// 运行：node --test tests/
+// 运行：node --test tests/property.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createProperty, formatPrice } from "../js/domain/property.js";
@@ -66,4 +66,16 @@ test("db + api: 读取 JSON、跳过坏资料、路径转换", async () => {
   assert.equal(totalAll, 1);
   assert.equal(warnings.length, 1);
   assert.match(items[0].url, /\/properties\/taman-gembira\/$/);
+});
+
+test("service: newest（默认）与房间数排序", () => {
+  const dated = [
+    make({ title: "Old", dateAdded: "2026-09-01", bedrooms: 4 }),
+    make({ title: "New", dateAdded: "2026-09-23", bedrooms: 2 }),
+    make({ title: "Mid", dateAdded: "2026-09-10", bedrooms: 3 }),
+  ];
+  assert.deepEqual(searchProperties(dated).map((p) => p.title), ["New", "Mid", "Old"]);
+  assert.deepEqual(searchProperties(dated, { sort: "bedrooms-desc" }).map((p) => p.title), ["Old", "Mid", "New"]);
+  assert.deepEqual(searchProperties(dated, { sort: "bedrooms-asc" }).map((p) => p.title), ["New", "Mid", "Old"]);
+  assert.deepEqual(getFeatured(dated, 2).map((p) => p.title), ["New", "Mid"]);
 });

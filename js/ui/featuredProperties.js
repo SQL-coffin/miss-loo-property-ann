@@ -7,6 +7,9 @@
 
    首页 HTML 只需要放：
      <div data-featured-properties data-limit="3"></div>
+
+   容器里标了 data-featured-fallback 的内容会在读取成功后移除；
+   其他内容（例如 "Thinking of selling?" 卡片）会保留在房源后面。
    ============================================================ */
 
 import { getFeaturedProperties } from "../api/propertyApi.js";
@@ -18,7 +21,8 @@ if (container) {
   const limit = Number(container.dataset.limit) || 3;
   getFeaturedProperties(limit)
     .then((items) => {
-      container.innerHTML = items.map(renderPropertyCard).join("");
+      container.querySelectorAll("[data-featured-fallback]").forEach((el) => el.remove());
+      container.insertAdjacentHTML("afterbegin", items.map(renderPropertyCard).join(""));
     })
     .catch((err) => {
       console.error(err);

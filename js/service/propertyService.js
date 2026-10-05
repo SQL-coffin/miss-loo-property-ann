@@ -17,7 +17,7 @@ export const DEFAULT_QUERY = Object.freeze({
   propertyType: "",
   minPrice: null,
   maxPrice: null,
-  sort: "default",   // default | price-asc | price-desc
+  sort: "newest",    // newest | price-asc | price-desc | bedrooms-desc | bedrooms-asc
 });
 
 export function searchProperties(properties, query = {}) {
@@ -52,11 +52,19 @@ function matchesKeyword(p, keyword) {
     .every((word) => haystack.includes(word));
 }
 
+/* 【以后新增排序方式时需要修改】在这里加一个 case，
+   再到 properties/index.html 和首页的 Sort by 下拉菜单加相同的 value */
 export function sortProperties(list, sort) {
   const copy = [...list];
-  if (sort === "price-asc") copy.sort((a, b) => a.price - b.price);
-  if (sort === "price-desc") copy.sort((a, b) => b.price - a.price);
-  return copy; // default：保持 JSON 里的顺序
+  if (sort === "price-asc") return copy.sort((a, b) => a.price - b.price);
+  if (sort === "price-desc") return copy.sort((a, b) => b.price - a.price);
+  if (sort === "bedrooms-desc") return copy.sort((a, b) => (b.bedrooms ?? -1) - (a.bedrooms ?? -1));
+  if (sort === "bedrooms-asc") return copy.sort((a, b) => (a.bedrooms ?? Infinity) - (b.bedrooms ?? Infinity));
+  return sortNewest(copy); // newest（默认）：dateAdded 新的在前
+}
+
+function sortNewest(list) {
+  return list.sort((a, b) => (b.dateAdded || "").localeCompare(a.dateAdded || ""));
 }
 
 /** 从现有房源自动算出有哪些 Area，筛选下拉菜单不用再手写 */
@@ -69,10 +77,10 @@ export function listPropertyTypes(properties) {
   return uniqueSorted(properties.map((p) => p.propertyType));
 }
 
-/** 首页精选：JSON 里 "featured": true 的房源；都没标记就取前几间 */
+/** 首页精选：JSON 里 "featured": true 的房源；都没标记就取最新的几间 */
 export function getFeatured(properties, limit = 3) {
   const marked = properties.filter((p) => p.featured);
-  return (marked.length > 0 ? marked : properties).slice(0, limit);
+  return sortNewest(marked.length > 0 ? marked : [...properties]).slice(0, limit);
 }
 
 function uniqueSorted(values) {
