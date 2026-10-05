@@ -56,7 +56,20 @@ function withAbsolutePaths(raw) {
   if (!raw || typeof raw !== "object") return raw;
   return {
     ...raw,
-    image: raw.image ? new URL(raw.image, PROPERTIES_BASE).href : "",
-    url: raw.url ? new URL(raw.url, PROPERTIES_BASE).href : raw.url,
+    image: safeUrl(raw.image),
+    url: safeUrl(raw.url),
   };
+}
+
+// 安全：只接受 http / https（或与网站相同协议）的链接，挡掉 "javascript:..."、"data:..." 这类会执行代码的写法。
+// 不合格的 url 会变成空值，该房源会因为"缺少 url"被跳过并在 Console 提示。
+function safeUrl(value) {
+  if (typeof value !== "string" || value.trim() === "") return "";
+  try {
+    const url = new URL(value, PROPERTIES_BASE);
+    const allowed = ["http:", "https:", PROPERTIES_BASE.protocol]; // 后者让本地 file:// 预览和测试也能用
+    return allowed.includes(url.protocol) ? url.href : "";
+  } catch {
+    return "";
+  }
 }

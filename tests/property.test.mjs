@@ -57,14 +57,18 @@ test("service: Area 自动列出、精选", () => {
 });
 
 test("db + api: 读取 JSON、跳过坏资料、路径转换", async () => {
-  const rows = [base, { ...base, title: "Bad", price: "RM1" }];
+  const rows = [
+    base,
+    { ...base, title: "Bad", price: "RM1" },
+    { ...base, title: "XSS", url: "javascript:alert(1)", image: "data:text/html,x" },
+  ];
   globalThis.fetch = async () => ({ ok: true, json: async () => rows });
   const warn = console.warn; const warnings = []; console.warn = (...a) => warnings.push(a.join(" "));
   const { getProperties } = await import("../js/api/propertyApi.js");
   const { items, totalAll } = await getProperties();
   console.warn = warn;
   assert.equal(totalAll, 1);
-  assert.equal(warnings.length, 1);
+  assert.equal(warnings.length, 2); // 价格错误 + javascript: 链接都被跳过
   assert.match(items[0].url, /\/properties\/taman-gembira\/$/);
 });
 
