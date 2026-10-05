@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hartanah Dijual &amp; Disewa di Johor Bahru | Miss Loo JB Property</title>
+<meta name="description" content="Lihat hartanah kediaman untuk dijual dan disewa di Johor Bahru, Kulai dan sekitar Johor bersama Miss Loo JB Property.">
+<link rel="stylesheet" href="../../style.css?v=20260922-2"><link rel="icon" href="../../logo.jpg" type="image/jpeg">
+<!-- i18n:head -->
+<link rel="alternate" hreflang="en" href="https://sql-coffin.github.io/miss-loo-property-ann/properties/">
+<link rel="alternate" hreflang="zh-Hans" href="https://sql-coffin.github.io/miss-loo-property-ann/zh/properties/">
+<link rel="alternate" hreflang="ms" href="https://sql-coffin.github.io/miss-loo-property-ann/ms/properties/">
+<link rel="alternate" hreflang="x-default" href="https://sql-coffin.github.io/miss-loo-property-ann/properties/">
+<script type="module" src="../../js/ui/languagePicker.js"></script>
+<!-- /i18n:head -->
+</head>
+<body>
+<header class="site-header"><div class="container nav">
+<a class="brand" href="../index.html"><img src="../../logo.jpg" alt="Logo Miss Loo JB Property"><span>MISS LOO JB PROPERTY</span></a>
+<nav><a href="../properties/">Hartanah</a><a href="../buy-property/">Beli</a><a href="../sell-property/">Jual</a><a href="../rent-property/">Sewa</a><a href="../areas/">Kawasan</a><a class="nav-cta" href="https://wa.me/60167889571" target="_blank" rel="noopener">WhatsApp</a></nav>
+<!-- i18n:switch --><div class="lang-switch"><a href="../../properties/" hreflang="en" lang="en" title="English" data-lang-link="en">EN</a><a href="../../zh/properties/" hreflang="zh-Hans" lang="zh-Hans" title="中文" data-lang-link="zh">中文</a><a href="../../ms/properties/" hreflang="ms" lang="ms" title="Bahasa Melayu" data-lang-link="ms" aria-current="true">BM</a></div><!-- /i18n:switch -->
+</div></header>
+
+<main>
+<section class="listing-hero"><div class="container">
+<a class="back-link" href="../index.html">← Laman Utama</a>
+<p class="eyebrow">SENARAI HARTANAH</p>
+<h1>Hartanah Dijual &amp; Disewa</h1>
+<p class="listing-location">Johor Bahru · Kulai · Sekitar Johor</p>
+<p class="hero-copy">Cari hartanah kediaman subsale dan sewaan pilihan mengikut kata kunci, jenis senarai, kawasan, jenis hartanah dan harga.</p>
+</div></section>
+
+<section class="section">
+<div class="container">
+
+<!-- ==================== PROPERTY SEARCH ====================
+     【以后新增筛选条件时需要修改】
+     搜索资料来自 data/properties.json，程序在 js/ 的分层架构里（见 ARCHITECTURE.md）。
+     Area 和 Property Type 的选项由 JSON 自动产生，这里只保留第一个 "All" 选项。
+     如果增加新的筛选类别，需要同时修改：
+     1. 这里的 HTML select / input（加上 data-filter="名称"）
+     2. js/service/propertyService.js 的 DEFAULT_QUERY + matchesQuery()
+     3. js/ui/propertyListPage.js 的 FILTERS
+     ========================================================= -->
+<div class="property-search">
+  <div class="search-main">
+    <label for="propertySearch">Cari hartanah</label>
+    <input type="search" id="propertySearch" data-filter="keyword" placeholder="Cari lokasi, nama hartanah..." autocomplete="off">
+  </div>
+
+  <div class="search-filters">
+    <div>
+      <label for="listingType">Jenis</label>
+      <select id="listingType" data-filter="listingType">
+        <option value="">Semua</option>
+        <option value="sale">Dijual</option>
+        <option value="rent">Disewa</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="locationFilter">Kawasan</label>
+      <select id="locationFilter" data-filter="area">
+        <option value="">Semua Kawasan</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="propertyType">Jenis Hartanah</label>
+      <select id="propertyType" data-filter="propertyType">
+        <option value="">Semua Jenis</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="minPrice">Harga Minimum</label>
+      <input type="number" id="minPrice" data-filter="minPrice" min="0" step="10000" placeholder="RM">
+    </div>
+
+    <div>
+      <label for="maxPrice">Harga Maksimum</label>
+      <input type="number" id="maxPrice" data-filter="maxPrice" min="0" step="10000" placeholder="RM">
+    </div>
+
+    <button class="button secondary search-reset" type="button" id="resetFilters" data-property-reset>Set Semula</button>
+  </div>
+</div>
+
+<div class="search-summary">
+  <span id="resultCount" data-property-count>Memuatkan hartanah...</span>
+  <div class="search-sort">
+    <label for="sortBy">Susun mengikut</label>
+    <select id="sortBy" data-filter="sort">
+      <option value="newest">Terbaru</option>
+      <option value="price-asc">Harga: Rendah ke Tinggi</option>
+      <option value="price-desc">Harga: Tinggi ke Rendah</option>
+      <option value="bedrooms-desc">Bilik Tidur: Banyak ke Sedikit</option>
+      <option value="bedrooms-asc">Bilik Tidur: Sedikit ke Banyak</option>
+    </select>
+  </div>
+</div>
+
+<div class="property-grid" id="propertyGrid" data-property-results></div>
+
+<div class="no-results" id="noResults" data-property-empty hidden>
+  <h2>Tiada hartanah dijumpai</h2>
+  <p>Cuba ubah carian atau penapis anda.</p>
+</div>
+
+</div>
+</section>
+
+<section class="section soft"><div class="container contact-box"><div><p class="eyebrow">TIDAK JUMPA YANG ANDA CARI?</p><h2>Beritahu Miss Loo apa yang anda cari.</h2><p>Kongsikan kawasan, jenis hartanah, bajet pilihan anda dan sama ada anda ingin membeli atau menyewa.</p></div><a class="button primary" href="https://wa.me/60167889571" target="_blank" rel="noopener">WhatsApp Miss Loo</a></div></section>
+</main>
+
+<footer class="site-footer"><div class="container footer-inner"><span>© Miss Loo JB Property</span><span>Johor Bahru · Kulai · Johor</span></div></footer>
+
+<script type="module" src="../../js/ui/propertyListPage.js?v=20261005"></script>
+</body></html>

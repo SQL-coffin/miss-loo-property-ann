@@ -1,6 +1,7 @@
 # ==================== 自动生成房源页面 ====================
-# 在 /admin/ 后台保存房源（或手动修改 properties/*/listing.json）并推送到 main 后：
-#   1. 运行 scripts/build-properties.mjs 生成详情页、data/properties.json、sitemap.xml
+# 推送到 main 后（后台保存房源、修改英文网页、修改 i18n/ 翻译对照表）：
+#   1. 运行 scripts/build-properties.mjs 生成三种语言的房源详情页、zh/ 和 ms/ 的翻译网页、
+#      data/properties.json、sitemap.xml
 #   2. 运行测试
 #   3. 有变动就自动提交回 main，GitHub Pages 随后更新网站
 # 也可以在 GitHub 的 Actions 页面手动按 "Run workflow" 重新生成。
@@ -10,11 +11,14 @@ name: Build property pages
 on:
   push:
     branches: [main]
-    paths:
-      - "properties/**"
-      - "scripts/**"
-      - "js/domain/**"
-      - ".github/workflows/build-properties.yml"
+    # 只改了自动生成的文件时不需要再跑
+    paths-ignore:
+      - "zh/**"
+      - "ms/**"
+      - "data/properties.json"
+      - "sitemap.xml"
+      - "README.md"
+      - "ARCHITECTURE.md"
   workflow_dispatch:
 
 permissions:
@@ -44,7 +48,7 @@ jobs:
       - name: Commit generated files
         id: commit
         run: |
-          git add properties data/properties.json sitemap.xml
+          git add -A
           if git diff --cached --quiet; then
             echo "Nothing to commit"
             echo "changed=false" >> "$GITHUB_OUTPUT"

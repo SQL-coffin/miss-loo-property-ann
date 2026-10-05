@@ -1,70 +1,168 @@
 {
-  "title": "2-Storey Medium Cost End Lot",
-  "listingType": "sale",
-  "propertyType": "terrace",
-  "area": "Taman Tan Sri Yaacob",
-  "location": "Jalan Putra 5, Taman Tan Sri Yaacob",
-  "address": "Jalan Putra 5, Taman Tan Sri Yaacob, Johor Bahru",
-  "city": "Johor Bahru",
-  "price": 518000,
-  "propertyTypeLabel": "2-storey medium cost",
-  "lotType": "End Lot",
-  "landSize": "14' × 55'",
-  "bedrooms": 2,
-  "bathrooms": 2,
-  "tenure": "Freehold",
-  "bumiStatus": "Non-Bumi",
-  "facing": "South",
-  "photos": [
-    {
-      "image": "front.jpg",
-      "alt": "Front exterior of 2-storey end lot house at Taman Tan Sri Yaacob",
-      "caption": "Front exterior"
+  "en": {
+    "title": "2-Storey Medium Cost End Lot",
+    "listingType": "sale",
+    "propertyType": "terrace",
+    "area": "Taman Tan Sri Yaacob",
+    "location": "Jalan Putra 5, Taman Tan Sri Yaacob",
+    "address": "Jalan Putra 5, Taman Tan Sri Yaacob, Johor Bahru",
+    "city": "Johor Bahru",
+    "price": 518000,
+    "propertyTypeLabel": "2-storey medium cost",
+    "lotType": "End Lot",
+    "landSize": "14' × 55'",
+    "bedrooms": 2,
+    "bathrooms": 2,
+    "tenure": "Freehold",
+    "bumiStatus": "Non-Bumi",
+    "facing": "South",
+    "photos": [
+      {
+        "image": "front.jpg",
+        "alt": "Front exterior of 2-storey end lot house at Taman Tan Sri Yaacob",
+        "caption": "Front exterior"
+      },
+      {
+        "image": "car-porch.jpg",
+        "alt": "Covered car porch and entrance",
+        "caption": "Covered car porch and entrance"
+      },
+      {
+        "image": "side.jpg",
+        "alt": "Side and end-lot view of the house",
+        "caption": "End-lot side view"
+      },
+      {
+        "image": "living.jpg",
+        "alt": "Living area and staircase inside the house",
+        "caption": "Living area"
+      }
+    ],
+    "detailsHeading": "A renovated end-lot home with useful extensions.",
+    "description": "This 2-storey medium cost end lot at Jalan Putra 5, Taman Tan Sri Yaacob offers a 14' x 55' land size, a south-facing orientation and a practical renovated layout.",
+    "featuresLabel": "RENOVATION & EXTENSION",
+    "featuresHeading": "What has been changed",
+    "features": [
+      {
+        "title": "Living hall extended",
+        "text": "Additional living space at the front of the home."
+      },
+      {
+        "title": "Balcony extended",
+        "text": "Extended balcony area upstairs."
+      },
+      {
+        "title": "Converted bedroom layout",
+        "text": "Original upstairs 3-bedroom layout converted into 2 bedrooms."
+      },
+      {
+        "title": "Master bedroom mezzanine",
+        "text": "Additional mezzanine floor within the master bedroom."
+      }
+    ],
+    "facebookUrl": "https://www.facebook.com/share/p/1KN5BZ1W1b/",
+    "whatsappMessage": "Hi Miss Loo, I'm interested in the Jalan Putra 5 property at RM518,000.",
+    "seo": {
+      "title": "2-Storey End Lot House for Sale in Taman Tan Sri Yaacob | RM518,000",
+      "description": "2-storey medium cost end lot for sale at Jalan Putra 5, Taman Tan Sri Yaacob, Johor Bahru. Freehold, non-Bumi, south-facing, 14' x 55', 2 bedrooms and 2 bathrooms. Asking RM518,000."
     },
-    {
-      "image": "car-porch.jpg",
-      "alt": "Covered car porch and entrance",
-      "caption": "Covered car porch and entrance"
-    },
-    {
-      "image": "side.jpg",
-      "alt": "Side and end-lot view of the house",
-      "caption": "End-lot side view"
-    },
-    {
-      "image": "living.jpg",
-      "alt": "Living area and staircase inside the house",
-      "caption": "Living area"
-    }
-  ],
-  "detailsHeading": "A renovated end-lot home with useful extensions.",
-  "description": "This 2-storey medium cost end lot at Jalan Putra 5, Taman Tan Sri Yaacob offers a 14' x 55' land size, a south-facing orientation and a practical renovated layout.",
-  "featuresLabel": "RENOVATION & EXTENSION",
-  "featuresHeading": "What has been changed",
-  "features": [
-    {
-      "title": "Living hall extended",
-      "text": "Additional living space at the front of the home."
-    },
-    {
-      "title": "Balcony extended",
-      "text": "Extended balcony area upstairs."
-    },
-    {
-      "title": "Converted bedroom layout",
-      "text": "Original upstairs 3-bedroom layout converted into 2 bedrooms."
-    },
-    {
-      "title": "Master bedroom mezzanine",
-      "text": "Additional mezzanine floor within the master bedroom."
-    }
-  ],
-  "facebookUrl": "https://www.facebook.com/share/p/1KN5BZ1W1b/",
-  "whatsappMessage": "Hi Miss Loo, I'm interested in the Jalan Putra 5 property at RM518,000.",
-  "seo": {
-    "title": "2-Storey End Lot House for Sale in Taman Tan Sri Yaacob | RM518,000",
-    "description": "2-storey medium cost end lot for sale at Jalan Putra 5, Taman Tan Sri Yaacob, Johor Bahru. Freehold, non-Bumi, south-facing, 14' x 55', 2 bedrooms and 2 bathrooms. Asking RM518,000."
+    "dateAdded": "2026-09-20",
+    "featured": false
   },
-  "dateAdded": "2026-09-20",
-  "featured": false
+  "zh": {
+    "title": "双层中价尾间排屋",
+    "propertyTypeLabel": "双层中价排屋",
+    "detailsHeading": "翻新尾间，加建空间实用。",
+    "description": "这间位于 Jalan Putra 5, Taman Tan Sri Yaacob 的双层中价尾间排屋，土地面积 14' × 55'，坐北朝南，翻新后格局实用。",
+    "featuresLabel": "翻新与加建",
+    "featuresHeading": "做了哪些改动",
+    "features": [
+      {
+        "title": "客厅加建",
+        "text": "屋前增加了客厅空间。"
+      },
+      {
+        "title": "阳台加建",
+        "text": "楼上阳台已加大。"
+      },
+      {
+        "title": "房间格局改动",
+        "text": "楼上原本 3 房改为 2 房。"
+      },
+      {
+        "title": "主人房夹层",
+        "text": "主人房内加建了夹层。"
+      }
+    ],
+    "photos": [
+      {
+        "image": "front.jpg",
+        "caption": "屋外正面",
+        "alt": "Taman Tan Sri Yaacob 双层尾间排屋外观"
+      },
+      {
+        "image": "car-porch.jpg",
+        "caption": "有盖车廊和入口",
+        "alt": "有盖车廊和入口"
+      },
+      {
+        "image": "side.jpg",
+        "caption": "尾间侧面",
+        "alt": "房子侧面及尾间外观"
+      },
+      {
+        "image": "living.jpg",
+        "caption": "客厅",
+        "alt": "屋内客厅和楼梯"
+      }
+    ]
+  },
+  "ms": {
+    "title": "Rumah Teres 2 Tingkat Kos Sederhana Lot Hujung",
+    "propertyTypeLabel": "Teres 2 tingkat kos sederhana",
+    "detailsHeading": "Rumah lot hujung yang telah diubah suai dengan tambahan ruang.",
+    "description": "Rumah teres 2 tingkat kos sederhana lot hujung di Jalan Putra 5, Taman Tan Sri Yaacob ini mempunyai keluasan tanah 14' × 55', menghadap selatan dan susun atur yang praktikal selepas diubah suai.",
+    "featuresLabel": "UBAH SUAI & TAMBAHAN",
+    "featuresHeading": "Apa yang telah diubah",
+    "features": [
+      {
+        "title": "Ruang tamu diperluas",
+        "text": "Ruang tamu tambahan di bahagian hadapan rumah."
+      },
+      {
+        "title": "Balkoni diperluas",
+        "text": "Kawasan balkoni di tingkat atas telah diperluas."
+      },
+      {
+        "title": "Susun atur bilik diubah",
+        "text": "Susun atur asal 3 bilik di tingkat atas ditukar kepada 2 bilik."
+      },
+      {
+        "title": "Mezanin bilik utama",
+        "text": "Tingkat mezanin tambahan dalam bilik tidur utama."
+      }
+    ],
+    "photos": [
+      {
+        "image": "front.jpg",
+        "caption": "Bahagian hadapan",
+        "alt": "Bahagian hadapan rumah teres 2 tingkat lot hujung di Taman Tan Sri Yaacob"
+      },
+      {
+        "image": "car-porch.jpg",
+        "caption": "Garaj berbumbung dan pintu masuk",
+        "alt": "Garaj berbumbung dan pintu masuk"
+      },
+      {
+        "image": "side.jpg",
+        "caption": "Pandangan sisi lot hujung",
+        "alt": "Pandangan sisi rumah lot hujung"
+      },
+      {
+        "image": "living.jpg",
+        "caption": "Ruang tamu",
+        "alt": "Ruang tamu dan tangga di dalam rumah"
+      }
+    ]
+  }
 }

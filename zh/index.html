@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <!-- ==================== SEO / PAGE INFORMATION ====================
+       【通常不需要修改】
+       如果以后网站名称、主要服务地区或 SEO 方向改变，
+       才需要修改 title / description / Open Graph。
+       ================================================================ -->
+  <meta charset="UTF-8" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Miss Loo JB Property | 新山二手屋买卖与出租</title>
+  <meta name="description" content="Miss Loo JB Property 在新山、古来及周边地区提供住宅房产买卖与租赁服务。" />
+  <meta name="robots" content="index,follow" />
+  <meta property="og:title" content="Miss Loo JB Property" />
+  <meta property="og:description" content="新山、古来及周边地区的住宅房产买卖与租赁服务。" />
+  <meta property="og:type" content="website" />
+  <link rel="stylesheet" href="../style.css?v=20260922-2" />
+  <link rel="icon" href="../logo.jpg" type="image/jpeg" />
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"RealEstateAgent",
+    "name":"Miss Loo JB Property",
+    "email":"mailto:pohyuen0331@gmail.com",
+    "areaServed":["Johor Bahru","Kulai","Johor"],
+    "description":"Residential property buying, selling and rental services, with a focus on subsale properties."
+  }
+  </script>
+<!-- i18n:head -->
+<link rel="alternate" hreflang="en" href="https://sql-coffin.github.io/miss-loo-property-ann/">
+<link rel="alternate" hreflang="zh-Hans" href="https://sql-coffin.github.io/miss-loo-property-ann/zh/">
+<link rel="alternate" hreflang="ms" href="https://sql-coffin.github.io/miss-loo-property-ann/ms/">
+<link rel="alternate" hreflang="x-default" href="https://sql-coffin.github.io/miss-loo-property-ann/">
+<script type="module" src="../js/ui/languagePicker.js"></script>
+<!-- /i18n:head -->
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <!-- ==================== WEBSITE BRAND ====================
+           【通常不需要修改】
+           如果更换 Logo，只需要替换 logo.jpg。
+           ====================================================== -->
+      <a class="brand" href="#home"><img src="../logo.jpg" alt="Miss Loo JB Property 标志" /> <span>MISS LOO JB PROPERTY</span></a>
+      <nav>
+        <a href="properties/">房源</a>
+        <a href="buy-property/">买房</a>
+        <a href="sell-property/">卖房</a>
+        <a href="rent-property/">租房</a>
+        <a href="areas/">地区</a>
+        <a href="#about">关于</a>
+        <a class="nav-cta" href="#contact">联系</a>
+      </nav>
+<!-- i18n:switch --><div class="lang-switch"><a href="../" hreflang="en" lang="en" title="English" data-lang-link="en">EN</a><a href="../zh/" hreflang="zh-Hans" lang="zh-Hans" title="中文" data-lang-link="zh" aria-current="true">中文</a><a href="../ms/" hreflang="ms" lang="ms" title="Bahasa Melayu" data-lang-link="ms">BM</a></div><!-- /i18n:switch -->
+    </div>
+  </header>
+
+  <main id="home">
+    <!-- ==================== HOMEPAGE HERO ====================
+         【如果以后改变网站主宣传语才需要修改】
+         这里是访客进入主页后最先看到的主要文案。
+         ====================================================== -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">新山 · 古来 · 周边地区</p>
+          <h1>找到理想的家。<br><em>安心出售。</em></h1>
+          <p class="hero-copy">专注新山、古来及周边地区的二手屋，协助您买房、卖房和租房。</p>
+
+
+          <!-- ==================== HERO ACTION BUTTONS ====================
+               【如果更换 WhatsApp / Facebook / Properties 链接才需要修改】
+               WhatsApp 号码目前使用 016-7889571。
+               ============================================================= -->
+          <div class="actions">
+            <a class="button primary" href="properties/">查看房源</a>
+            <a class="button secondary" href="https://wa.me/60167889571" target="_blank" rel="noopener">WhatsApp 联系 Miss Loo</a>
+            <a class="button secondary" href="https://www.facebook.com/pohyuenloo73" target="_blank" rel="noopener">前往 Facebook 专页</a>
+          </div>
+        </div>
+        <div class="hero-card">
+          <span class="card-kicker">房产服务</span>
+          <h2>买 · 卖 · 租</h2>
+          <p>从找房、看房到完成交易，全程一对一协助。</p>
+          <div class="mini-grid">
+            <div><strong>二手屋</strong><span>住宅房产</span></div>
+            <div><strong>租赁</strong><span>有家具 / 无家具</span></div>
+            <div><strong>买家协助</strong><span>首次购屋者</span></div>
+            <div><strong>卖家协助</strong><span>房产推广</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== HOMEPAGE PROPERTY SEARCH ====================
+         【通常不需要修改】
+         首页搜索独立占用完整容器宽度，避免放在 Hero 两栏布局内造成拥挤。
+         搜索元件与 Properties 页面共用同一套 JSON + JavaScript 系统。
+         ================================================================ -->
+    <section class="section homepage-search-section">
+      <div class="container">
+        <!-- ==================== HOMEPAGE PROPERTY SEARCH ====================
+             【以后新增筛选条件时需要修改】
+             搜索资料来自 data/properties.json，程序在 js/ 的分层架构里（见 ARCHITECTURE.md）。
+             Area 和 Property Type 的选项由 JSON 自动产生，这里只保留第一个 "All" 选项。
+             如果增加新的筛选类别，需要同时修改：
+             1. 这里的 HTML select / input（加上 data-filter="名称"）
+             2. js/service/propertyService.js 的 DEFAULT_QUERY + matchesQuery()
+             3. js/ui/propertyListPage.js 的 FILTERS
+             ================================================================ -->
+        <section class="property-search homepage-property-search">
+          <div class="search-main">
+            <label for="propertySearch">搜索房源</label>
+            <input type="search" id="propertySearch" data-filter="keyword" placeholder="搜索地点、房源名称……" autocomplete="off">
+          </div>
+
+          <div class="search-filters">
+            <div>
+              <label for="listingType">类别</label>
+              <select id="listingType" data-filter="listingType">
+                <option value="">全部</option>
+                <option value="sale">出售</option>
+                <option value="rent">出租</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="locationFilter">地区</label>
+              <select id="locationFilter" data-filter="area">
+                <option value="">所有地区</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="propertyType">房屋类型</label>
+              <select id="propertyType" data-filter="propertyType">
+                <option value="">所有类型</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="minPrice">最低价格</label>
+              <input type="number" id="minPrice" data-filter="minPrice" min="0" step="10000" placeholder="RM">
+            </div>
+
+            <div>
+              <label for="maxPrice">最高价格</label>
+              <input type="number" id="maxPrice" data-filter="maxPrice" min="0" step="10000" placeholder="RM">
+            </div>
+
+            <button class="button secondary search-reset" type="button" id="resetFilters" data-property-reset>重置</button>
+          </div>
+
+          <div class="search-summary">
+            <span id="resultCount" data-property-count>正在加载房源……</span>
+            <div class="search-sort">
+              <label for="sortBy">排序</label>
+              <select id="sortBy" data-filter="sort">
+                <option value="newest">最新</option>
+                <option value="price-asc">价格：从低到高</option>
+                <option value="price-desc">价格：从高到低</option>
+                <option value="bedrooms-desc">房间数：从多到少</option>
+                <option value="bedrooms-asc">房间数：从少到多</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="property-grid homepage-search-results" id="propertyGrid" data-property-results></div>
+
+          <div class="no-results" id="noResults" data-property-empty hidden>
+            <h2>找不到房源</h2>
+            <p>请尝试更改搜索条件或筛选项。</p>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <!-- ==================== FEATURED PROPERTIES ====================
+         【新增房源时不需要修改这里】
+         房源卡片由 js/ui/featuredProperties.js 从 data/properties.json 自动产生。
+         - 想指定首页显示哪几间：在 JSON 里给它加 "featured": true
+         - 一间都没标记时，自动显示最新（dateAdded）的几间
+         - 显示数量：修改下面的 data-limit
+         下面两张 placeholder 卡片会固定显示在房源后面。
+         ============================================================ -->
+    <section class="section" id="properties">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">精选</p>
+            <h2>最新房源</h2>
+          </div>
+          <p class="muted">更多房源将陆续上架。</p>
+        </div>
+        <div class="property-grid" data-featured-properties data-limit="4">
+          <!-- 读取失败时的后备内容（读取成功后会被房源卡片取代） -->
+          <article class="property-card placeholder" data-featured-fallback>
+            <div class="property-image">房源列表</div>
+            <div class="property-body">
+              <span class="tag">出售与出租</span>
+              <h3>浏览现有房源</h3>
+              <p>查看目前所有可供出售或出租的住宅。</p>
+              <a href="properties/">查看所有房源 →</a>
+            </div>
+          </article>
+          <article class="property-card placeholder">
+            <div class="property-image">新房源</div>
+            <div class="property-body">
+              <span class="tag">即将推出</span>
+              <h3>更多房源即将上架</h3>
+              <p>新的住宅房源会陆续在这里发布。</p>
+              <a href="properties/">查看所有房源 →</a>
+            </div>
+          </article>
+          <article class="property-card placeholder">
+            <div class="property-image">房屋照片</div>
+            <div class="property-body">
+              <span class="tag">卖家</span>
+              <h3>想出售房子？</h3>
+              <p>欢迎联系我们，讨论您的房产、期望价格和推广需求。</p>
+              <a href="sell-property/">联系 Miss Loo →</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SERVICES ====================
+         【如果以后改变提供的房地产服务才需要修改】
+         例如 Buy / Sell / Rent / First-time buyer support。
+         ================================================= -->
+    <section class="section soft" id="services">
+      <div class="container two-col">
+        <div>
+          <p class="eyebrow">服务</p>
+          <h2>实在、贴心的房产服务。</h2>
+        </div>
+        <div class="service-list">
+          <div><strong>买房代理服务</strong><span>筛选房源、安排看房和购屋指导。</span></div>
+          <div><strong>卖房代理服务</strong><span>房产推广、处理询问和协调交易。</span></div>
+          <div><strong>住宅租赁</strong><span>为房东和租客提供协助。</span></div>
+          <div><strong>首次购屋者</strong><span>从找房到看房，每一步都更清楚。</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SERVICE AREAS ====================
+         【可以随着业务范围增加而修改】
+         新增地区时，在这里增加 area。
+         ===================================================== -->
+    <section class="section" id="areas">
+      <div class="container">
+        <p class="eyebrow">本地专注</p>
+        <h2>我们服务的地区</h2>
+        <div class="area-grid">
+          <div>新山</div>
+          <div>Mount Austin</div>
+          <div>地不佬</div>
+          <div>拉庆</div>
+          <div>古来</div>
+          <div>柔佛周边地区</div>
+        </div>
+        <p class="muted area-note">各地区页面将陆续加入本地房产指南和最新房源。</p>
+      </div>
+    </section>
+
+    <!-- ==================== ABOUT MISS LOO ====================
+         【如果代理资料或公司资料改变才需要修改】
+         例如 Agency / REN / Email / Service areas。
+         ======================================================= -->
+    <section class="section dark" id="about">
+      <div class="container two-col">
+        <div>
+          <p class="eyebrow">关于 MISS LOO</p>
+          <h2>用心沟通，提供在地的房产建议。</h2>
+        </div>
+        <p>Miss Loo JB Property 隶属 MW Properties，在新山、古来及周边地区提供住宅买卖与租赁协助，服务包括二手屋、安排看房、买家协助及代表卖家出售。</p><p class="agent-meta">REN：REN50378 · 电邮：pohyuen0331@gmail.com</p>
+      </div>
+    </section>
+
+    <!-- ==================== CONTACT / FACEBOOK ====================
+         【如果 Facebook 页面链接或联系方式改变才需要修改】
+         ============================================================ -->
+    <section class="section contact" id="contact">
+      <div class="container social-card">
+        <div>
+          <p class="eyebrow">关注 MISS LOO</p>
+          <h2>在 Facebook 查看更多房源和最新动态。</h2>
+          <p>浏览 Miss Loo JB Property 最近发布的房源和动态。</p>
+        </div>
+        <a class="button secondary" href="https://www.facebook.com/pohyuenloo73" target="_blank" rel="noopener">打开 Facebook 专页</a>
+      </div>
+      <div class="container contact-box">
+        <div>
+          <p class="eyebrow">联系我们</p>
+          <h2>想买房、卖房或租房？</h2>
+          <p>告诉我们您想要的地区、房屋类型和预算，我们一起讨论。</p>
+        </div>
+        <a class="button primary" href="https://wa.me/60167889571" target="_blank" rel="noopener">WhatsApp +60 16-788 9571</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© Miss Loo JB Property</span>
+      <span>新山 · 古来 · 柔佛</span>
+    </div>
+  </footer>
+
+  <script type="module" src="../js/ui/propertyListPage.js?v=20261005"></script>
+  <script type="module" src="../js/ui/featuredProperties.js?v=20261005"></script>
+</body>
+</html>
