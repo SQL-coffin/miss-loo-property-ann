@@ -10,6 +10,7 @@
 import { LANGUAGES, DEFAULT_LANG, currentLang, SITE_ROOT, t } from "../i18n.js";
 
 const STORAGE_KEY = "missloo-lang";
+const REFERRER_KEY = "missloo-referrer"; // js/analytics.js 也用这个名称
 const lang = currentLang();
 
 /** 同一页在另一种语言的网址，例如 /properties/ → /zh/properties/ */
@@ -114,10 +115,25 @@ for (const link of document.querySelectorAll("[data-lang-link]")) {
   link.addEventListener("click", () => savePreference(link.dataset.langLink));
 }
 
+/** 自动跳到客人偏好的语言时，原本的来源（Google、Facebook…）会变成本站。
+    先记下来，让 js/analytics.js 把真正的来源报给 Google Analytics */
+function rememberReferrer() {
+  try {
+    if (document.referrer && new URL(document.referrer).origin !== location.origin) {
+      sessionStorage.setItem(REFERRER_KEY, document.referrer);
+    }
+  } catch {
+    // 存不了就算了，只影响来源统计
+  }
+}
+
 const preference = readPreference();
 if (preference && preference !== lang) {
   const next = urlFor(preference);
-  if (next) location.replace(next);
+  if (next) {
+    rememberReferrer();
+    location.replace(next);
+  }
 } else if (!preference) {
   showPicker();
 }

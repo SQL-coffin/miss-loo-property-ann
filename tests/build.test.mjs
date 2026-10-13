@@ -6,7 +6,7 @@ import os from "node:os";
 import path from "node:path";
 import { build, buildSitemap, localize, splitLocales, SITE_URL } from "../scripts/build-properties.mjs";
 import { GENERATED_MARKER } from "../scripts/property-page-template.mjs";
-import { translatePage, findSourcePages } from "../scripts/i18n-pages.mjs";
+import { translatePage, findSourcePages, CSP, GA_MEASUREMENT_ID } from "../scripts/i18n-pages.mjs";
 
 const listing = {
   title: "Renovated Terrace",
@@ -56,6 +56,9 @@ test("build: 生成详情页、卡片资料、sitemap", () => {
   assert.ok(page.includes("<h1>Renovated Terrace</h1>"));
   assert.ok(page.includes("RM558,000"));
   assert.ok(page.includes(`<meta property="og:image" content="${SITE_URL}properties/taman-gembira/front.webp">`));
+  assert.ok(page.includes('<meta property="og:image:alt" content="Front">'));
+  const waLinks = page.match(/href="https:\/\/wa\.me\/[^"]*"/g);
+  assert.ok(waLinks.length >= 3 && waLinks.every((h) => h.includes("?text=Hi%20Miss%20Loo")), "每个 WhatsApp 按钮都带房源讯息");
 
   const cards = JSON.parse(read(root, "data", "properties.json"));
   assert.equal(cards[0].image, "taman-gembira/front.webp");
@@ -168,4 +171,54 @@ test("translatePage: 翻译文字和属性，修正资源路径，网页链接�
   assert.ok(out.includes('<a href="../buy/">你好 &lt;b&gt;</a>'), "网页链接留在同一语言");
   assert.ok(out.includes('href="https://wa.me/1"') && out.includes('href="#top"'));
   assert.deepEqual([...missing], ["Missing one"]);
+});
+
+test("translatePage: WhatsApp 预填讯息按对照表翻译（可含换行），缺翻译时保留英文并列出", () => {
+  const wa = (text) => `https://wa.me/60123?text=${encodeURIComponent(text)}`;
+  const html = `<a href="${wa("Hi\nArea:")}">x</a><a href="${wa("Untranslated")}">y</a><a href="https://wa.me/60123">z</a>`;
+  const missing = new Set();
+  const out = translatePage(html, { dict: { "Hi\nArea:": "你好\n地区：" }, lang: "zh", relPath: "index.html", missing });
+  assert.ok(out.includes(`href="${wa("你好\n地区：")}"`));
+  assert.ok(out.includes(`href="${wa("Untranslated")}"`));
+  assert.ok(out.includes('href="https://wa.me/60123"'));
+  assert.deepEqual([...missing].filter((k) => k !== "x" && k !== "y" && k !== "z"), ["Untranslated"]);
+});
+
+test("固定网页：都有分享预览图，WhatsApp 讯息都有中文 / 马来文翻译", () => {
+  const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+  for (const rel of findSourcePages(root)) {
+    const html = read(root, rel);
+    assert.ok(html.includes(`<meta property="og:image" content="${SITE_URL}share.jpg">`), `${rel} 缺 og:image`);
+    for (const lang of ["zh", "ms"]) {
+      const missing = new Set();
+      translatePage(html, { dict: JSON.parse(read(root, "i18n", `${lang}.json`)), lang, relPath: rel, missing });
+      const waMissing = [...missing].filter((k) => k.startsWith("Hi Miss Loo"));
+      assert.deepEqual(waMissing, [], `${rel} 的 WhatsApp 讯息缺 ${lang} 翻译`);
+    }
+  }
+  assert.ok(fs.existsSync(path.join(root, "share.jpg")));
+});
+
+test("流量统计：所有网页（三种语言、房源页）都加载 GA4，CSP 统一并放行 Google Analytics", () => {
+  const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+  assert.match(GA_MEASUREMENT_ID, /^G-[A-Z0-9]+$/);
+  assert.ok(CSP.includes("script-src 'self' https://*.googletagmanager.com"));
+  assert.ok(!CSP.includes("unsafe-inline"), "不能放行内联脚本");
+  const pages = findSourcePages(root).flatMap((rel) => [rel, `zh/${rel}`, `ms/${rel}`]);
+  for (const slug of fs.readdirSync(path.join(root, "properties"))) {
+    if (fs.existsSync(path.join(root, "properties", slug, "listing.json"))) pages.push(`properties/${slug}/index.html`, `zh/properties/${slug}/index.html`, `ms/properties/${slug}/index.html`);
+  }
+  for (const rel of pages) {
+    const html = read(root, rel);
+    assert.ok(html.includes(`<script async src="https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}"></script>`), `${rel} 缺 gtag.js`);
+    assert.match(html, /<script type="module" src="(\.\.\/)*js\/analytics\.js"><\/script>/, `${rel} 缺 analytics.js`);
+    assert.ok(html.includes(`content="${CSP}"`), `${rel} 的 CSP 不是统一版本`);
+    assert.ok(!/<script>[^<]/.test(html), `${rel} 有内联脚本，会被 CSP 拦截`);
+  }
+});
+
+test("Search Console 验证文件和首页验证标签都还在", () => {
+  const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+  assert.equal(read(root, "google4ef97c57744e95ce.html"), "google-site-verification: google4ef97c57744e95ce.html");
+  assert.ok(read(root, "index.html").includes('<meta name="google-site-verification" content="3kCczUhbU_rNEZhTKpt11mSz3-XxEYbLwh5sTLIzfLE" />'));
 });

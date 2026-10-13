@@ -7,16 +7,24 @@
        才需要修改 title / description / Open Graph。
        ================================================================ -->
   <meta charset="UTF-8" />
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://*.googletagmanager.com; style-src 'self'; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Miss Loo JB Property | Hartanah Subsale &amp; Sewa Johor Bahru</title>
   <meta name="description" content="Miss Loo JB Property menyediakan perkhidmatan jual beli dan sewa hartanah kediaman di Johor Bahru, Kulai dan kawasan sekitar." />
   <meta name="robots" content="index,follow" />
+  <!-- Google Search Console 网站验证，不要删除（另一个验证方式是根目录的 google4ef97c57744e95ce.html） -->
+  <meta name="google-site-verification" content="3kCczUhbU_rNEZhTKpt11mSz3-XxEYbLwh5sTLIzfLE" />
   <meta property="og:title" content="Miss Loo JB Property" />
   <meta property="og:description" content="Perkhidmatan jual beli dan sewa hartanah kediaman di Johor Bahru, Kulai dan kawasan sekitar." />
   <meta property="og:type" content="website" />
-  <link rel="stylesheet" href="../style.css?v=20260922-2" />
+  <meta property="og:site_name" content="Miss Loo JB Property">
+  <meta property="og:image" content="https://sql-coffin.github.io/miss-loo-property-ann/share.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Miss Loo JB Property — ejen hartanah Johor Bahru">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="../style.css?v=20261013" />
   <link rel="icon" href="../logo.jpg" type="image/jpeg" />
   <script type="application/ld+json">
   {
@@ -34,6 +42,8 @@
 <link rel="alternate" hreflang="ms" href="https://sql-coffin.github.io/miss-loo-property-ann/ms/">
 <link rel="alternate" hreflang="x-default" href="https://sql-coffin.github.io/miss-loo-property-ann/">
 <script type="module" src="../js/ui/languagePicker.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3QLM4E0TXX"></script>
+<script type="module" src="../js/analytics.js"></script>
 <!-- /i18n:head -->
 </head>
 <body>
@@ -76,7 +86,7 @@
                ============================================================= -->
           <div class="actions">
             <a class="button primary" href="properties/">Lihat Hartanah</a>
-            <a class="button secondary" href="https://wa.me/60167889571" target="_blank" rel="noopener">WhatsApp Miss Loo</a>
+            <a class="button secondary" href="https://wa.me/60167889571?text=Hai%20Miss%20Loo%2C%20saya%20jumpa%20laman%20web%20anda%20dan%20ingin%20bertanya%20tentang%20hartanah." target="_blank" rel="noopener">WhatsApp Miss Loo</a>
             <a class="button secondary" href="https://www.facebook.com/pohyuenloo73" target="_blank" rel="noopener">Lawati Halaman Facebook</a>
           </div>
         </div>
@@ -298,7 +308,7 @@
           <h2>Ingin membeli, menjual atau menyewa?</h2>
           <p>Hantar pertanyaan dan kita boleh bincangkan kawasan, jenis hartanah dan bajet pilihan anda.</p>
         </div>
-        <a class="button primary" href="https://wa.me/60167889571" target="_blank" rel="noopener">WhatsApp +60 16-788 9571</a>
+        <a class="button primary" href="https://wa.me/60167889571?text=Hai%20Miss%20Loo%2C%20saya%20jumpa%20laman%20web%20anda%20dan%20ingin%20bertanya%20tentang%20hartanah." target="_blank" rel="noopener">WhatsApp +60 16-788 9571</a>
       </div>
     </section>
   </main>
@@ -307,6 +317,7 @@
     <div class="container footer-inner">
       <span>© Miss Loo JB Property</span>
       <span>Johor Bahru · Kulai · Johor</span>
+      <span>Laman ini menggunakan Google Analytics untuk mengira lawatan.</span>
     </div>
   </footer>
 

@@ -18,6 +18,22 @@ import path from "node:path";
 export const LANGS = ["en", "zh", "ms"];
 export const DEFAULT_LANG = "en";
 export const HTML_LANG = { en: "en", zh: "zh-Hans", ms: "ms" };
+// Google Analytics 4 衡量 ID（GA4 后台 → 管理 → 数据流 → 网站）。换 GA4 账号时只改这里
+export const GA_MEASUREMENT_ID = "G-3QLM4E0TXX";
+
+// 网页安全设定（CSP）：只允许自己网站的文件，加上 Google Analytics 需要的网址。
+// 固定网页和房源详情页都用这一份（生成时 buildLanguagePages 会把固定网页的 CSP 统一成这一份）
+export const CSP = [
+  "default-src 'self'",
+  "script-src 'self' https://*.googletagmanager.com",
+  "style-src 'self'",
+  "img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com",
+  "connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+].join("; ");
+
 const SWITCH_LABEL = { en: "EN", zh: "中文", ms: "BM" };
 const SWITCH_TITLE = { en: "English", zh: "中文", ms: "Bahasa Melayu" };
 
@@ -25,7 +41,7 @@ const SWITCH_TITLE = { en: "English", zh: "中文", ms: "Bahasa Melayu" };
 const SKIP_DIRS = new Set(["zh", "ms", "admin", "scripts", "tests", "i18n", "js", "data", "node_modules", ".git", ".github"]);
 
 // 只翻译这些 meta（其他 meta 例如 CSP、robots 不能动）
-const TRANSLATABLE_META = /<meta\s+(?:name="description"|property="og:(?:title|description)")/i;
+const TRANSLATABLE_META = /<meta\s+(?:name="description"|property="og:(?:title|description|image:alt)")/i;
 const TRANSLATABLE_ATTRS = ["alt", "placeholder", "title", "aria-label"];
 
 export function loadDictionaries(root) {
@@ -75,9 +91,12 @@ export function languageBlocks({ dir, lang, siteUrl }) {
   const toRoot = rootPrefix(dir, lang);
   const links = LANGS.map((l) => `<link rel="alternate" hreflang="${HTML_LANG[l]}" href="${siteUrl}${langPrefix(l)}${dir}">`);
   links.push(`<link rel="alternate" hreflang="x-default" href="${siteUrl}${dir}">`);
+  const analytics = GA_MEASUREMENT_ID
+    ? `\n<script async src="https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}"></script>\n<script type="module" src="${toRoot}js/analytics.js"></script>`
+    : "";
   const head = `<!-- i18n:head -->
 ${links.join("\n")}
-<script type="module" src="${toRoot}js/ui/languagePicker.js"></script>
+<script type="module" src="${toRoot}js/ui/languagePicker.js"></script>${analytics}
 <!-- /i18n:head -->`;
   const switcher = `<!-- i18n:switch --><div class="lang-switch">${LANGS.map((l) =>
     `<a href="${toRoot}${langPrefix(l)}${dir}" hreflang="${HTML_LANG[l]}" lang="${HTML_LANG[l]}" title="${SWITCH_TITLE[l]}" data-lang-link="${l}"${l === lang ? ' aria-current="true"' : ""}>${SWITCH_LABEL[l]}</a>`
@@ -136,7 +155,7 @@ function translateTag(tag, dict, missing) {
     if (!TRANSLATABLE_META.test(tag)) return tag;
     attrs.push("content");
   }
-  return tag.replace(new RegExp(`\\s(${attrs.join("|")})="([^"]*)"`, "g"), (all, name, value) => {
+  return translateWhatsAppText(tag, dict, missing).replace(new RegExp(`\\s(${attrs.join("|")})="([^"]*)"`, "g"), (all, name, value) => {
     const key = decode(value).trim().replace(/\s+/g, " ");
     if (!key || !/[A-Za-z]/.test(key)) return all;
     if (!(key in dict)) {
@@ -144,6 +163,23 @@ function translateTag(tag, dict, missing) {
       return all;
     }
     return ` ${name}="${encodeAttr(dict[key])}"`;
+  });
+}
+
+/** WhatsApp 链接的预填讯息（wa.me/...?text=...）也用对照表翻译。讯息可以有换行，对照表的英文原句要一字不差 */
+function translateWhatsAppText(tag, dict, missing) {
+  return tag.replace(/(\shref="https:\/\/wa\.me\/\d+\?text=)([^"]*)"/, (all, start, encoded) => {
+    let key;
+    try {
+      key = decodeURIComponent(decode(encoded));
+    } catch {
+      return all;
+    }
+    if (!(key in dict)) {
+      missing?.add(key);
+      return all;
+    }
+    return `${start}${encodeURIComponent(dict[key])}"`;
   });
 }
 
@@ -168,7 +204,7 @@ export function buildLanguagePages(root, { siteUrl, log = console.log, warn = co
   for (const relPath of pages) {
     const dir = pageDir(relPath);
     const sourceFile = path.join(root, relPath);
-    const source = injectLanguageBlocks(fs.readFileSync(sourceFile, "utf8"), languageBlocks({ dir, lang: DEFAULT_LANG, siteUrl }));
+    const source = applyCsp(injectLanguageBlocks(fs.readFileSync(sourceFile, "utf8"), languageBlocks({ dir, lang: DEFAULT_LANG, siteUrl })));
     writeIfChanged(sourceFile, source, root, log);
 
     for (const [lang, dict] of Object.entries(dicts)) {
@@ -181,9 +217,14 @@ export function buildLanguagePages(root, { siteUrl, log = console.log, warn = co
   }
 
   for (const [lang, set] of Object.entries(missing)) {
-    if (set.size) warn(`⚠️  i18n/${lang}.json 缺少 ${set.size} 句翻译（暂时显示英文）：\n   - ${[...set].join("\n   - ")}`);
+    if (set.size) warn(`⚠️  i18n/${lang}.json 缺少 ${set.size} 句翻译（暂时显示英文）：\n   - ${[...set].map((k) => (k.includes("\n") ? JSON.stringify(k) : k)).join("\n   - ")}`);
   }
   return { pages, missing };
+}
+
+/** 把网页里的 CSP 换成上面统一的 CSP */
+export function applyCsp(html) {
+  return html.replace(/(<meta http-equiv="Content-Security-Policy" content=")[^"]*(")/i, `$1${CSP}$2`);
 }
 
 export function writeIfChanged(file, content, root, log) {
