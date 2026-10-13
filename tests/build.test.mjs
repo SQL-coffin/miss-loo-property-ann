@@ -216,3 +216,9 @@ test("流量统计：所有网页（三种语言、房源页）都加载 GA4，C
     assert.ok(!/<script>[^<]/.test(html), `${rel} 有内联脚本，会被 CSP 拦截`);
   }
 });
+
+test("Search Console 验证文件和首页验证标签都还在", () => {
+  const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+  assert.equal(read(root, "google4ef97c57744e95ce.html"), "google-site-verification: google4ef97c57744e95ce.html");
+  assert.ok(read(root, "index.html").includes('<meta name="google-site-verification" content="3kCczUhbU_rNEZhTKpt11mSz3-XxEYbLwh5sTLIzfLE" />'));
+});
