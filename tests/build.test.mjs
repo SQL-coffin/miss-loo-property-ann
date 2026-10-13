@@ -279,5 +279,8 @@ test("SEO：每一页刚好一个 canonical，指向自己；首页经纪人资�
   assert.equal(agent.url, SITE_URL);
   assert.equal(agent.telephone, "+60167889571");
   assert.ok(agent.sameAs.some((u) => u.includes("facebook.com")));
+  assert.ok(agent.hasMap.startsWith("https://www.google.com/maps/place/") && !agent.hasMap.includes("?"), "Google 地图链接（不带追踪参数）");
+  assert.ok(agent.sameAs.includes(agent.hasMap));
+  assert.ok(read(root, "index.html").includes(`href="${agent.hasMap}"`), "首页有 Google 地图按钮");
 });
 

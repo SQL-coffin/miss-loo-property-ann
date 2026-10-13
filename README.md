@@ -123,6 +123,7 @@ https://sql-coffin.github.io/miss-loo-property-ann/admin/
   - 注意：从 WhatsApp 聊天点进来的访客，大多会算在「直接」（Direct），不会单独显示 WhatsApp
 - `whatsapp_click`：有人点了 WhatsApp 按钮（最重要的转化）
 - `facebook_click`：有人点了 Facebook 帖子 / 专页
+- `maps_click`：有人点了 Google 地图（首页联系区的「View on Google Maps」）
 
 每次点击会附带：按钮位置 `link_location`（nav 顶部导航 / hero 页面顶部 / enquiry_card 房源页右侧卡片 / contact 页底）、
 网页语言 `page_language`，以及在房源页时的房源 `listing_id`、`listing_title`。
