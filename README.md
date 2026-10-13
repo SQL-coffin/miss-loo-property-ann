@@ -110,7 +110,43 @@ https://sql-coffin.github.io/miss-loo-property-ann/admin/
 - 其他网页：每页一段，写在英文网页的 `wa.me/60167889571?text=...` 链接里（文字经过网址编码，`%20` 是空格、`%0A` 是换行）
 - 修改其他网页的讯息后，要把新讯息的翻译加进 `i18n/zh.json`、`i18n/ms.json`，英文原句（包括换行 `\n`）必须一字不差，否则中文 / 马来文页面会显示英文讯息，Action 日志会列出来
 
-## 0.8 升级后台程序（Sveltia CMS）
+## 0.8 流量统计（Google Analytics 4）
+
+网站每一页都装了 GA4（衡量 ID `G-3QLM4E0TXX`），数据在 https://analytics.google.com 查看。
+
+**自动记录：**
+
+- 访问量、访客来源（Google、Facebook、WhatsApp 分享、直接输入）、看了哪些页面、用手机还是电脑
+- `whatsapp_click`：有人点了 WhatsApp 按钮（最重要的转化）
+- `facebook_click`：有人点了 Facebook 帖子 / 专页
+
+每次点击会附带：按钮位置 `link_location`（nav 顶部导航 / hero 页面顶部 / enquiry_card 房源页右侧卡片 / contact 页底）、
+网页语言 `page_language`，以及在房源页时的房源 `listing_id`、`listing_title`。
+
+**第一次设定（只需做一次，在 GA4 后台）：**
+
+1. **把 WhatsApp 点击设为转化**：管理 → 数据显示 → 事件，等 `whatsapp_click` 出现（有人点过之后约 24 小时）→ 打开「标记为关键事件」
+2. **让报表能按房源 / 按钮位置分组**：管理 → 数据显示 → 自定义定义 → 创建自定义维度，范围选「事件」，各建一个：
+   `listing_title`、`listing_id`、`link_location`、`page_language`（名称和事件参数都填同一个英文名）
+3. **数据保留期**：管理 → 数据收集和修改 → 数据保留，改成 14 个月（默认只有 2 个月）
+
+**常看的报表：**
+
+- 报告 → 流量获取：客人从哪里来
+- 报告 → 互动度 → 页面和屏幕：哪个房源最多人看
+- 报告 → 互动度 → 事件 → `whatsapp_click`：多少人发 WhatsApp，哪个房源、哪个按钮
+
+**想确认有没有在统计**：GA4 后台 → 报告 → 实时，用手机打开网站点几下，30 秒内会出现。
+在自己电脑预览（localhost）时不会统计。
+
+**维护者须知：**
+
+- 衡量 ID 只写在 `scripts/i18n-pages.mjs` 的 `GA_MEASUREMENT_ID`，改了之后重新生成，所有网页一起更新；留空 `""` 就整站停用
+- 点击追踪的程序在 `js/analytics.js`
+- 网页的安全设定（CSP）统一写在 `scripts/i18n-pages.mjs` 的 `CSP`，生成时会套用到所有网页。不要在网页里直接写 `<script>...</script>`，会被拦截；Google 给的那段代码已经拆成 gtag.js + `js/analytics.js`，不需要再贴
+- 页底有一句「本网站使用 Google Analytics 统计访问量」，作为隐私说明
+
+## 0.9 升级后台程序（Sveltia CMS）
 
 `admin/index.html` 把后台程序锁定在固定版本，并附上 `integrity` 校验值，防止 CDN 上的文件被人改动。
 平时不用管，后台有问题或需要新功能时才升级：

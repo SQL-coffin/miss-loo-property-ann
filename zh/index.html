@@ -7,7 +7,7 @@
        才需要修改 title / description / Open Graph。
        ================================================================ -->
   <meta charset="UTF-8" />
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://*.googletagmanager.com; style-src 'self'; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Miss Loo JB Property | 新山二手屋买卖与出租</title>
@@ -40,6 +40,8 @@
 <link rel="alternate" hreflang="ms" href="https://sql-coffin.github.io/miss-loo-property-ann/ms/">
 <link rel="alternate" hreflang="x-default" href="https://sql-coffin.github.io/miss-loo-property-ann/">
 <script type="module" src="../js/ui/languagePicker.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3QLM4E0TXX"></script>
+<script type="module" src="../js/analytics.js"></script>
 <!-- /i18n:head -->
 </head>
 <body>
@@ -313,6 +315,7 @@
     <div class="container footer-inner">
       <span>© Miss Loo JB Property</span>
       <span>新山 · 古来 · 柔佛</span>
+      <span>本网站使用 Google Analytics 统计访问量。</span>
     </div>
   </footer>
 

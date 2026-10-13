@@ -6,7 +6,7 @@ import os from "node:os";
 import path from "node:path";
 import { build, buildSitemap, localize, splitLocales, SITE_URL } from "../scripts/build-properties.mjs";
 import { GENERATED_MARKER } from "../scripts/property-page-template.mjs";
-import { translatePage, findSourcePages } from "../scripts/i18n-pages.mjs";
+import { translatePage, findSourcePages, CSP, GA_MEASUREMENT_ID } from "../scripts/i18n-pages.mjs";
 
 const listing = {
   title: "Renovated Terrace",
@@ -197,4 +197,22 @@ test("固定网页：都有分享预览图，WhatsApp 讯息都有中文 / 马�
     }
   }
   assert.ok(fs.existsSync(path.join(root, "share.jpg")));
+});
+
+test("流量统计：所有网页（三种语言、房源页）都加载 GA4，CSP 统一并放行 Google Analytics", () => {
+  const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+  assert.match(GA_MEASUREMENT_ID, /^G-[A-Z0-9]+$/);
+  assert.ok(CSP.includes("script-src 'self' https://*.googletagmanager.com"));
+  assert.ok(!CSP.includes("unsafe-inline"), "不能放行内联脚本");
+  const pages = findSourcePages(root).flatMap((rel) => [rel, `zh/${rel}`, `ms/${rel}`]);
+  for (const slug of fs.readdirSync(path.join(root, "properties"))) {
+    if (fs.existsSync(path.join(root, "properties", slug, "listing.json"))) pages.push(`properties/${slug}/index.html`, `zh/properties/${slug}/index.html`);
+  }
+  for (const rel of pages) {
+    const html = read(root, rel);
+    assert.ok(html.includes(`<script async src="https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}"></script>`), `${rel} 缺 gtag.js`);
+    assert.match(html, /<script type="module" src="(\.\.\/)*js\/analytics\.js"><\/script>/, `${rel} 缺 analytics.js`);
+    assert.ok(html.includes(`content="${CSP}"`), `${rel} 的 CSP 不是统一版本`);
+    assert.ok(!/<script>[^<]/.test(html), `${rel} 有内联脚本，会被 CSP 拦截`);
+  }
 });
