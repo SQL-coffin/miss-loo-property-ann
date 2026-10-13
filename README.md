@@ -93,6 +93,12 @@ https://sql-coffin.github.io/miss-loo-property-ann/admin/
 - 想改所有详情页的版面：改 `scripts/property-page-template.mjs`
 - 想在后台加栏位：改 `admin/config.yml`，再在模板里决定显示位置
 - 在自己电脑重新生成：`node scripts/build-properties.mjs`；测试：`node --test tests/property.test.mjs tests/build.test.mjs`
+- **结构化数据**（给 Google 看的资料，访客看不到）：首页 `index.html` 里的 `RealEstateAgent` 写经纪人资料（网址、电话、Facebook、服务地区）；房源页的房源刊登、房屋资料、面包屑导航由模板自动生成。要改资料时：
+  - **换电话**：`index.html` 的结构化数据、各网页的 WhatsApp 链接和显示的号码，以及模板（`scripts/property-page-template.mjs`）里的 `WHATSAPP_NUMBER` 和页底显示的号码
+  - **换 Facebook 专页或 Google 地图**：`index.html` 的结构化数据和按钮链接，以及模板里的 `AGENT_PROFILES`
+  - **换网址（例如改用自己的域名）**：在整个仓库搜索 `https://sql-coffin.github.io/miss-loo-property-ann/`，全部换成新网址（包括 `scripts/build-properties.mjs` 的 `SITE_URL`、各网页的分享图网址、`index.html` 的结构化数据、`admin/config.yml`），再重新生成。`zh/`、`ms/`、房源详情页和 sitemap 会自动跟着更新。建议交给维护者做
+  - **新增 propertyType**：在模板的 `RESIDENCE_TYPES` 加上对应的 schema.org 类型（不加会当作一般地点，不影响网页显示）
+- 每一页的 `canonical`、`og:url` 由生成程序自动加上（三种语言各自指向自己的网址），不用手动写
 - Google Search Console 用两种方式验证网站：根目录的 `google4ef97c57744e95ce.html` 文件，和 `index.html` 里的 `google-site-verification` 标签。**两个都不要删除或改名**，全部删掉 Search Console 会失去验证
 - 下面第 2–16 节的手动流程是旧做法，保留作参考。**新增房源请用后台**；没有 `listing.json` 的房源不会出现在搜索页和首页
 
@@ -121,6 +127,7 @@ https://sql-coffin.github.io/miss-loo-property-ann/admin/
   - 注意：从 WhatsApp 聊天点进来的访客，大多会算在「直接」（Direct），不会单独显示 WhatsApp
 - `whatsapp_click`：有人点了 WhatsApp 按钮（最重要的转化）
 - `facebook_click`：有人点了 Facebook 帖子 / 专页
+- `maps_click`：有人点了 Google 地图（首页联系区的「View on Google Maps」）
 
 每次点击会附带：按钮位置 `link_location`（nav 顶部导航 / hero 页面顶部 / enquiry_card 房源页右侧卡片 / contact 页底）、
 网页语言 `page_language`，以及在房源页时的房源 `listing_id`、`listing_title`。

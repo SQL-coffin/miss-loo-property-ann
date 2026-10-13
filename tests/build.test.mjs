@@ -222,3 +222,67 @@ test("Search Console 验证文件和首页验证标签都还在", () => {
   assert.equal(read(root, "google4ef97c57744e95ce.html"), "google-site-verification: google4ef97c57744e95ce.html");
   assert.ok(read(root, "index.html").includes('<meta name="google-site-verification" content="3kCczUhbU_rNEZhTKpt11mSz3-XxEYbLwh5sTLIzfLE" />'));
 });
+
+const ldJson = (html) => [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((m) => JSON.parse(m[1]));
+
+test("结构化数据：房源页是 RealEstateListing + 房屋 + 面包屑，出租标月租，房屋类型对应 schema.org", () => {
+  const root = makeSite([
+    ["taman-gembira", listing],
+    ["sky-condo", { ...listing, title: "Sky Condo", listingType: "rent", propertyType: "condo", price: 1800 }],
+    ["kulai-land", { ...listing, title: "Kulai Land", propertyType: "land" }],
+  ]);
+  build(root, quiet);
+  const graph = (slug, lang = "") => ldJson(read(root, lang, "properties", slug, "index.html"))[0]["@graph"];
+  const byType = (g, t) => g.find((n) => n["@type"] === t);
+
+  const sale = graph("taman-gembira");
+  const ld = byType(sale, "RealEstateListing");
+  assert.equal(ld.url, `${SITE_URL}properties/taman-gembira/`);
+  assert.equal(ld.datePosted, "2026-10-01");
+  assert.deepEqual(ld.image, [`${SITE_URL}properties/taman-gembira/front.webp`]);
+  assert.equal(ld.offers.price, "558000");
+  assert.equal(ld.offers.businessFunction["@id"], "http://purl.org/goodrelations/v1#Sell");
+  assert.equal(ld.offers.offeredBy["@id"], `${SITE_URL}#agent`);
+  assert.equal(byType(sale, "House").numberOfBedrooms, 3, "排屋是 House，有房间数");
+  assert.equal(ld.about["@id"], byType(sale, "House")["@id"]);
+  const crumbs = byType(sale, "BreadcrumbList").itemListElement;
+  assert.deepEqual(crumbs.map((c) => c.item), [SITE_URL, `${SITE_URL}properties/`, `${SITE_URL}properties/taman-gembira/`]);
+
+  const rent = byType(graph("sky-condo"), "RealEstateListing").offers;
+  assert.equal(rent.businessFunction["@id"], "http://purl.org/goodrelations/v1#LeaseOut");
+  assert.equal(rent.priceSpecification.unitCode, "MON");
+  assert.ok(byType(graph("sky-condo"), "Apartment"), "公寓是 Apartment");
+  const land = byType(graph("kulai-land"), "Place");
+  assert.ok(land && land.numberOfBedrooms === undefined, "土地是 Place，不写房间数");
+
+  assert.equal(byType(sale, "RealEstateAgent").address.addressCountry, "MY", "经纪人资料要有地址");
+  assert.equal(byType(graph("taman-gembira", "zh"), "House")["@id"], byType(sale, "House")["@id"], "三种语言是同一间房子");
+  const zhCrumbs = byType(graph("taman-gembira", "zh"), "BreadcrumbList").itemListElement;
+  assert.deepEqual(zhCrumbs.map((c) => c.name).slice(0, 2), ["首页", "房源"]);
+  assert.equal(zhCrumbs[0].item, `${SITE_URL}zh/`);
+});
+
+test("SEO：每一页刚好一个 canonical，指向自己；首页经纪人资料齐全", () => {
+  const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+  const pages = findSourcePages(root).flatMap((rel) => [rel, `zh/${rel}`, `ms/${rel}`]);
+  for (const slug of fs.readdirSync(path.join(root, "properties"))) {
+    if (fs.existsSync(path.join(root, "properties", slug, "listing.json"))) pages.push(...["", "zh/", "ms/"].map((l) => `${l}properties/${slug}/index.html`));
+  }
+  for (const rel of pages) {
+    const html = read(root, rel);
+    const canon = [...html.matchAll(/<link rel="canonical" href="([^"]*)">/g)].map((m) => m[1]);
+    assert.deepEqual(canon, [SITE_URL + rel.replace(/index\.html$/, "")], `${rel} 的 canonical`);
+    assert.equal((html.match(/property="og:url"/g) || []).length, 1, `${rel} 的 og:url`);
+    for (const data of ldJson(html)) assert.ok(data["@context"], `${rel} 的结构化数据`);
+  }
+  const agent = ldJson(read(root, "index.html"))[0];
+  assert.equal(agent["@type"], "RealEstateAgent");
+  assert.equal(agent["@id"], `${SITE_URL}#agent`);
+  assert.equal(agent.url, SITE_URL);
+  assert.equal(agent.telephone, "+60167889571");
+  assert.ok(agent.sameAs.some((u) => u.includes("facebook.com")));
+  assert.ok(agent.hasMap.startsWith("https://www.google.com/maps/place/") && !agent.hasMap.includes("?"), "Google 地图链接（不带追踪参数）");
+  assert.ok(agent.sameAs.includes(agent.hasMap));
+  assert.ok(read(root, "index.html").includes(`href="${agent.hasMap}"`), "首页有 Google 地图按钮");
+});
+

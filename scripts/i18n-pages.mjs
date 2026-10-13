@@ -86,10 +86,15 @@ export function rootPrefix(dir, lang) {
   return "../".repeat(depth);
 }
 
-/** <head> 里的 hreflang + 语言脚本，以及顶部的语言切换按钮 */
-export function languageBlocks({ dir, lang, siteUrl }) {
+/**
+ * <head> 里的 hreflang + 语言脚本，以及顶部的语言切换按钮。
+ * canonical: true 时另外加上这一页自己的 canonical 和 og:url（固定网页用；房源详情页的模板自己会写）
+ */
+export function languageBlocks({ dir, lang, siteUrl, canonical = false }) {
   const toRoot = rootPrefix(dir, lang);
-  const links = LANGS.map((l) => `<link rel="alternate" hreflang="${HTML_LANG[l]}" href="${siteUrl}${langPrefix(l)}${dir}">`);
+  const selfUrl = `${siteUrl}${langPrefix(lang)}${dir}`;
+  const links = canonical ? [`<link rel="canonical" href="${selfUrl}">`, `<meta property="og:url" content="${selfUrl}">`] : [];
+  links.push(...LANGS.map((l) => `<link rel="alternate" hreflang="${HTML_LANG[l]}" href="${siteUrl}${langPrefix(l)}${dir}">`));
   links.push(`<link rel="alternate" hreflang="x-default" href="${siteUrl}${dir}">`);
   const analytics = GA_MEASUREMENT_ID
     ? `\n<script async src="https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}"></script>\n<script type="module" src="${toRoot}js/analytics.js"></script>`
@@ -204,12 +209,12 @@ export function buildLanguagePages(root, { siteUrl, log = console.log, warn = co
   for (const relPath of pages) {
     const dir = pageDir(relPath);
     const sourceFile = path.join(root, relPath);
-    const source = applyCsp(injectLanguageBlocks(fs.readFileSync(sourceFile, "utf8"), languageBlocks({ dir, lang: DEFAULT_LANG, siteUrl })));
+    const source = applyCsp(injectLanguageBlocks(fs.readFileSync(sourceFile, "utf8"), languageBlocks({ dir, lang: DEFAULT_LANG, siteUrl, canonical: true })));
     writeIfChanged(sourceFile, source, root, log);
 
     for (const [lang, dict] of Object.entries(dicts)) {
       let html = translatePage(stripLanguageBlocks(source), { dict, lang, relPath, missing: missing[lang] });
-      html = injectLanguageBlocks(html, languageBlocks({ dir, lang, siteUrl }));
+      html = injectLanguageBlocks(html, languageBlocks({ dir, lang, siteUrl, canonical: true }));
       const target = path.join(root, lang, relPath);
       fs.mkdirSync(path.dirname(target), { recursive: true });
       writeIfChanged(target, html, root, log);

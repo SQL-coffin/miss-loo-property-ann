@@ -5,6 +5,7 @@
    除了 GA4 自动统计的访问量，这里另外记录两种点击（在 GA4 后台看）：
      whatsapp_click  点了 WhatsApp 按钮（最重要的转化）
      facebook_click  点了 Facebook 帖子 / 专页
+     maps_click      点了 Google 地图（商家资料）
    每次点击附带：
      link_location   按钮位置：nav（顶部导航）、hero（页面顶部大按钮）、enquiry_card（房源页右侧卡片）、
                      contact（页底联系区）、page（其他）
@@ -54,14 +55,15 @@ function trackOutboundClick(event) {
 }
 
 function eventName(href) {
-  let host;
+  let host, pathname;
   try {
-    host = new URL(href).hostname;
+    ({ hostname: host, pathname } = new URL(href));
   } catch {
     return null;
   }
   if (host === "wa.me" || host === "api.whatsapp.com") return "whatsapp_click";
   if (host === "facebook.com" || host.endsWith(".facebook.com") || host === "fb.com") return "facebook_click";
+  if (host === "maps.google.com" || host === "maps.app.goo.gl" || host === "g.page" || (/(^|\.)google\.com$/.test(host) && pathname.startsWith("/maps"))) return "maps_click";
   return null;
 }
 
