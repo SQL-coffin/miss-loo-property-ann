@@ -169,7 +169,12 @@ ${GENERATED_MARKER}
 <meta property="og:title" content="${esc(`${p.title} | ${price}`)}">
 <meta property="og:description" content="${esc(seoDescription)}">
 <meta property="og:url" content="${esc(pageUrl)}">
-${cover ? `<meta property="og:image" content="${esc(`${siteUrl}${dir}${cover.image}`)}">\n` : ""}<link rel="stylesheet" href="${toRoot}style.css"><link rel="icon" href="${toRoot}logo.jpg" type="image/jpeg">
+<meta property="og:site_name" content="${SITE_NAME}">
+${cover
+  ? `<meta property="og:image" content="${esc(`${siteUrl}${dir}${cover.image}`)}">\n<meta property="og:image:alt" content="${esc(cover.alt || p.title)}">`
+  : `<meta property="og:image" content="${siteUrl}share.jpg">\n<meta property="og:image:width" content="1200">\n<meta property="og:image:height" content="630">`}
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="${toRoot}style.css"><link rel="icon" href="${toRoot}logo.jpg" type="image/jpeg">
 <script type="application/ld+json">
 ${JSON.stringify(jsonLd).replace(/</g, "\\u003c")}
 </script>
@@ -177,7 +182,7 @@ ${JSON.stringify(jsonLd).replace(/</g, "\\u003c")}
 <body>
 <header class="site-header"><div class="container nav">
 <a class="brand" href="${toLangRoot}index.html"><img src="${toRoot}logo.jpg" alt="${esc(T.logoAlt)}"><span>MISS LOO JB PROPERTY</span></a>
-<nav>${navHrefs.map((h, i) => `<a href="${toLangRoot}${h}">${esc(T.nav[i])}</a>`).join("")}<a class="nav-cta" href="https://wa.me/${WHATSAPP_NUMBER}" target="_blank" rel="noopener">WhatsApp</a></nav>
+<nav>${navHrefs.map((h, i) => `<a href="${toLangRoot}${h}">${esc(T.nav[i])}</a>`).join("")}<a class="nav-cta" href="${esc(whatsappUrl)}" target="_blank" rel="noopener">WhatsApp</a></nav>
 </div></header>
 <main>
 <section class="listing-hero"><div class="container">
@@ -208,7 +213,7 @@ ${facts.map(([k, val]) => `<div><span>${esc(k)}</span><strong>${esc(val)}</stron
 ${listSection({ cls: "section", eyebrow: p.featuresLabel || "RENOVATION", heading: p.featuresHeading || T.features, items: p.features })}${listSection({ cls: "section soft", eyebrow: T.location, heading: p.locationHeading || p.location, items: p.locationPoints })}${p.facebookUrl ? `
 <section class="section social-listing-link"><div class="container contact-box"><div><p class="eyebrow">${esc(T.fbEyebrow)}</p><h2>${esc(T.fbTitle)}</h2><p>${esc(T.fbText)}</p></div><a class="button secondary" href="${esc(p.facebookUrl)}" target="_blank" rel="noopener">${esc(T.fbButton)}</a></div></section>
 ` : ""}
-<section class="section dark"><div class="container two-col"><div><p class="eyebrow">${esc(T.contact)}</p><h2>${esc(T.contactTitle)}</h2></div><div><p>Miss Loo · MW Properties · REN50378</p><p>WhatsApp: +60 16-788 9571<br>${esc(T.email)}: pohyuen0331@gmail.com</p><a class="button primary" href="https://wa.me/${WHATSAPP_NUMBER}" target="_blank" rel="noopener">${esc(T.chat)}</a></div></div></section>
+<section class="section dark"><div class="container two-col"><div><p class="eyebrow">${esc(T.contact)}</p><h2>${esc(T.contactTitle)}</h2></div><div><p>Miss Loo · MW Properties · REN50378</p><p>WhatsApp: +60 16-788 9571<br>${esc(T.email)}: pohyuen0331@gmail.com</p><a class="button primary" href="${esc(whatsappUrl)}" target="_blank" rel="noopener">${esc(T.chat)}</a></div></div></section>
 </main>
 <footer class="site-footer"><div class="container footer-inner"><span>© ${SITE_NAME}</span><span>${esc(p.location.split(/\s*,\s*/).join(" · "))}</span></div></footer>
 </body></html>

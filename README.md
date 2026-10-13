@@ -95,6 +95,31 @@ https://sql-coffin.github.io/miss-loo-property-ann/admin/
 - 在自己电脑重新生成：`node scripts/build-properties.mjs`；测试：`node --test tests/property.test.mjs tests/build.test.mjs`
 - 下面第 2–16 节的手动流程是旧做法，保留作参考。**新增房源请用后台**；没有 `listing.json` 的房源不会出现在搜索页和首页
 
+## 0.7 分享预览图与 WhatsApp 预填讯息
+
+**分享预览图**：网址贴到 WhatsApp / Facebook 时显示的图片。
+
+- 房源详情页：自动用该房源的**第一张照片**（封面）
+- 其他网页（首页、Buy、Sell、Rent、Areas、Properties）：用根目录的 `share.jpg`（1200×630）
+- 想换图：用同名、同尺寸的 JPG 覆盖 `share.jpg`
+- Facebook 会缓存旧图。换图后到 https://developers.facebook.com/tools/debug/ 贴上网址，按「Scrape Again」刷新
+
+**WhatsApp 预填讯息**：客户按 WhatsApp 按钮后，聊天框里会先填好一段话，Miss Loo 一看就知道客户从哪一页来、想问什么。
+
+- 房源详情页：自动写上房源名称、地点和价格（三种语言），在 `scripts/property-page-template.mjs` 的 `whatsappMessage` 修改；单间房源也可以在后台自订
+- 其他网页：每页一段，写在英文网页的 `wa.me/60167889571?text=...` 链接里（文字经过网址编码，`%20` 是空格、`%0A` 是换行）
+- 修改其他网页的讯息后，要把新讯息的翻译加进 `i18n/zh.json`、`i18n/ms.json`，英文原句（包括换行 `\n`）必须一字不差，否则中文 / 马来文页面会显示英文讯息，Action 日志会列出来
+
+## 0.8 升级后台程序（Sveltia CMS）
+
+`admin/index.html` 把后台程序锁定在固定版本，并附上 `integrity` 校验值，防止 CDN 上的文件被人改动。
+平时不用管，后台有问题或需要新功能时才升级：
+
+1. 到 https://www.npmjs.com/package/@sveltia/cms?activeTab=versions 选一个**至少发布两周**的版本，例如 `0.230.0`
+2. 打开 https://www.srihash.org/，贴上 `https://unpkg.com/@sveltia/cms@0.230.0/dist/sveltia-cms.js`，选 SHA-384，按 Hash
+3. 在 `admin/index.html` 把网址里的版本号和 `integrity="sha384-..."` 一起换掉
+4. 打开 /admin/ 试一下能否登录、保存。如果后台一片空白，通常是 integrity 和版本对不上
+
 ---
 
 ## 1. 网站文件结构

@@ -25,7 +25,7 @@ const SWITCH_TITLE = { en: "English", zh: "中文", ms: "Bahasa Melayu" };
 const SKIP_DIRS = new Set(["zh", "ms", "admin", "scripts", "tests", "i18n", "js", "data", "node_modules", ".git", ".github"]);
 
 // 只翻译这些 meta（其他 meta 例如 CSP、robots 不能动）
-const TRANSLATABLE_META = /<meta\s+(?:name="description"|property="og:(?:title|description)")/i;
+const TRANSLATABLE_META = /<meta\s+(?:name="description"|property="og:(?:title|description|image:alt)")/i;
 const TRANSLATABLE_ATTRS = ["alt", "placeholder", "title", "aria-label"];
 
 export function loadDictionaries(root) {
@@ -136,7 +136,7 @@ function translateTag(tag, dict, missing) {
     if (!TRANSLATABLE_META.test(tag)) return tag;
     attrs.push("content");
   }
-  return tag.replace(new RegExp(`\\s(${attrs.join("|")})="([^"]*)"`, "g"), (all, name, value) => {
+  return translateWhatsAppText(tag, dict, missing).replace(new RegExp(`\\s(${attrs.join("|")})="([^"]*)"`, "g"), (all, name, value) => {
     const key = decode(value).trim().replace(/\s+/g, " ");
     if (!key || !/[A-Za-z]/.test(key)) return all;
     if (!(key in dict)) {
@@ -144,6 +144,23 @@ function translateTag(tag, dict, missing) {
       return all;
     }
     return ` ${name}="${encodeAttr(dict[key])}"`;
+  });
+}
+
+/** WhatsApp 链接的预填讯息（wa.me/...?text=...）也用对照表翻译。讯息可以有换行，对照表的英文原句要一字不差 */
+function translateWhatsAppText(tag, dict, missing) {
+  return tag.replace(/(\shref="https:\/\/wa\.me\/\d+\?text=)([^"]*)"/, (all, start, encoded) => {
+    let key;
+    try {
+      key = decodeURIComponent(decode(encoded));
+    } catch {
+      return all;
+    }
+    if (!(key in dict)) {
+      missing?.add(key);
+      return all;
+    }
+    return `${start}${encodeURIComponent(dict[key])}"`;
   });
 }
 
@@ -181,7 +198,7 @@ export function buildLanguagePages(root, { siteUrl, log = console.log, warn = co
   }
 
   for (const [lang, set] of Object.entries(missing)) {
-    if (set.size) warn(`⚠️  i18n/${lang}.json 缺少 ${set.size} 句翻译（暂时显示英文）：\n   - ${[...set].join("\n   - ")}`);
+    if (set.size) warn(`⚠️  i18n/${lang}.json 缺少 ${set.size} 句翻译（暂时显示英文）：\n   - ${[...set].map((k) => (k.includes("\n") ? JSON.stringify(k) : k)).join("\n   - ")}`);
   }
   return { pages, missing };
 }
