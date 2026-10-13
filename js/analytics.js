@@ -26,8 +26,19 @@ if (measurementId && !isLocalPreview) {
     window.dataLayer.push(arguments);
   };
   window.gtag("js", new Date());
-  window.gtag("config", measurementId);
+  window.gtag("config", measurementId, landingReferrer());
   document.addEventListener("click", trackOutboundClick, true);
+}
+
+/** 语言自动跳转前记下的真正来源（见 js/ui/languagePicker.js），用一次就删掉 */
+function landingReferrer() {
+  try {
+    const referrer = sessionStorage.getItem("missloo-referrer");
+    sessionStorage.removeItem("missloo-referrer");
+    return referrer ? { page_referrer: referrer } : {};
+  } catch {
+    return {};
+  }
 }
 
 function trackOutboundClick(event) {

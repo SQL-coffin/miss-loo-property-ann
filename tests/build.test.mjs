@@ -206,7 +206,7 @@ test("流量统计：所有网页（三种语言、房源页）都加载 GA4，C
   assert.ok(!CSP.includes("unsafe-inline"), "不能放行内联脚本");
   const pages = findSourcePages(root).flatMap((rel) => [rel, `zh/${rel}`, `ms/${rel}`]);
   for (const slug of fs.readdirSync(path.join(root, "properties"))) {
-    if (fs.existsSync(path.join(root, "properties", slug, "listing.json"))) pages.push(`properties/${slug}/index.html`, `zh/properties/${slug}/index.html`);
+    if (fs.existsSync(path.join(root, "properties", slug, "listing.json"))) pages.push(`properties/${slug}/index.html`, `zh/properties/${slug}/index.html`, `ms/properties/${slug}/index.html`);
   }
   for (const rel of pages) {
     const html = read(root, rel);

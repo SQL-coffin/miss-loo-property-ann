@@ -82,7 +82,7 @@ https://sql-coffin.github.io/miss-loo-property-ann/admin/
 - 访客第一次进网站会弹出窗口选语言，之后浏览器会记住，下次直接进入该语言
 - 每页右上角有 EN / 中文 / BM 可以随时切换
 - **英文网页是原稿**。`zh/`、`ms/` 是自动翻译生成的，不要直接修改
-- 改了英文网页的文字后：把新句子的翻译加进 `i18n/zh.json`、`i18n/ms.json`（左边英文原句，右边翻译），推送后自动重新生成。没加翻译的句子会暂时显示英文，Action 日志会列出缺哪几句
+- 改了英文网页的文字后：把新句子的翻译加进 `i18n/zh.json`、`i18n/ms.json`（左边英文原句，右边翻译），推送后自动重新生成。**英文修改和翻译要放在同一次提交里**：只要有一句缺翻译，Action 就会失败（红色 ✗），在补上翻译之前，中文 / 马来文网页**和后台新增的房源**都不会更新。Action 日志的 Generate pages 会列出缺哪几句
 - 房源卡片、搜索结果、语言选择窗口这些程序文字的翻译在 `js/i18n.js`
 - 房源详情页固定文字（例如 Arrange a viewing、Freehold）的翻译在 `scripts/property-page-template.mjs` 的 `TEXT` 和 `VALUES`
 
@@ -109,7 +109,7 @@ https://sql-coffin.github.io/miss-loo-property-ann/admin/
 
 - 房源详情页：自动写上房源名称、地点和价格（三种语言），在 `scripts/property-page-template.mjs` 的 `whatsappMessage` 修改；单间房源也可以在后台自订
 - 其他网页：每页一段，写在英文网页的 `wa.me/60167889571?text=...` 链接里（文字经过网址编码，`%20` 是空格、`%0A` 是换行）
-- 修改其他网页的讯息后，要把新讯息的翻译加进 `i18n/zh.json`、`i18n/ms.json`，英文原句（包括换行 `\n`）必须一字不差，否则中文 / 马来文页面会显示英文讯息，Action 日志会列出来
+- 修改其他网页的讯息后，要把新讯息的翻译加进 `i18n/zh.json`、`i18n/ms.json`，英文原句（包括换行 `\n`）必须一字不差，而且要和英文修改放在同一次提交。缺翻译时 Action 会失败，中文 / 马来文网页和新房源都会暂停更新，直到补上翻译（同 0.5 节）
 
 ## 0.8 流量统计（Google Analytics 4）
 
@@ -117,7 +117,8 @@ https://sql-coffin.github.io/miss-loo-property-ann/admin/
 
 **自动记录：**
 
-- 访问量、访客来源（Google、Facebook、WhatsApp 分享、直接输入）、看了哪些页面、用手机还是电脑
+- 访问量、访客来源（Google、Facebook、直接输入等）、看了哪些页面、用手机还是电脑
+  - 注意：从 WhatsApp 聊天点进来的访客，大多会算在「直接」（Direct），不会单独显示 WhatsApp
 - `whatsapp_click`：有人点了 WhatsApp 按钮（最重要的转化）
 - `facebook_click`：有人点了 Facebook 帖子 / 专页
 
@@ -130,6 +131,7 @@ https://sql-coffin.github.io/miss-loo-property-ann/admin/
 2. **让报表能按房源 / 按钮位置分组**：管理 → 数据显示 → 自定义定义 → 创建自定义维度，范围选「事件」，各建一个：
    `listing_title`、`listing_id`、`link_location`、`page_language`（名称和事件参数都填同一个英文名）
 3. **数据保留期**：管理 → 数据收集和修改 → 数据保留，改成 14 个月（默认只有 2 个月）
+4. **「Google 信号」保持关闭**：网站的安全设定只放行了基本统计需要的网址，打开 Google 信号会被拦截，人口统计报表也不会有数据（访问量和 WhatsApp 点击不受影响）
 
 **常看的报表：**
 
@@ -142,14 +144,15 @@ https://sql-coffin.github.io/miss-loo-property-ann/admin/
 
 **维护者须知：**
 
-- 衡量 ID 只写在 `scripts/i18n-pages.mjs` 的 `GA_MEASUREMENT_ID`，改了之后重新生成，所有网页一起更新；留空 `""` 就整站停用
+- 衡量 ID 只写在 `scripts/i18n-pages.mjs` 的 `GA_MEASUREMENT_ID`，改了之后重新生成，所有网页一起更新。要整站停用统计请找维护者（除了 ID，测试和页底的隐私说明也要一起改）
 - 点击追踪的程序在 `js/analytics.js`
 - 网页的安全设定（CSP）统一写在 `scripts/i18n-pages.mjs` 的 `CSP`，生成时会套用到所有网页。不要在网页里直接写 `<script>...</script>`，会被拦截；Google 给的那段代码已经拆成 gtag.js + `js/analytics.js`，不需要再贴
 - 页底有一句「本网站使用 Google Analytics 统计访问量」，作为隐私说明
 
 ## 0.9 升级后台程序（Sveltia CMS）
 
-`admin/index.html` 把后台程序锁定在固定版本，并附上 `integrity` 校验值，防止 CDN 上的文件被人改动。
+`admin/index.html` 把后台程序锁定在固定版本，并附上主程序文件的 `integrity` 校验值，防止 CDN 上的文件被人改动。
+后台之后按需加载的附加模块（例如照片转 WebP、读取照片资料）由 Sveltia 自己锁定版本，不在校验范围内。
 平时不用管，后台有问题或需要新功能时才升级：
 
 1. 到 https://www.npmjs.com/package/@sveltia/cms?activeTab=versions 选一个**至少发布两周**的版本，例如 `0.230.0`

@@ -14,8 +14,9 @@
   <link rel="icon" href="../logo.jpg" type="image/jpeg">
 </head>
 <body>
-  <!-- 后台程序锁定在固定版本，integrity 是该版本文件的校验值：CDN 上的文件被改动时浏览器会拒绝执行，
+  <!-- 后台程序锁定在固定版本，integrity 是该版本主程序文件的校验值：CDN 上的文件被改动时浏览器会拒绝执行，
        防止别人通过 CDN 偷偷换掉后台程序（后台握有可以修改网站的令牌）。
+       注意：后台之后按需加载的附加模块（例如照片转 WebP、读取照片资料）由 Sveltia 自己锁定版本，不在 integrity 保护范围内。
        【升级版本】换版本号时 integrity 也要一起换，步骤见 README「0.9」。 -->
   <script src="https://unpkg.com/@sveltia/cms@0.222.1/dist/sveltia-cms.js"
           integrity="sha384-lV41A8CKF2q4nxFyIDXBzxzEb24krghWRbIIYy+bygUhAwyEFko8o4UK1OAV2k0H"

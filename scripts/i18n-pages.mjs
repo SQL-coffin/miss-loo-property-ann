@@ -18,7 +18,7 @@ import path from "node:path";
 export const LANGS = ["en", "zh", "ms"];
 export const DEFAULT_LANG = "en";
 export const HTML_LANG = { en: "en", zh: "zh-Hans", ms: "ms" };
-// Google Analytics 4 衡量 ID（GA4 后台 → 管理 → 数据流 → 网站）。换账号时只改这里；留空 "" 就不统计
+// Google Analytics 4 衡量 ID（GA4 后台 → 管理 → 数据流 → 网站）。换 GA4 账号时只改这里
 export const GA_MEASUREMENT_ID = "G-3QLM4E0TXX";
 
 // 网页安全设定（CSP）：只允许自己网站的文件，加上 Google Analytics 需要的网址。
