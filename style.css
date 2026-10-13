@@ -80,3 +80,4 @@
 .lang-picker-note{margin:16px 0 0;font-size:.82rem;color:var(--muted)}
 @media(max-width:840px){.brand span{display:none}}
 .contact-actions{display:flex;gap:12px;flex-wrap:wrap}
+.dark .button.primary{background:#fff;color:var(--accent)}
