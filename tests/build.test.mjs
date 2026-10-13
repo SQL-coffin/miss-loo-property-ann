@@ -255,6 +255,8 @@ test("结构化数据：房源页是 RealEstateListing + 房屋 + 面包屑，�
   const land = byType(graph("kulai-land"), "Place");
   assert.ok(land && land.numberOfBedrooms === undefined, "土地是 Place，不写房间数");
 
+  assert.equal(byType(sale, "RealEstateAgent").address.addressCountry, "MY", "经纪人资料要有地址");
+  assert.equal(byType(graph("taman-gembira", "zh"), "House")["@id"], byType(sale, "House")["@id"], "三种语言是同一间房子");
   const zhCrumbs = byType(graph("taman-gembira", "zh"), "BreadcrumbList").itemListElement;
   assert.deepEqual(zhCrumbs.map((c) => c.name).slice(0, 2), ["首页", "房源"]);
   assert.equal(zhCrumbs[0].item, `${SITE_URL}zh/`);
