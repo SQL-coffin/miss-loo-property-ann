@@ -26,17 +26,30 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="style.css?v=20261013" />
   <link rel="icon" href="logo.jpg" type="image/jpeg" />
+  <!-- 结构化数据：告诉 Google 这个网站属于哪位经纪人、怎么联系、Facebook 专页在哪里。
+       房源页里的 RealEstateAgent 用同一个 @id 指向这里（scripts/property-page-template.mjs）。
+       【换电话 / Facebook / 网址时要一起改】 -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
     "@type":"RealEstateAgent",
+    "@id":"https://sql-coffin.github.io/miss-loo-property-ann/#agent",
     "name":"Miss Loo JB Property",
-    "email":"mailto:pohyuen0331@gmail.com",
-    "areaServed":["Johor Bahru","Kulai","Johor"],
+    "url":"https://sql-coffin.github.io/miss-loo-property-ann/",
+    "logo":"https://sql-coffin.github.io/miss-loo-property-ann/logo.jpg",
+    "image":"https://sql-coffin.github.io/miss-loo-property-ann/share.jpg",
+    "telephone":"+60167889571",
+    "email":"pohyuen0331@gmail.com",
+    "sameAs":["https://www.facebook.com/pohyuenloo73"],
+    "address":{"@type":"PostalAddress","addressRegion":"Johor","addressCountry":"MY"},
+    "areaServed":[{"@type":"City","name":"Johor Bahru"},{"@type":"City","name":"Kulai"},{"@type":"State","name":"Johor"}],
+    "knowsLanguage":["en","zh","ms"],
     "description":"Residential property buying, selling and rental services, with a focus on subsale properties."
   }
   </script>
 <!-- i18n:head -->
+<link rel="canonical" href="https://sql-coffin.github.io/miss-loo-property-ann/">
+<meta property="og:url" content="https://sql-coffin.github.io/miss-loo-property-ann/">
 <link rel="alternate" hreflang="en" href="https://sql-coffin.github.io/miss-loo-property-ann/">
 <link rel="alternate" hreflang="zh-Hans" href="https://sql-coffin.github.io/miss-loo-property-ann/zh/">
 <link rel="alternate" hreflang="ms" href="https://sql-coffin.github.io/miss-loo-property-ann/ms/">
