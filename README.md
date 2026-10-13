@@ -93,6 +93,7 @@ https://sql-coffin.github.io/miss-loo-property-ann/admin/
 - 想改所有详情页的版面：改 `scripts/property-page-template.mjs`
 - 想在后台加栏位：改 `admin/config.yml`，再在模板里决定显示位置
 - 在自己电脑重新生成：`node scripts/build-properties.mjs`；测试：`node --test tests/property.test.mjs tests/build.test.mjs`
+- 根目录的 `google4ef97c57744e95ce.html` 是 Google Search Console 的网站验证文件，**不要删除或改名**，删了 Search Console 会失去验证
 - 下面第 2–16 节的手动流程是旧做法，保留作参考。**新增房源请用后台**；没有 `listing.json` 的房源不会出现在搜索页和首页
 
 ## 0.7 分享预览图与 WhatsApp 预填讯息
